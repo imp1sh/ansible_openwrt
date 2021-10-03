@@ -1,5 +1,7 @@
 ---
 # tasks file for ansible_openwrtsystem
+- name: Run checks if variables meet the requirements
+  import_tasks: checks.yml
 - name: Install system config /etc/config/system
   template:
     src: system.jinja2
