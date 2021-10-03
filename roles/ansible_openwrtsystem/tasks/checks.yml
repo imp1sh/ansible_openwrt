@@ -30,10 +30,18 @@
     fail_msg: "openwrt_system_log_proto must be either tcp or udp."
     success_msg: "openwrt_system_log_proto seems valid."
   when: openwrt_system_log_proto is defined
-- name: validate_system_ntpservers variable
+- name: validate openwrt_system_ntp_server variable
   assert:
     that:
-      - openwrt_system_ntpservers | type_debug == 'list'
-    fail_msg: "openwrt_system_ntpservers must be of type list."
-    success_msg: "openwrt_system_ntpservers is a list."
-  when: openwrt_system_ntpservers is defined
+      - openwrt_system_ntp_server | type_debug == 'list'
+    fail_msg: "openwrt_system_ntp_server must be of type list."
+    success_msg: "openwrt_system_ntp_server is a list."
+  when: openwrt_system_ntp_server is defined
+- name: validate openwrt_system_ntp_enabled variable
+  assert:
+    that:
+      - openwrt_system_ntp_enabled | type_debug == 'int'
+      - (openwrt_system_ntp_enabled == 0) or (openwrt_system_ntp_enabled == 1)
+    fail_msg: "openwrt_system_ntp_enabled must be either 0 or 1."
+    success_msg: "openwrt_system_ntp_enabled is valid."
+  when: openwrt_system_ntp_enabled is defined

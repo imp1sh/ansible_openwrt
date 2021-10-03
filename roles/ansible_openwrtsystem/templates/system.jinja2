@@ -4,6 +4,7 @@ config system 'system'
         option hostname "{{ openwrt_system_hostname | default('OpenWrt', true) }}"
 {% if openwrt_system_maintainer is defined %}
         option maintainer "{{ openwrt_system_maintainer }}"
+{% endif %}
 {% if openwrt_system_description is defined %}
         option description "{{ openwrt_system_description }}"
 {% endif %}
@@ -16,7 +17,7 @@ config system 'system'
 {% if openwrt_system_urandom_seed is defined %}
 	option urandom_seed "{{ openwrt_system_urandom_seed }}"
 {% endif %}
-{% endif %}
+
         # System Logging Settings
 {% if openwrt_system_log_proto is defined %}
         option log_proto "{{ openwrt_system_logproto }}"
@@ -71,20 +72,19 @@ config system 'system'
         option zonename "{{ openwrt_system_zonename }}"
 {% endif %}
 
-{% if openwrt_system_ntpservers is defined %}
+{% if openwrt_system_ntp_server is defined %}
 config timeserver 'ntp'
-{% for ntpserver in openwrt_system_ntpservers %}
+{% for ntpserver in openwrt_system_ntp_server %}
         list server "{{ ntpserver }}"
 {% endfor %}
-{% if openwrt_system_enablentpserver %}
-        option enable_server 1
+{% if openwrt_system_ntp_enable_server is defined %}
+        option enable_server "{{ openwrt_system_ntp_enable_server }}"
 {% endif %}
-{% if openwrt_system_usedhcpntp is defined %}
-{% if openwrt_system_usedhcpntp %}
-        option use_dhcp '1'
-{% else %}
-        option use_dhcp '0'
+{% if openwrt_system_ntp_use_dhcp is defined %}
+        option use_dhcp "{{ openwrt_system_ntp_use_dhcp }}"
 {% endif %}
+{% if openwrt_system_ntp_enabled is defined %}
+	option enabled "{{ openwrt_system_ntp_enabled }}"
 {% endif %}
 {% endif %}
 
