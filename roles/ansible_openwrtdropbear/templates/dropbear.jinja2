@@ -1,0 +1,22 @@
+config dropbear
+        # Configuration distributed by Ansible
+	option port "{{ openwrt_dropbear_port | default('22', true) }}"
+{% if openwrt_dropbear_passwordauth is defined and openwrt_dropbear_passwordauth is sameas true %}
+        option PasswordAuth "on"
+{% elif openwrt_dropbear_passwordauth is defined and openwrt_dropbear_passwordauth is sameas false %}
+        option PasswordAuth "off"
+{% endif %}
+{% if openwrt_dropbear_rootpasswordauth is defined and openwrt_dropbear_rootpasswordauth is sameas true %}
+        option RootPasswordAuth "on"
+{% elif openwrt_dropbear_rootpasswordauth is defined and openwrt_dropbear_rootpasswordauth is sameas false %}
+        option RootPasswordAuth "off"
+{% endif %}
+{% if openwrt_dropbear_gatewayports is defined and openwrt_dropbear_gatewayports is sameas true %}
+        option GatewayPorts "on"
+{% elif openwrt_dropbear_gatewayports is defined and openwrt_dropbear_gatewayports is sameas false %}
+        option GatewayPorts "off"
+{% endif %}
+{% if openwrt_dropbear_interface is defined %}
+        option Interface "{{ openwrt_dropbear_interface }}"
+{% endif %}
+

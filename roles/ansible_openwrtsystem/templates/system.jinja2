@@ -1,0 +1,54 @@
+config system 'system'
+        # Configuration distributed by Ansible
+        # Basic Node configuration
+        option hostname "{{ openwrt_system_hostname | default('OpenWrt', true) }}"
+{% if openwrt_system_maintainer is defined %}
+        option maintainer "{{ openwrt_system_maintainer }}"
+{% if openwrt_system_description is defined %}
+        option description "{{ openwrt_system_description }}"
+{% endif %}
+{% if openwrt_system_notes is defined %}
+        option notes "{{ openwrt_system_notes }}"
+{% endif %}
+{% endif %}
+        # System Logging Settings
+        option log_proto "{{ openwrt_system_logproto | default('udp', true) }}"
+        option cronloglevel "{{ openwrt_system_cronloglevel | default('8', true) }}"
+        option conloglevel "{{ openwrt_system_conloglevel | default('6', true) }}"
+{% if openwrt_system_logsize is defined %}
+        option log_size "{{ openwrt_system_logsize }}"
+{% endif %}
+{% if openwrt_system_logip is defined %}
+        option log_ip "{{ openwrt_system_logip }}"
+{% endif %}
+{% if openwrt_system_logport is defined %}
+        option log_port "{{ openwrt_system_logport }}"
+{% endif %}
+{% if openwrt_system_logfile is defined %}
+        option log_file "{{ openwrt_system_logfile }}"
+{% endif %}
+	# System Timezone Information
+{% if openwrt_system_timezone is defined %}
+        option timezone "{{ openwrt_system_timezone }}"
+{% endif %}
+{% if openwrt_system_zonename is defined %}
+        option zonename "{{ openwrt_system_zonename }}"
+{% endif %}
+
+{% if openwrt_system_ntpservers is defined %}
+config timeserver 'ntp'
+{% for ntpserver in openwrt_system_ntpservers %}
+        list server "{{ ntpserver }}"
+{% endfor %}
+{% if openwrt_system_enablentpserver %}
+        option enable_server 1
+{% endif %}
+{% if openwrt_system_usedhcpntp is defined %}
+{% if openwrt_system_usedhcpntp %}
+        option use_dhcp '1'
+{% else %}
+        option use_dhcp '0'
+{% endif %}
+{% endif %}
+{% endif %}
+

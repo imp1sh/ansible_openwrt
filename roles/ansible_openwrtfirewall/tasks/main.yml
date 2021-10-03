@@ -1,0 +1,12 @@
+---
+# tasks file for ansible_openwrtfirewall
+- name: Merge Groups
+  import_tasks: merge.yml
+- name: Create firewall uci in /etc/config/firewall
+  template:
+    src: "firewall.jinja2"
+    dest: "/etc/config/firewall"
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart firewall

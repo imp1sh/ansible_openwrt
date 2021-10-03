@@ -1,0 +1,9 @@
+---
+# tasks file for ansible_openwrtbabeld
+- name: Provide babeld configuration
+  template:
+    src: babeld.jinja2
+    dest: /etc/config/babeld
+    owner: root
+    group: root
+    mode: 0600

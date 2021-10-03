@@ -1,0 +1,10 @@
+---
+# tasks file for ansible_openwrtnetwork
+- name: Deploy Network configuration 
+  template:
+    src: network.jinja2
+    dest: /etc/config/network
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart network

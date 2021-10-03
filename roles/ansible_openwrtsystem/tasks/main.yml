@@ -1,0 +1,9 @@
+---
+# tasks file for ansible_openwrtsystem
+- name: Install system config /etc/config/system
+  template:
+    src: system.jinja2
+    dest: /etc/config/system
+    owner: root
+    group: root
+    mode: 0600

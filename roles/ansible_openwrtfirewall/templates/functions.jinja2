@@ -1,0 +1,86 @@
+{% macro create_zone(singlezone) %}
+config zone
+	option name "{{ singlezone['name'] }}"
+	option forward "{{ singlezone['forward'] }}"
+	option input "{{ singlezone['input'] }}"
+	option output "{{ singlezone['output'] }}"
+{% if singlezone['masq'] is defined %}
+	option masq "{{ singlezone['masq'] }}"
+{% endif %}
+{% if singlezone['mtu_fix'] is defined %}
+	option mtu_fix "{{ singlezone['mtu_fix'] }}"
+{% endif %}
+{% if singlezone['interfaces'] is defined %}
+{% for interface in singlezone['interfaces'] %}
+	list network "{{ interface }}"
+{% endfor %}
+{% endif %}
+
+{% endmacro %}
+
+{% macro create_forwarding(singleforward) %}
+config fowarding
+        option src "{{ singleforward['src'] }}"
+	option dest "{{ singleforward['dest'] }}"
+{% if singleforward['name'] is defined %}
+        option name "{{ singleforward['name'] }}"
+{% endif %}
+{% if singleforward['family'] is defined %}
+        option family "{{ singleforward['family'] }}"
+{% endif %}
+{% if singleforward['enabled'] is defined %}
+        option enabled "{{ singleforward['enabled'] }}"
+{% endif %}
+
+{% endmacro %}
+
+{% macro create_filter(singlerule) %}
+config rule
+{% if singlerule['name'] is defined %}
+	option name "{{ singlerule['name'] }}"
+{% endif %}
+{% if singlerule['family'] is defined %}
+	option family "{{ singlerule['family'] }}"
+{% endif %}
+{% if "icmp" in singlerule['protos'] %}
+	option proto "icmp"
+{% if singlerule['icmp_types'] is defined %}
+{% for icmp_type in singlerule['icmp_types'] %}
+	list icmp_type "{{ icmp_type }}"
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if "udp" in singlerule['protos'] %}
+	option proto "udp"
+{% endif %}
+{% if "tcp" in singlerule['protos'] %}
+	option proto "tcp"
+{% endif %}
+{% if "igmp" in singlerule['protos'] %}
+	option proto "igmp"
+{% endif %}
+{% if "esp" in singlerule['protos'] %}
+	option proto "esp"
+{% endif %}
+{% if singlerule['src'] is defined %}
+	option src "{{ singlerule['src'] }}"
+{% endif %}
+{% if singlerule['src_ips'] is defined %}
+{% for src_ip in singlerule['src_ips'] %}
+	list src_ip "{{ src_ip }}"
+{% endfor %}
+{% endif %}
+{% if singlerule['dest'] is defined %}
+	option dest "{{ singlerule['dest'] }}"
+{% endif %}
+{% if singlerule['dest_ips'] is defined %}
+{% for dest_ip in singlerule['dest_ips'] %}
+	list dest_ip "{{ dest_ip }}"
+{% endfor %}
+{% endif %}
+{% if singlerule['limit'] is defined %}
+	option limit "{{ singlerule['limit'] }}"
+{% endif %}
+	option target "{{ singlerule['target'] }}"
+
+{% endmacro %}

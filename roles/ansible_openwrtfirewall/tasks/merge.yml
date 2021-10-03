@@ -1,0 +1,12 @@
+- name: merge group firewall zones from different groups
+  set_fact:
+    openwrt_firewall_zonesmergedgroup: "{{ openwrt_firewall_zonesgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_zonesgroup) | list | flatten }}"
+  when: openwrt_firewall_zonesgroup is defined
+- name: merge group firewall rules from different groups
+  set_fact:
+    openwrt_firewall_rulesmergedgroup: "{{ openwrt_firewall_rulesgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_rulesgroup) | list | flatten }}"
+  when: openwrt_firewall_rulesgroup is defined
+- name: merge group firewall forwardings from different groups
+  set_fact:
+    openwrt_firewall_forwardingsgroup: "{{ openwrt_firewall_forwardingsgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_forwardingsgroup) | list | flatten }}"
+  when: openwrt_firewall_forwardingsgroup is defined
