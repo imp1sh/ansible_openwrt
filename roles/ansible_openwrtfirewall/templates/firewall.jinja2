@@ -6,12 +6,12 @@ config defaults "defaults"
         option forward "{{ openwrt_firewall_default_forward }}"
         option input "{{ openwrt_firewall_default_input }}"
         option output "{{ openwrt_firewall_default_output }}"
-        option synflood_protect "{{ openwrt_firewall_default_synflood }}"
-{% if openwrt_firewall_default_flowoffloading is defined %}
-	option flow_offloading "{{ openwrt_firewall_default_flowoffloading }}"
+        option synflood_protect "{{ openwrt_firewall_default_synflood_protect }}"
+{% if openwrt_firewall_default_flow_offloading is defined %}
+	option flow_offloading "{{ openwrt_firewall_default_flow_offloading }}"
 {% endif %}
 {% if openwrt_firewall_default_flowoffloadinghw is defined %}
-	option flow_offloading_hw "{{ openwrt_firewall_default_flowoffloadinghw }}"
+	option flow_offloading_hw "{{ openwrt_firewall_default_flow_offloading_hw }}"
 {% endif %}
 {% if openwrt_firewall_default_drop_invalid is defined %}
         option drop_invalid "{{ openwrt_firewall_default_drop_invalid }}"
@@ -48,17 +48,26 @@ config defaults "defaults"
 {% endif %}
 
 # Zones
+{% for zone in openwrt_firewall_default_zones %}
+{{ functions.create_zone(zone) }}
+{% endfor %}
+{% if openwrt_firewall_zonesmergedgroup is defined %}
 {% for zone in openwrt_firewall_zonesmergedgroup %}
 {{ functions.create_zone(zone) }}
 {% endfor %}
+{% endif %}
+{% if openwrt_firewall_zoneshost is defined %}
 {% for zone in openwrt_firewall_zoneshost %}
 {{ functions.create_zone(zone) }}
 {% endfor %}
+{% endif %}
 
 # Forwardings
-{% for forwarding in openwrt_firewall_forwardingsgroup %}
+{% if openwrt_firewall_forwardingsmergedgroup is defined %}
+{% for forwarding in openwrt_firewall_forwardingsmergedgroup %}
 {{ functions.create_forwarding(forwarding) }}
 {% endfor %}
+{% endif %}
 {% if openwrt_firewall_forwardingshost is defined %}
 {% for forwarding in openwrt_firewall_forwardingshost %}
 {{ functions.create_forwarding(forwarding) }}
@@ -69,9 +78,11 @@ config defaults "defaults"
 {% for rule in openwrt_firewall_default_rules %}
 {{ functions.create_filter(rule) }}
 {% endfor %}
+{% if openwrt_firewall_rulesmergedgroup is defined %}
 {% for rule in openwrt_firewall_rulesmergedgroup %}
 {{ functions.create_filter(rule) }}
 {% endfor %}
+{% endif %}
 {% if openwrt_firewall_ruleshost is defined %}
 {% for rule in openwrt_firewall_ruleshost %}
 {{ functions.create_filter(rule) }}
