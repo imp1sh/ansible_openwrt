@@ -90,13 +90,13 @@ config interface "{{ key }}"
 	option ip6assign "{{ value['ip6assign'] }}"
 {% endif %}
 {% if value['ip6addr'] is defined %}
-        option ip6addr = "{{ value['ip6addr'] }}"
+        option ip6addr "{{ value['ip6addr'] }}"
 {% endif %}
 {% if value['ip6gw'] is defined %}
-        option ip6gw = "{{ value['ip6gw'] }}"
+        option ip6gw "{{ value['ip6gw'] }}"
 {% endif %}
 {% if value['ip6prefix'] is defined %}
-        option ip6prefix = "{{ value['ip6prefix'] }}"
+        option ip6prefix "{{ value['ip6prefix'] }}"
 {% endif %}
 {% if value.dnssearches is defined %}
 {% for dnssearch in value.dnssearches %}
@@ -114,7 +114,7 @@ config interface "{{ key }}"
 {% endif %}
 {% if value['proto'] == "ppp" %}
         # PPP config
-        option ipv6 = "auto"
+        option ipv6 "auto"
 {% if value['device'] is defined %}
         option device "{{ value['device'] }}"
 {% endif %}
@@ -127,7 +127,7 @@ config interface "{{ key }}"
 {% endif %}
 {% if value['proto'] == "pppoe" %}
         # PPPoE config
-        option ipv6 = "auto"
+        option ipv6 "auto"
 {% if value['username'] is defined %}
         option username "{{ value['username'] }}"
 {% endif %}
