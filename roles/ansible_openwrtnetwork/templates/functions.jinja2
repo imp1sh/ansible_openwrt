@@ -1,0 +1,146 @@
+{% macro create_devices(alldevices) %}
+{% for key, value in alldevices.items() %}
+config device
+{% if value.type is defined %}
+{% if value.type == "bridge" %}
+        option name "{{ key }}"
+        option type "{{ value.type }}"
+{% for port in value.ports %}
+        list ports "{{ port }}"
+{% endfor %}
+{% endif %}
+{% else %}
+        option name "{{ key }}"
+{% endif %}
+{% if value.mtu is defined %}
+        option mtu "{{ value.mtu }}"
+{% endif %}
+{% if value.mtu6 is defined %}
+        option mtu6 "{{ value.mtu6 }}"
+{% endif %}
+{% if value.txqueuelen is defined %}
+        option txqueuelen "{{ value.txqueuelen }}"
+{% endif %}
+{% if value.macaddr is defined %}
+        option macaddr "{{ value.macaddr }}"
+{% endif %}
+{% if value.dadtransmits is defined %}
+        option dadtransmits "{{ value.dadtransmits }}"
+{% endif %}
+{% if value.promisc is defined %}
+        option promisc "{{ value.promisc }}"
+{% endif %}
+{% if value.rpfilter is defined %}
+        option rpfilter "{{ value.rpfilter }}"
+{% endif %}
+{% if value.acceptlocal is defined %}
+        option acceptlocal "{{ value.acceptlocal }}"
+{% endif %}
+{% if value.sendredirects is defined %}
+        option sendredirects "{{ value.sendredirects }}"
+{% endif %}
+{% if value.neighreachabletime is defined %}
+        option neighreachabletime "{{ value.neighreachabletime }}"
+{% endif %}
+{% if value.neighgcstaletime is defined %}
+        option neighgcstaletime "{{ value.neighgcstaletime }}"
+{% endif %}
+{% if value.neighlocktime is defined %}
+        option neighlocktime "{{ value.neighlocktime }}"
+{% endif %}
+
+{% endfor %}
+{% endmacro %}
+
+{% macro create_interfaces(allinterfaces) %}
+{% for key, value in allinterfaces.items() %}
+config interface "{{ key }}"
+{% if value['auto'] is defined %}
+        option auto "{{ value['auto'] }}"
+{% endif %}
+{% if value['device'] is defined %}
+        option device "{{ value['device'] }}"
+{% endif %}
+        option proto "{{ value['proto'] }}"
+{% if value['proto'] == "dhcp" %}
+        # DHCP client config
+{% endif %}
+{% if value['proto'] == "dhcpv6" %}
+        # DHCPv6 client config
+{% if value['reqaddress'] is defined %}
+        option reqaddress "{{ value['reqaddress'] }}"
+{% endif %}
+{% if value['reqprefix'] is defined %}
+        option reqprefix "{{ value['reqprefix'] }}"
+{% endif %}
+{% endif %}
+{% if value['proto'] == "static" %}
+        # Static config
+{% if value['gateway'] is defined %}
+        option gateway "{{ value['gateway'] }}"
+{% endif %}
+{% if value['ipaddr'] is defined %}
+        option ipaddr "{{ value['ipaddr'] | ipaddr('address') }}"
+        option netmask "{{ value['ipaddr'] | ipaddr('netmask') }}"
+{% if value['broadcast'] is defined %}
+        option broadcast "{{ value['broadcast'] }}"
+{% endif %}
+{% endif %}
+{% if value['ip6assign'] is defined %}
+	option ip6assign "{{ value['ip6assign'] }}"
+{% endif %}
+{% if value['ip6addr'] is defined %}
+        option ip6addr = "{{ value['ip6addr'] }}"
+{% endif %}
+{% if value['ip6gw'] is defined %}
+        option ip6gw = "{{ value['ip6gw'] }}"
+{% endif %}
+{% if value['ip6prefix'] is defined %}
+        option ip6prefix = "{{ value['ip6prefix'] }}"
+{% endif %}
+{% if value.dnssearches is defined %}
+{% for dnssearch in value.dnssearches %}
+        list dns_search "{{ dnssearch }}"
+{% endfor %}
+{% endif %}
+{% if value.resolvers is defined %}
+{% for resolver in value.resolvers %}
+        list dns "{{ resolver }}"
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if value['proto'] == "none" %}
+        # Unmanaged config
+{% endif %}
+{% if value['proto'] == "ppp" %}
+        # PPP config
+        option ipv6 = "auto"
+{% if value['device'] is defined %}
+        option device "{{ value['device'] }}"
+{% endif %}
+{% if value['username'] is defined %}
+        option username "{{ value['username'] }}"
+{% endif %}
+{% if value['password'] is defined %}
+        option password "{{ value['password'] }}"
+{% endif %}
+{% endif %}
+{% if value['proto'] == "pppoe" %}
+        # PPPoE config
+        option ipv6 = "auto"
+{% if value['username'] is defined %}
+        option username "{{ value['username'] }}"
+{% endif %}
+{% if value['password'] is defined %}
+        option password "{{ value['password'] }}"
+{% endif %}
+{% if value['ac'] is defined %}
+        option ac "{{ value['ac'] }}"
+{% endif %}
+{% if value['service'] is defined %}
+        option service "{{ value['service'] }}"
+{% endif %}
+{% endif %}
+
+{% endfor %}
+{% endmacro %}

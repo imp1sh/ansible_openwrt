@@ -1,13 +1,7 @@
+{% import "functions.jinja2" as functions with context %}
 # Configuration distributed by Ansible
 # Default interfaces
-{% for key, value in openwrt_defaultinterfaces.items() %}
-config interface "{{ key }}"
-        option device "{{ value['device'] }}"
-	option proto "{{ value['proto'] }}"
-	option ipaddr "{{ value['ipaddr'] | ipaddr('address') }}"
-	option netmask "{{ value['ipaddr'] | ipaddr('netmask') }}"
-
-{% endfor %}
+{{ functions.create_interfaces(openwrt_defaultinterfaces) }}
 # Global configuration
 config globals "globals"
 {% if openwrt_network_globals_ula is defined %}
@@ -16,97 +10,10 @@ config globals "globals"
 
 # Devices
 {% if openwrt_network_devices is defined %}
-{% for key, value in openwrt_network_devices.items() %}
-config device
-{% if value.type is defined %}
-{% if value.type == "bridge" %}
-	option name "{{ key }}"
-	option type "{{ value.type }}"
-{% for port in value.ports %}
-	list ports "{{ port }}"
-{% endfor %}
-{% endif %}
-{% else %}
-	option name "{{ key }}"
-{% endif %}
-{% if value.mtu is defined %}
-	option mtu "{{ value.mtu }}"
-{% endif %}
-{% if value.mtu6 is defined %}
-	option mtu6 "{{ value.mtu6 }}"
-{% endif %}
-{% if value.txqueuelen is defined %}
-	option txqueuelen "{{ value.txqueuelen }}"
-{% endif %}
-{% if value.macaddr is defined %}
-	option macaddr "{{ value.macaddr }}"
-{% endif %}
-{% if value.dadtransmits is defined %}
-	option dadtransmits "{{ value.dadtransmits }}"
-{% endif %}
-{% if value.promisc is defined %}
-	option promisc "{{ value.promisc }}"
-{% endif %}
-{% if value.rpfilter is defined %}
-	option rpfilter "{{ value.rpfilter }}"
-{% endif %}
-{% if value.acceptlocal is defined %}
-	option acceptlocal "{{ value.acceptlocal }}"
-{% endif %}
-{% if value.sendredirects is defined %}
-	option sendredirects "{{ value.sendredirects }}"
-{% endif %}
-{% if value.neighreachabletime is defined %}
-	option neighreachabletime "{{ value.neighreachabletime }}"
-{% endif %}
-{% if value.neighgcstaletime is defined %}
-	option neighgcstaletime "{{ value.neighgcstaletime }}"
-{% endif %}
-{% if value.neighlocktime is defined %}
-	option neighlocktime "{{ value.neighlocktime }}"
-{% endif %}
-
-{% endfor %}
+{{ functions.create_devices(openwrt_network_devices) }}
 {% endif %}
 
 # Interfaces
 {% if openwrt_network_interfaces is defined %}
-{% for key, value in openwrt_network_interfaces.items() %}
-config interface "{{ key }}"
-	option device "{{ value.device }}"
-	option proto "{{ value.proto }}"
-{% if value.ipaddr is defined %}
-	option ipaddr "{{ value.ipaddr | ipaddr('address') }}"
-	option netmask "{{ value.ipaddr | ipaddr('netmask') }}"
-{% if value.gateway is defined %}
-	option gateway "{{ value.gateway | ipaddr('address') }}"
+{{ functions.create_interfaces(openwrt_network_interfaces) }}
 {% endif %}
-{% endif %}
-{% if value.ip6addr is defined %}
-{% for ip6addr in value.ip6addr %}
-	list ip6addr "{{ ip6addr }}"
-{% endfor %}
-{% endif %}
-{% if value.ip6gw is defined %}
-	option ip6gw "{{ value.ip6gw }}"
-{% endif %}
-{% if value.ip6assign is defined %}
-	option ip6assign "{{ value.ip6assign }}"
-{% endif %}
-{% if value.ip6prefix is defined %}
-	option ip6prefix "{{ value.ip6prefix }}"
-{% endif %}
-{% if value.dnssearches is defined %}
-{% for dnssearch in value.dnssearches %}
-	list dns_search "{{ dnssearch }}"
-{% endfor %}
-{% endif %}
-{% if value.resolvers is defined %}
-{% for resolver in value.resolvers %}
-	list dns "{{ resolver }}"
-{% endfor %}
-{% endif %}
-
-{% endfor %}
-{% endif %}
-
