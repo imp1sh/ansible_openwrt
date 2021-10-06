@@ -3,15 +3,19 @@
 - name: Enable Serices
   command: /etc/init.d/{{ item }} enable
   loop: "{{ openwrt_services_enabled }}"
+  when: openwrt_services_enabled is defined
 - name: Start Services
   command: /etc/init.d/{{ item }} start
   loop: "{{ openwrt_services_enabled }}"
+  when: openwrt_services_enabled is defined
 - name: Disable Services
   command: /etc/init.d/{{ item }} disable
   loop: "{{ openwrt_services_disabled }}"
+  when: openwrt_services_disabled is defined
 - name: Stop Services
   command: /etc/init.d/{{ item }} stop
   loop: "{{ openwrt_services_disabled }}"
+  when: openwrt_services_disabled is defined
 - name: Setup Start Scripts in /etc/rc.local
   template:
     src: rc.local.jinja2

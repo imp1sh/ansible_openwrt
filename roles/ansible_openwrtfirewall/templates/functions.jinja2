@@ -4,6 +4,9 @@ config zone
 	option forward "{{ singlezone['forward'] }}"
 	option input "{{ singlezone['input'] }}"
 	option output "{{ singlezone['output'] }}"
+{% if singlezone['log'] is defined %}
+	option log "{{ singlezone['log'] }}"
+{% endif %}
 {% if singlezone['masq'] is defined %}
 	option masq "{{ singlezone['masq'] }}"
 {% endif %}
@@ -77,6 +80,12 @@ config rule
 {% for dest_ip in singlerule['dest_ips'] %}
 	list dest_ip "{{ dest_ip }}"
 {% endfor %}
+{% endif %}
+{% if singlerule['src_port'] is defined %}
+	option src_port "{{ singlerule['src_port'] }}"
+{% endif %}
+{% if singlerule['dest_port'] is defined %}
+	option dest_port "{{ singlerule['dest_port'] }}"
 {% endif %}
 {% if singlerule['limit'] is defined %}
 	option limit "{{ singlerule['limit'] }}"

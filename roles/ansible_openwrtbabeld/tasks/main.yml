@@ -1,5 +1,24 @@
 ---
 # tasks file for ansible_openwrtbabeld
+- name: Refresh opkg so packages will be found
+  shell: opkg update
+- name: Install jq in order to be able to parse ifstatus
+  package:
+    name: jq
+    state: present
+- name: Install getprefix script
+  template:
+    src: getprefix.sh.jinja2
+    dest: /root/getprefix.sh
+    owner: root
+    group: root
+    mode: 0744
+- name: register dynamic prefixes
+  shell: /root/getprefix.sh
+  register: openwrt_babeld_collectedprefixes
+- name: register local ula
+  shell: /sbin/uci get network.globals.ula_prefix
+  register: openwrt_babeld_ulaprefix
 - name: Provide babeld configuration
   template:
     src: babeld.jinja2
@@ -7,3 +26,10 @@
     owner: root
     group: root
     mode: 0600
+  notify: restart babeld
+- name: enable babeld service
+  service:
+    name: babeld
+    state: started
+    enabled: yes
+

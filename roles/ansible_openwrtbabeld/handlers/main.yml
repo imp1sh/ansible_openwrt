@@ -1,2 +1,6 @@
 ---
 # handlers file for ansible_openwrtbabeld
+- name: restart babeld
+  service:
+    name: babeld
+    state: restarted
