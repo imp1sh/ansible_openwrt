@@ -8,5 +8,5 @@
   when: openwrt_firewall_rulesgroup is defined
 - name: merge group firewall forwardings from different groups
   set_fact:
-    openwrt_firewall_forwardingsgroup: "{{ openwrt_firewall_forwardingsgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_forwardingsgroup) | list | flatten }}"
+    openwrt_firewall_forwardingsmergedgroup: "{{ openwrt_firewall_forwardingsgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_forwardingsgroup) | list | flatten }}"
   when: openwrt_firewall_forwardingsgroup is defined

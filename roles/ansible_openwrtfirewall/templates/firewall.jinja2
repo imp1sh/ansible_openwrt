@@ -49,6 +49,24 @@ config defaults "defaults"
 
 # Zones
 {% for zone in openwrt_firewall_default_zones %}
+{% if zone['name'] == openwrt_firewall_default_wanzone and openwrt_firewall_zonewan_interfaces is defined %}
+{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_zonewan_interfaces) %}
+{% endif %}
+{% if zone['name'] == openwrt_firewall_default_neighbourszone and openwrt_firewall_zoneneighbours_interfaces is defined %}
+{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_zoneneighbours_interfaces) %}
+{% endif %}
+{% if zone['name'] == openwrt_firewall_default_guestszone and openwrt_firewall_zoneguests_interfaces is defined %}
+{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_zoneguests_interfaces) %}
+{% endif %}
+{% if zone['name'] == openwrt_firewall_default_lanzone and openwrt_firewall_zonelan_interfaces is defined %}
+{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_zonelan_interfaces) %}
+{% endif %}
+{% if zone['name'] == openwrt_firewall_default_dmzzone and openwrt_firewall_zonedmz_interfaces is defined %}
+{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_zonedmz_interfaces) %}
+{% endif %}
+{% if zone['name'] == openwrt_firewall_default_mgmtzone and openwrt_firewall_zonemgmt_interfaces is defined %}
+{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_zonemgmt_interfaces) %}
+{% endif %}
 {{ functions.create_zone(zone) }}
 {% endfor %}
 {% if openwrt_firewall_zonesmergedgroup is defined %}
