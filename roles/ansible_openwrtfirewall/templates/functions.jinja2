@@ -22,7 +22,7 @@ config zone
 {% endmacro %}
 
 {% macro create_forwarding(singleforward) %}
-config fowarding
+config forwarding
         option src "{{ singleforward['src'] }}"
 	option dest "{{ singleforward['dest'] }}"
 {% if singleforward['name'] is defined %}
