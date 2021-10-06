@@ -90,7 +90,9 @@ config interface "{{ key }}"
 	option ip6assign "{{ value['ip6assign'] }}"
 {% endif %}
 {% if value['ip6addr'] is defined %}
-        option ip6addr "{{ value['ip6addr'] }}"
+{% for singleaddr in value['ip6addr'] %}
+        list ip6addr "{{ singleaddr }}"
+{% endfor %}
 {% endif %}
 {% if value['ip6gw'] is defined %}
         option ip6gw "{{ value['ip6gw'] }}"
