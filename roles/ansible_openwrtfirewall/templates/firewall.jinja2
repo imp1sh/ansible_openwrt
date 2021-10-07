@@ -116,7 +116,7 @@ config defaults "defaults"
 {% endif %}
 # Ansible host based rules
 {% if openwrt_firewall_ruleshost is defined %}
-{% for rule in openwrt_firewall_ruleshost %}
+{% for rule in openwrt_firewall_ruleshost | sort(attribute='src') %}
 {{ functions.create_filter(rule) }}
 {% endfor %}
 {% endif %}
