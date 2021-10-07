@@ -45,6 +45,7 @@ config rule
 {% if singlerule['family'] is defined %}
 	option family "{{ singlerule['family'] }}"
 {% endif %}
+{% if singlerule['protos'] is defined %}
 {% if "icmp" in singlerule['protos'] %}
 	option proto "icmp"
 {% if singlerule['icmp_types'] is defined %}
@@ -64,6 +65,7 @@ config rule
 {% endif %}
 {% if "esp" in singlerule['protos'] %}
 	option proto "esp"
+{% endif %}
 {% endif %}
 {% if singlerule['src'] is defined %}
 	option src "{{ singlerule['src'] }}"
