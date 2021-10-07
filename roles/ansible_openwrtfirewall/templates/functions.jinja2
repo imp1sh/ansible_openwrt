@@ -41,6 +41,9 @@ config forwarding
 config rule
 {% if singlerule['name'] is defined %}
 	option name "{{ singlerule['name'] }}"
+{% if singlerule['enabled'] is defined %}
+	option enabled "{{ singlerule['enabled'] }}"
+{% endif %}
 {% endif %}
 {% if singlerule['family'] is defined %}
 	option family "{{ singlerule['family'] }}"
