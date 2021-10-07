@@ -1,17 +1,24 @@
 ---
 # defaults file for ansible_openwrtfirewall
+# global parameters
 openwrt_firewall_default_forward: "REJECT"
 openwrt_firewall_default_input: "ACCEPT"
 openwrt_firewall_default_output: "ACCEPT"
 openwrt_firewall_default_synflood_protect: "1"
 openwrt_firewall_default_flow_offloading: "0"
 openwrt_firewall_default_flow_offloading_hw: "0"
+# default zone names, can be overwritten on group or host level
 openwrt_firewall_default_wanzone: "wan"
 openwrt_firewall_default_neighbourszone: "neighbours"
 openwrt_firewall_default_guestszone: "guests"
 openwrt_firewall_default_lanzone: "lan"
 openwrt_firewall_default_dmzzone: "dmz"
 openwrt_firewall_default_mgmtzone: "mgmt"
+# default forwardings
+openwrt_firewall_default_forwardings:
+  - src: "{{ openwrt_firewall_default_lanzone }}"
+    dest: "{{ openwrt_firewall_default_wanzone }}"
+# default policies for the default zones
 openwrt_firewall_default_zones:
   - name: "{{ openwrt_firewall_default_wanzone }}"
     forward: "REJECT"
@@ -39,6 +46,7 @@ openwrt_firewall_default_zones:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
+# default rules
 openwrt_firewall_default_rules:
   - name: "Allow-Ping wan to firewall"
     family: "ipv4"
