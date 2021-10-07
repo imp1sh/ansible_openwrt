@@ -10,7 +10,7 @@ config defaults "defaults"
 {% if openwrt_firewall_default_flow_offloading is defined %}
 	option flow_offloading "{{ openwrt_firewall_default_flow_offloading }}"
 {% endif %}
-{% if openwrt_firewall_default_flowoffloadinghw is defined %}
+{% if openwrt_firewall_default_flow_offloading_hw is defined %}
 	option flow_offloading_hw "{{ openwrt_firewall_default_flow_offloading_hw }}"
 {% endif %}
 {% if openwrt_firewall_default_drop_invalid is defined %}
@@ -85,6 +85,11 @@ config defaults "defaults"
 
 # Forwardings
 # Ansible default forwardings
+{% if openwrt_firewall_default_forwardings is defined %}
+{% for forwarding in openwrt_firewall_default_forwardings %}
+{{ functions.create_forwarding(forwarding) }}
+{% endfor %}
+{% endif %}
 # Ansible group based forwardings
 {% if openwrt_firewall_forwardingsmergedgroup is defined %}
 {% for forwarding in openwrt_firewall_forwardingsmergedgroup %}
@@ -103,7 +108,7 @@ config defaults "defaults"
 {% for rule in openwrt_firewall_default_rules %}
 {{ functions.create_filter(rule) }}
 {% endfor %}
-# Ansible group based forwardings
+# Ansible group based rules
 {% if openwrt_firewall_rulesmergedgroup is defined %}
 {% for rule in openwrt_firewall_rulesmergedgroup %}
 {{ functions.create_filter(rule) }}
