@@ -48,6 +48,7 @@ config defaults "defaults"
 {% endif %}
 
 # Zones
+# Ansible default zones
 {% for zone in openwrt_firewall_default_zones %}
 {% if zone['name'] == openwrt_firewall_default_wanzone and openwrt_firewall_zonewan_interfaces is defined %}
 {% set 	x=zone.__setitem__("interfaces", openwrt_firewall_zonewan_interfaces) %}
@@ -69,11 +70,13 @@ config defaults "defaults"
 {% endif %}
 {{ functions.create_zone(zone) }}
 {% endfor %}
+# Ansible group based zones
 {% if openwrt_firewall_zonesmergedgroup is defined %}
 {% for zone in openwrt_firewall_zonesmergedgroup %}
 {{ functions.create_zone(zone) }}
 {% endfor %}
 {% endif %}
+# Ansible host based zones
 {% if openwrt_firewall_zoneshost is defined %}
 {% for zone in openwrt_firewall_zoneshost %}
 {{ functions.create_zone(zone) }}
@@ -81,11 +84,14 @@ config defaults "defaults"
 {% endif %}
 
 # Forwardings
+# Ansible default forwardings
+# Ansible group based forwardings
 {% if openwrt_firewall_forwardingsmergedgroup is defined %}
 {% for forwarding in openwrt_firewall_forwardingsmergedgroup %}
 {{ functions.create_forwarding(forwarding) }}
 {% endfor %}
 {% endif %}
+# Ansible host based forwardings
 {% if openwrt_firewall_forwardingshost is defined %}
 {% for forwarding in openwrt_firewall_forwardingshost %}
 {{ functions.create_forwarding(forwarding) }}
@@ -93,14 +99,17 @@ config defaults "defaults"
 {% endif %}
 
 # Rules
+# Ansible default rules
 {% for rule in openwrt_firewall_default_rules %}
 {{ functions.create_filter(rule) }}
 {% endfor %}
+# Ansible group based forwardings
 {% if openwrt_firewall_rulesmergedgroup is defined %}
 {% for rule in openwrt_firewall_rulesmergedgroup %}
 {{ functions.create_filter(rule) }}
 {% endfor %}
 {% endif %}
+# Ansible host based rules
 {% if openwrt_firewall_ruleshost is defined %}
 {% for rule in openwrt_firewall_ruleshost %}
 {{ functions.create_filter(rule) }}
