@@ -48,8 +48,8 @@ config rule
 {% if singlerule['family'] is defined %}
 	option family "{{ singlerule['family'] }}"
 {% endif %}
-{% if singlerule['protos'] is defined %}
-{% if "icmp" in singlerule['protos'] %}
+{% if singlerule['proto'] is defined %}
+{% if "icmp" in singlerule['proto'] %}
 	option proto "icmp"
 {% if singlerule['icmp_types'] is defined %}
 {% for icmp_type in singlerule['icmp_types'] %}
@@ -57,16 +57,16 @@ config rule
 {% endfor %}
 {% endif %}
 {% endif %}
-{% if "udp" in singlerule['protos'] %}
+{% if "udp" in singlerule['proto'] %}
 	option proto "udp"
 {% endif %}
-{% if "tcp" in singlerule['protos'] %}
+{% if "tcp" in singlerule['proto'] %}
 	option proto "tcp"
 {% endif %}
-{% if "igmp" in singlerule['protos'] %}
+{% if "igmp" in singlerule['proto'] %}
 	option proto "igmp"
 {% endif %}
-{% if "esp" in singlerule['protos'] %}
+{% if "esp" in singlerule['proto'] %}
 	option proto "esp"
 {% endif %}
 {% endif %}
