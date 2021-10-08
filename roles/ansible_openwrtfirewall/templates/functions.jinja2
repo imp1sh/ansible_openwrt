@@ -73,16 +73,16 @@ config rule
 {% if singlerule['src'] is defined %}
 	option src "{{ singlerule['src'] }}"
 {% endif %}
-{% if singlerule['src_ips'] is defined %}
-{% for src_ip in singlerule['src_ips'] %}
+{% if singlerule['src_ip'] is defined %}
+{% for src_ip in singlerule['src_ip'] %}
 	list src_ip "{{ src_ip }}"
 {% endfor %}
 {% endif %}
 {% if singlerule['dest'] is defined %}
 	option dest "{{ singlerule['dest'] }}"
 {% endif %}
-{% if singlerule['dest_ips'] is defined %}
-{% for dest_ip in singlerule['dest_ips'] %}
+{% if singlerule['dest_ip'] is defined %}
+{% for dest_ip in singlerule['dest_ip'] %}
 	list dest_ip "{{ dest_ip }}"
 {% endfor %}
 {% endif %}

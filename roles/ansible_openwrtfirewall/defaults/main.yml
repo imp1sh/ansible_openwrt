@@ -63,14 +63,14 @@ openwrt_firewall_default_rules:
     src: "{{ openwrt_firewall_default_wanzone }}"
     target: "ACCEPT"
   - name: "Allow-DHCPv6 wan"
-    dest_ips:
+    dest_ip:
       - "fc00::/6"
     dest_port: "546"
     family: "ipv6"
     protos:
       - "udp"
     src: "{{ openwrt_firewall_default_wanzone }}"
-    src_ips:
+    src_ip:
       - "fc00::/6"
     target: "ACCEPT"
   - name: "Allow-MLD wan"
@@ -83,7 +83,7 @@ openwrt_firewall_default_rules:
     protos:
       - "icmp"
     src: "{{ openwrt_firewall_default_wanzone }}"
-    src_ips:
+    src_ip:
       - "fe80::/10"
     target: "ACCEPT"
   - name: "Allow-ICMPv6-Input"
