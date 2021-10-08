@@ -75,6 +75,86 @@ openwrt_firewall_default_rules:
       - "igmp"
     src: "{{ openwrt_firewall_default_wanzone }}"
     target: "ACCEPT"
+  - name: "DHCPv4 neighbours"
+    dest_port: "67"
+    family: "ipv4"
+    proto:
+      - "udp"
+    src: "{{ openwrt_firewall_default_neighbourszone }}"
+    target: "ACCEPT"
+  - name: "DHCPv4 guests"
+    dest_port: "67"
+    family: "ipv4"
+    proto:
+      - "udp"
+    src: "{{ openwrt_firewall_default_guestszone }}"
+    target: "ACCEPT"
+  - name: "DHCPv4 lan"
+    dest_port: "67"
+    family: "ipv4"
+    proto:
+      - "udp"
+    src: "{{ openwrt_firewall_default_lanzone }}"
+    target: "ACCEPT"
+  - name: "DHCPv4 mgmt"
+    dest_port: "67"
+    family: "ipv4"
+    proto:
+      - "udp"
+    src: "{{ openwrt_firewall_default_mgmtzone }}"
+    target: "ACCEPT"
+  - name: "DHCPv4 dmz"
+    dest_port: "67"
+    family: "ipv4"
+    proto:
+      - "udp"
+    src: "{{ openwrt_firewall_default_dmzzone }}"
+    target: "ACCEPT"
+  - name: "DHCPv6 mgmt"
+    dest_port: "547"
+    family: "ipv6"
+    proto:
+      - "udp"
+    src_ip:
+      - "fe80::/10"
+    src: "{{ openwrt_firewall_default_mgmtzone }}"
+    target: "ACCEPT"
+  - name: "DHCPv6 guests"
+    dest_port: "547"
+    family: "ipv6"
+    proto:
+      - "udp"
+    src_ip:
+      - "fe80::/10"
+    src: "{{ openwrt_firewall_default_guestszone }}"
+    target: "ACCEPT"
+  - name: "DHCPv6 lan"
+    dest_port: "547"
+    family: "ipv6"
+    proto:
+      - "udp"
+    src_ip:
+      - "fe80::/10"
+    src: "{{ openwrt_firewall_default_lanzone }}"
+    target: "ACCEPT"
+  - name: "DHCPv6 dmz"
+    dest_port: "547"
+    family: "ipv6"
+    proto:
+      - "udp"
+    src_ip:
+      - "fe80::/10"
+    src: "{{ openwrt_firewall_default_dmzzone }}"
+    target: "ACCEPT"
+  - name: "DHCPv6 mgmt"
+    dest_port: "547"
+    family: "ipv6"
+    proto:
+      - "udp"
+    src_ip:
+      - "fe80::/10"
+    src: "{{ openwrt_firewall_default_mgmtzone }}"
+    target: "ACCEPT"
   - name: "Allow-DHCPv6 wan"
     dest_ip:
       - "fc00::/6"
