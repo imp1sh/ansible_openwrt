@@ -63,15 +63,15 @@ openwrt_firewall_default_zones:
 openwrt_firewall_default_rules:
   - name: "Allow-Ping wan to firewall"
     family: "ipv4"
-    icmp_types:
+    icmp_type:
       - "echo-request"
-    protos:
+    proto:
       - "icmp"
     src: "{{ openwrt_firewall_default_wanzone }}"
     target: "ACCEPT"
   - name: "Allow-IGMP wan to firewall"
     family: "ipv4"
-    protos:
+    proto:
       - "igmp"
     src: "{{ openwrt_firewall_default_wanzone }}"
     target: "ACCEPT"
@@ -80,7 +80,7 @@ openwrt_firewall_default_rules:
       - "fc00::/6"
     dest_port: "546"
     family: "ipv6"
-    protos:
+    proto:
       - "udp"
     src: "{{ openwrt_firewall_default_wanzone }}"
     src_ip:
@@ -88,12 +88,12 @@ openwrt_firewall_default_rules:
     target: "ACCEPT"
   - name: "Allow-MLD wan"
     family: "ipv6"
-    icmp_types:
+    icmp_type:
       - "130/0"
       - "131/0"
       - "132/0"
       - "143/0"
-    protos:
+    proto:
       - "icmp"
     src: "{{ openwrt_firewall_default_wanzone }}"
     src_ip:
@@ -101,7 +101,7 @@ openwrt_firewall_default_rules:
     target: "ACCEPT"
   - name: "Allow-ICMPv6-Input"
     family: "ipv6"
-    icmp_types:
+    icmp_type:
         -  "echo-request"
         -  "echo-reply"
         -  "destination-unreachable"
@@ -114,13 +114,13 @@ openwrt_firewall_default_rules:
         -  "router-advertisement"
         -  "neighbour-advertisement"
     limit: "1000/sec"
-    protos:
+    proto:
       - "icmp"
     src: "*"
     target: "ACCEPT"
   - name: "Allow-ICMPv6-Forward any to any"
     family: "ipv6"
-    icmp_types:
+    icmp_type:
         - "destination-unreachable"
         - "packet-too-big"
         - "time-exceeded"
@@ -128,20 +128,20 @@ openwrt_firewall_default_rules:
         - "echo-request"
         - "echo-reply"
     limit: "1000/sec"
-    protos:
+    proto:
       - "icmp"
     src: "*"
     dest: "*"
     target: "ACCEPT"
   - name: "Allow-IPSec-ESP lan"
     dest: " {{ openwrt_firewall_default_lanzone }}"
-    protos:
+    proto:
       - "esp"
     src: "{{ openwrt_firewall_default_wanzone }}"
     target: "ACCEPT"
   - name: "Allow-ISAKMP wan"
     dest: "{{ openwrt_firewall_default_lanzone }}"
-    protos:
+    proto:
       - "udp"
     dest_port: "500"
     src: "{{ openwrt_firewall_default_wanzone }}"
@@ -149,7 +149,7 @@ openwrt_firewall_default_rules:
   - name: "Support-UDP-Traceroute wan"
     dest_port: "33434:33689"
     family: "ipv4"
-    protos:
+    proto:
       - "udp"
     src: "{{ openwrt_firewall_default_wanzone }}"
     target: "REJECT"

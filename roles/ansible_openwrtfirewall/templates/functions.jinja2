@@ -51,8 +51,8 @@ config rule
 {% if singlerule['proto'] is defined %}
 {% if "icmp" in singlerule['proto'] %}
 	option proto "icmp"
-{% if singlerule['icmp_types'] is defined %}
-{% for icmp_type in singlerule['icmp_types'] %}
+{% if singlerule['icmp_type'] is defined %}
+{% for icmp_type in singlerule['icmp_type'] %}
 	list icmp_type "{{ icmp_type }}"
 {% endfor %}
 {% endif %}
