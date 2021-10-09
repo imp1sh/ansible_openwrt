@@ -13,6 +13,11 @@ config globals "globals"
 {{ functions.create_devices(openwrt_network_devices) }}
 {% endif %}
 
+# bridge_vlan devices
+{% if openwrt_network_bridge_vlan is defined %}
+{{ functions.create_bridge_vlan(openwrt_network_bridge_vlan) }}
+{% endif %}
+
 # Interfaces
 {% if openwrt_network_interfaces is defined %}
 {{ functions.create_interfaces(openwrt_network_interfaces) }}

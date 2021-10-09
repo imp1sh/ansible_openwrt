@@ -1,10 +1,70 @@
+{% macro create_bridge_vlan(allbrvlan) %}
+{% for bridgevlan in allbrvlan %}
+config bridge-vlan
+	option device "{{ bridgevlan.device }}"
+	option vlan "{{ bridgevlan.vlan }}"
+{% if bridgevlan.ports is defined %}
+{% for port in bridgevlan.ports %}
+	list ports "{{ port }}"
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+{% endmacro %}
+
 {% macro create_devices(alldevices) %}
 {% for key, value in alldevices.items() %}
 config device
 {% if value.type is defined %}
 {% if value.type == "bridge" %}
+        # Bridge specific configuration
         option name "{{ key }}"
         option type "{{ value.type }}"
+{% if value.vlan_filtering is defined %}
+	option vlan_filtering "{{ value.vlan_filtering }}"
+{% endif %}
+{% if value.igmp_snooping is defined %}
+	option igmp_snooping "{{ value.igmp_snooping }}"
+{% endif %}
+{% if value.multicast_querier is defined %}
+	option multicast_querier "{{ value.multicast_querier }}"
+{% endif %}
+{% if value.query_interval is defined %}
+	option query_interval "{{ value.query_interval }}"
+{% endif %}
+{% if value.query_response_interval is defined %}
+	option query_response_interval "{{ value.query_response_interval }}"
+{% endif %}
+{% if value.last_member_interval is defined %}
+	option last_member_interval "{{ value.last_member_interval }}"
+{% endif %}
+{% if value.hash_max is defined %}
+	option hash_max "{{ value.hash_max }}"
+{% endif %}
+{% if value.robustness is defined %}
+	option robustness "{{ value.robustness }}"
+{% endif %}
+{% if value.stp is defined %}
+	option stp "{{ value.stp }}"
+{% endif %}
+{% if value.forward_delay is defined %}
+	option forward_delay "{{ value.forward_delay }}"
+{% endif %}
+{% if value.hello_time is defined %}
+	option hello_time "{{ value.hello_time }}"
+{% endif %}
+{% if value.priority is defined %}
+	option priority "{{ value.priority }}"
+{% endif %}
+{% if value.ageing_time is defined %}
+	option ageing_time "{{ value.ageing_time }}"
+{% endif %}
+{% if value.max_age is defined %}
+	option max_age "{{ value.max_age }}"
+{% endif %}
+{% if value.bridge_empty is defined %}
+	option bridge_empty "{{ value.bridge_empty }}"
+{% endif %}
 {% for port in value.ports %}
         list ports "{{ port }}"
 {% endfor %}
