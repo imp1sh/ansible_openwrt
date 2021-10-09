@@ -45,6 +45,15 @@
     success_msg: "host forwardings seem valid."
   loop: "{{ openwrt_firewall_forwardingshost }}"
   when: openwrt_firewall_forwardingshost is defined
+- name: check group based forwardings
+  assert:
+    that:
+      - item.src is defined
+      - item.dest is defined
+    fail_msg: "forwarding list item needs a src AND dest key."
+    success_msg: "host forwardings seem valid."
+  loop: "{{ openwrt_firewall_forwardingsmergedgroup }}"
+  when: openwrt_firewall_forwardingsmergedgroup is defined
 - name: rudimentary check of default rules
   assert:
     that: (item.target | upper == "ACCEPT") or ( item.target | upper == "REJECT") or (item.target | upper == "DROP")
