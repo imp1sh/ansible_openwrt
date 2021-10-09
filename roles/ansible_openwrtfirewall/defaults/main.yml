@@ -7,6 +7,7 @@ openwrt_firewall_default_output: "ACCEPT"
 openwrt_firewall_default_synflood_protect: "1"
 openwrt_firewall_default_flow_offloading: "0"
 openwrt_firewall_default_flow_offloading_hw: "0"
+openwrt_firewall_default_drop_invalid: "0"
 # default zone names, can be overwritten on group or host level
 openwrt_firewall_default_wanzone: "wan"
 openwrt_firewall_default_neighbourszone: "neighbours"
