@@ -100,13 +100,13 @@ config interface "{{ key }}"
 {% if value['ip6prefix'] is defined %}
         option ip6prefix "{{ value['ip6prefix'] }}"
 {% endif %}
-{% if value.dnssearches is defined %}
-{% for dnssearch in value.dnssearches %}
+{% if value.dnssearch is defined %}
+{% for dnssearch in value.dnssearch %}
         list dns_search "{{ dnssearch }}"
 {% endfor %}
 {% endif %}
-{% if value.resolvers is defined %}
-{% for resolver in value.resolvers %}
+{% if value.dns is defined %}
+{% for resolver in value.dns %}
         list dns "{{ resolver }}"
 {% endfor %}
 {% endif %}

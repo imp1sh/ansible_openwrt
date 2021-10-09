@@ -17,3 +17,5 @@ config globals "globals"
 {% if openwrt_network_interfaces is defined %}
 {{ functions.create_interfaces(openwrt_network_interfaces) }}
 {% endif %}
+
+# Wireguard

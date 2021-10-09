@@ -1,5 +1,7 @@
 ---
 # tasks file for ansible_openwrtfirewall
+- name: Run checks on variables
+  import_tasks: checks.yml
 - name: Merge Groups
   import_tasks: merge.yml
 - name: Create firewall uci in /etc/config/firewall
