@@ -6,7 +6,9 @@ config defaults "defaults"
         option forward "{{ openwrt_firewall_default_forward }}"
         option input "{{ openwrt_firewall_default_input }}"
         option output "{{ openwrt_firewall_default_output }}"
+{% if openwrt_firewall_default_synflood_protect is defined %}
         option synflood_protect "{{ openwrt_firewall_default_synflood_protect }}"
+{% endif %}
 {% if openwrt_firewall_default_flow_offloading is defined %}
 	option flow_offloading "{{ openwrt_firewall_default_flow_offloading }}"
 {% endif %}
