@@ -21,6 +21,31 @@ config zone
 
 {% endmacro %}
 
+{% macro create_dictzone(zones) %}
+{% for key, value in zones.items() %}
+config zone
+	option name "{{ key }}"
+	option forward "{{ value['forward'] }}"
+	option input "{{ value['input'] }}"
+	option output "{{ value['output'] }}"
+{% if value['log'] is defined %}
+	option log "{{value['log'] }}"
+{% endif %}
+{% if value['masq'] is defined %}
+	option masq "{{ value['masq'] }}"
+{% endif %}
+{% if value['mtu_fix'] is defined %}
+	option mtu_fix "{{ value['mtu_fix'] }}"
+{% endif %}
+{% if value['interfaces'] is defined %}
+{% for interface in value['interfaces'] %}
+	list network "{{ interface }}"
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+{% endmacro %}
+
 {% macro create_forwarding(singleforward) %}
 config forwarding
         option src "{{ singleforward['src'] }}"

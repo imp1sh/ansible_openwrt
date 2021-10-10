@@ -51,27 +51,7 @@ config defaults "defaults"
 
 # Zones
 # Ansible default zones
-{% for zone in openwrt_firewall_default_zones %}
-{% if zone['name'] == openwrt_firewall_default_wanzone and openwrt_firewall_wanzone_interfaces is defined %}
-{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_wanzone_interfaces) %}
-{% endif %}
-{% if zone['name'] == openwrt_firewall_default_neighbourszone and openwrt_firewall_neighbourszone_interfaces is defined %}
-{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_neighbourszone_interfaces) %}
-{% endif %}
-{% if zone['name'] == openwrt_firewall_default_guestszone and openwrt_firewall_guestszone_interfaces is defined %}
-{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_guestszone_interfaces) %}
-{% endif %}
-{% if zone['name'] == openwrt_firewall_default_lanzone and openwrt_firewall_lanzone_interfaces is defined %}
-{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_lanzone_interfaces) %}
-{% endif %}
-{% if zone['name'] == openwrt_firewall_default_dmzzone and openwrt_firewall_dmzzone_interfaces is defined %}
-{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_dmzzone_interfaces) %}
-{% endif %}
-{% if zone['name'] == openwrt_firewall_default_mgmtzone and openwrt_firewall_mgmtzone_interfaces is defined %}
-{% set 	x=zone.__setitem__("interfaces", openwrt_firewall_mgmtzone_interfaces) %}
-{% endif %}
-{{ functions.create_zone(zone) }}
-{% endfor %}
+{{ functions.create_dictzone(openwrt_firewall_default_zones) }}
 # Ansible group based zones
 {% if openwrt_firewall_zonesmergedgroup is defined %}
 {% for zone in openwrt_firewall_zonesmergedgroup %}

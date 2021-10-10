@@ -28,38 +28,38 @@ openwrt_firewall_default_forwardings:
     dest: "{{ openwrt_firewall_default_wanzone }}"
 # default policies for the default zones
 openwrt_firewall_default_zones:
-  - name: "{{ openwrt_firewall_default_wanzone }}"
+  wan:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
-    log: "{{ openwrt_firewall_default_wanzone_logging }}"
+    log: "1"
     masq: "1"
     mtu_fix: "1"
-  - name: "{{ openwrt_firewall_default_neighbourszone }}"
+  neighbours:
     forward: "ACCEPT"
     input: "REJECT"
     output: "REJECT"
-    log: "{{ openwrt_firewall_default_neighbourszone_logging }}"
-  - name: "{{ openwrt_firewall_default_guestszone }}"
+    log: "1"
+  guests:
     forward: "ACCEPT"
     input: "REJECT"
     output: "ACCEPT"
-    log: "{{ openwrt_firewall_default_guestszone_logging }}"
-  - name: "{{ openwrt_firewall_default_lanzone }}"
+    log: "1"
+  lan:
     forward: "ACCEPT"
     input: "ACCEPT"
     output: "ACCEPT"
-    log: "{{ openwrt_firewall_default_lanzone_logging }}"
-  - name: "{{ openwrt_firewall_default_dmzzone }}"
+    log: "1"
+  dmz:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
-    log: "{{ openwrt_firewall_default_dmzzone_logging }}"
-  - name: "{{ openwrt_firewall_default_mgmtzone }}"
+    log: "1"
+  mgmt:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
-    log: "{{ openwrt_firewall_default_mgmtzone_logging }}"
+    log: "1"
 # default rules
 openwrt_firewall_default_rules:
   - name: "Allow-Ping wan to firewall"

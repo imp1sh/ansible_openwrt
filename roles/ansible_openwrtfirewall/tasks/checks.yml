@@ -61,16 +61,16 @@
     success_msg: Rule {{ item }} seems valid."
   loop: "{{ openwrt_firewall_default_rules }}"
   when: openwrt_firewall_default_rules is defined
-- name: Rudimentary check of default zones
-  assert:
-    that: 
-      - (item.forward | upper == "ACCEPT") or (item.forward | upper == "REJECT") or (item.forward | upper == "DROP")
-      - (item.input | upper == "ACCEPT") or (item.input | upper == "REJECT") or (item.input | upper == "DROP")
-      - (item.output | upper == "ACCEPT") or (item.output | upper == "REJECT") or (item.output | upper == "DROP")
-    fail_msg: "Zone {{ item }} is invalid. Use only ACCEPT, FORWARD and REJECT for input, output and forward as values."
-    success_msg: "Zone {{ item }} seems valid."
-  loop: "{{ openwrt_firewall_default_zones }}"
-  when: openwrt_firewall_default_zones is defined
+    #- name: Rudimentary check of default zones
+    #  assert:
+    #    that: 
+    #      - (item.forward | upper == "ACCEPT") or (item.forward | upper == "REJECT") or (item.forward | upper == "DROP")
+    #      - (item.input | upper == "ACCEPT") or (item.input | upper == "REJECT") or (item.input | upper == "DROP")
+    #      - (item.output | upper == "ACCEPT") or (item.output | upper == "REJECT") or (item.output | upper == "DROP")
+    #    fail_msg: "Zone {{ item }} is invalid. Use only ACCEPT, FORWARD and REJECT for input, output and forward as values."
+    #    success_msg: "Zone {{ item }} seems valid."
+    #  loop: "{{ openwrt_firewall_default_zones }}"
+    #  when: openwrt_firewall_default_zones is defined
       #- name: Check default zones
       #  assert:
       #    that: openwrt_firewall_default_forwardings['{{ item }}'] is defined
