@@ -60,9 +60,7 @@ config defaults "defaults"
 {% endif %}
 # Ansible host based zones
 {% if openwrt_firewall_zoneshost is defined %}
-{% for zone in openwrt_firewall_zoneshost %}
-{{ functions.create_zone(zone) }}
-{% endfor %}
+{{ functions.create_dictzone(openwrt_firewall_zoneshost) }}
 {% endif %}
 
 # Forwardings
@@ -92,7 +90,7 @@ config defaults "defaults"
 {% endfor %}
 # Ansible group based rules
 {% if openwrt_firewall_rulesmergedgroup is defined %}
-{% for rule in openwrt_firewall_rulesmergedgroup %}
+{% for rule in openwrt_firewall_rulesmergedgroup | sort(attribute='src') %}
 {{ functions.create_filter(rule) }}
 {% endfor %}
 {% endif %}
