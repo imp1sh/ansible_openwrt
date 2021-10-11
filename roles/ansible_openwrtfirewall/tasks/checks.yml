@@ -18,12 +18,6 @@
     - "openwrt_firewall_default_flow_offloading"
     - "openwrt_firewall_default_flow_offloading_hw"
     - "openwrt_firewall_default_drop_invalid"
-    - "openwrt_firewall_default_wanzone_logging"
-    - "openwrt_firewall_default_neighbourszone_logging"
-    - "openwrt_firewall_default_guestszone_logging"
-    - "openwrt_firewall_default_lanzone_logging"
-    - "openwrt_firewall_default_dmzzone_logging"
-    - "openwrt_firewall_default_mgmtzone_logging"
 - name: debug var
   debug:
     var: openwrt_firewall_default_forwardings | type_debug
@@ -56,12 +50,15 @@
   when: openwrt_firewall_forwardingsmergedgroup is defined
 - name: rudimentary check of default rules
   assert:
-    that: (item.target | upper == "ACCEPT") or ( item.target | upper == "REJECT") or (item.target | upper == "DROP")
+    that:
+      - (item.target | upper == "ACCEPT") or ( item.target | upper == "REJECT") or (item.target | upper == "DROP")
+      - item.src is defined
     fail_msg: "Rule {{ item }} target is invalid, needs to be either REJECT, DROP or ACCEPT"
     success_msg: Rule {{ item }} seems valid."
   loop: "{{ openwrt_firewall_default_rules }}"
   when: openwrt_firewall_default_rules is defined
     #- name: Rudimentary check of default zones
+    # needs to be reimplemented since var type changed from list to dict
     #  assert:
     #    that: 
     #      - (item.forward | upper == "ACCEPT") or (item.forward | upper == "REJECT") or (item.forward | upper == "DROP")
