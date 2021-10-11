@@ -8,166 +8,152 @@ openwrt_firewall_default_synflood_protect: "1"
 openwrt_firewall_default_flow_offloading: "0"
 openwrt_firewall_default_flow_offloading_hw: "0"
 openwrt_firewall_default_drop_invalid: "0"
-# default zone names, can be overwritten on group or host level
-openwrt_firewall_default_wanzone: "wan"
-openwrt_firewall_default_neighbourszone: "neighbours"
-openwrt_firewall_default_guestszone: "guests"
-openwrt_firewall_default_lanzone: "lan"
-openwrt_firewall_default_dmzzone: "dmz"
-openwrt_firewall_default_mgmtzone: "mgmt"
-# default zones logging
-openwrt_firewall_default_wanzone_logging: "1"
-openwrt_firewall_default_neighbourszone_logging: "1"
-openwrt_firewall_default_guestszone_logging: "1"
-openwrt_firewall_default_lanzone_logging: "1"
-openwrt_firewall_default_dmzzone_logging: "1"
-openwrt_firewall_default_mgmtzone_logging: "1"
 # default forwardings
 openwrt_firewall_default_forwardings:
-  - src: "{{ openwrt_firewall_default_lanzone }}"
-    dest: "{{ openwrt_firewall_default_wanzone }}"
+  - src: "LAN"
+    dest: "WAN"
 # default policies for the default zones
 openwrt_firewall_default_zones:
-  wan:
+  WAN:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
     log: "1"
     masq: "1"
     mtu_fix: "1"
-  neighbours:
+  NEIGHBOURS:
     forward: "ACCEPT"
     input: "REJECT"
     output: "REJECT"
     log: "1"
-  guests:
+  GUESTS:
     forward: "ACCEPT"
     input: "REJECT"
     output: "ACCEPT"
     log: "1"
-  lan:
+  LAN:
     forward: "ACCEPT"
     input: "ACCEPT"
     output: "ACCEPT"
     log: "1"
-  dmz:
+  DMZ:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
     log: "1"
-  mgmt:
+  MGMT:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
     log: "1"
 # default rules
 openwrt_firewall_default_rules:
-  - name: "Allow-Ping wan to firewall"
+  - name: "Allow-Ping WAN to firewall"
     family: "ipv4"
     icmp_type:
       - "echo-request"
     proto:
       - "icmp"
-    src: "{{ openwrt_firewall_default_wanzone }}"
+    src: "WAN"
     target: "ACCEPT"
-  - name: "Allow-IGMP wan to firewall"
+  - name: "Allow-IGMP WAN to firewall"
     family: "ipv4"
     proto:
       - "igmp"
-    src: "{{ openwrt_firewall_default_wanzone }}"
+    src: "WAN"
     target: "ACCEPT"
-  - name: "DHCPv4 neighbours"
+  - name: "DHCPv4 NEIGHBOURS"
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
-    src: "{{ openwrt_firewall_default_neighbourszone }}"
+    src: "NEIGHBOURS"
     target: "ACCEPT"
-  - name: "DHCPv4 guests"
+  - name: "DHCPv4 GUESTS"
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
-    src: "{{ openwrt_firewall_default_guestszone }}"
+    src: "GUESTS"
     target: "ACCEPT"
-  - name: "DHCPv4 lan"
+  - name: "DHCPv4 LAN"
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
-    src: "{{ openwrt_firewall_default_lanzone }}"
+    src: "LAN"
     target: "ACCEPT"
-  - name: "DHCPv4 mgmt"
+  - name: "DHCPv4 MGMT"
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
-    src: "{{ openwrt_firewall_default_mgmtzone }}"
+    src: "MGMT"
     target: "ACCEPT"
-  - name: "DHCPv4 dmz"
+  - name: "DHCPv4 DMZ"
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
-    src: "{{ openwrt_firewall_default_dmzzone }}"
+    src: "DMZ"
     target: "ACCEPT"
-  - name: "DHCPv6 mgmt"
+  - name: "DHCPv6 MGMT"
     dest_port: "547"
     family: "ipv6"
     proto:
       - "udp"
     src_ip:
       - "fe80::/10"
-    src: "{{ openwrt_firewall_default_mgmtzone }}"
+    src: "MGMT"
     target: "ACCEPT"
-  - name: "DHCPv6 guests"
+  - name: "DHCPv6 GUESTS"
     dest_port: "547"
     family: "ipv6"
     proto:
       - "udp"
     src_ip:
       - "fe80::/10"
-    src: "{{ openwrt_firewall_default_guestszone }}"
+    src: "GUESTS"
     target: "ACCEPT"
-  - name: "DHCPv6 lan"
+  - name: "DHCPv6 LAN"
     dest_port: "547"
     family: "ipv6"
     proto:
       - "udp"
     src_ip:
       - "fe80::/10"
-    src: "{{ openwrt_firewall_default_lanzone }}"
+    src: "LAN"
     target: "ACCEPT"
-  - name: "DHCPv6 dmz"
+  - name: "DHCPv6 DMZ"
     dest_port: "547"
     family: "ipv6"
     proto:
       - "udp"
     src_ip:
       - "fe80::/10"
-    src: "{{ openwrt_firewall_default_dmzzone }}"
+    src: "DMZ"
     target: "ACCEPT"
-  - name: "DHCPv6 mgmt"
+  - name: "DHCPv6 MGMT"
     dest_port: "547"
     family: "ipv6"
     proto:
       - "udp"
     src_ip:
       - "fe80::/10"
-    src: "{{ openwrt_firewall_default_mgmtzone }}"
+    src: "MGMT"
     target: "ACCEPT"
-  - name: "Allow-DHCPv6 wan"
+  - name: "Allow-DHCPv6 WAN"
     dest_ip:
       - "fc00::/6"
     dest_port: "546"
     family: "ipv6"
     proto:
       - "udp"
-    src: "{{ openwrt_firewall_default_wanzone }}"
+    src: "WAN"
     src_ip:
       - "fc00::/6"
     target: "ACCEPT"
-  - name: "Allow-MLD wan"
+  - name: "Allow-MLD WAN"
     family: "ipv6"
     icmp_type:
       - "130/0"
@@ -176,7 +162,7 @@ openwrt_firewall_default_rules:
       - "143/0"
     proto:
       - "icmp"
-    src: "{{ openwrt_firewall_default_wanzone }}"
+    src: "WAN"
     src_ip:
       - "fe80::/10"
     target: "ACCEPT"
@@ -214,24 +200,24 @@ openwrt_firewall_default_rules:
     src: "*"
     dest: "*"
     target: "ACCEPT"
-  - name: "Allow-IPSec-ESP lan"
-    dest: " {{ openwrt_firewall_default_lanzone }}"
+  - name: "Allow-IPSec-ESP LAN"
+    dest: " LAN"
     proto:
       - "esp"
-    src: "{{ openwrt_firewall_default_wanzone }}"
+    src: "WAN"
     target: "ACCEPT"
-  - name: "Allow-ISAKMP wan"
-    dest: "{{ openwrt_firewall_default_lanzone }}"
+  - name: "Allow-ISAKMP WAN"
+    dest: "LAN"
     proto:
       - "udp"
     dest_port: "500"
-    src: "{{ openwrt_firewall_default_wanzone }}"
+    src: "WAN"
     target: "ACCEPT"
-  - name: "Support-UDP-Traceroute wan"
+  - name: "Support-UDP-Traceroute WAN"
     dest_port: "33434:33689"
     family: "ipv4"
     proto:
       - "udp"
-    src: "{{ openwrt_firewall_default_wanzone }}"
+    src: "WAN"
     target: "REJECT"
     enabled: "0"
