@@ -3,6 +3,9 @@
 config bridge-vlan
 	option device "{{ bridgevlan.device }}"
 	option vlan "{{ bridgevlan.vlan }}"
+{% if bridgevlan.vlaninfo is defined %}
+	# Vlan Description: {{ bridgevlan.vlaninfo }}
+{% endif %}
 {% if bridgevlan.ports is defined %}
 {% for port in bridgevlan.ports %}
 	list ports "{{ port }}"
