@@ -1,7 +1,7 @@
 # Configuration distributed by Ansible
 # Put your custom commands here that should be executed once
 # the system init finished. By default this file does nothing.
-{% for line in openwrt_scriptlinesafterboot %}
+{% for line in openwrt_services_scriptlinesafterboot %}
 {{ line }}
 {% endfor %}
 
