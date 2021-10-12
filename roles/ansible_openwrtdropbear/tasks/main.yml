@@ -7,6 +7,7 @@
     owner: root
     group: root
     mode: 0600
+  notify: restart dropbear
 - name: Install ssh keys into /etc/dropbear/authorized_keys
   template:
     src: dropbearkeys.jinja2
