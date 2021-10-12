@@ -1,0 +1,11 @@
+---
+# tasks file for ansible_openwrtdhcp
+- name: Install dhcp config
+  template:
+    src: dhcp.jinja2
+    dest: /etc/config/dhcp
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart dnsmasq
+
