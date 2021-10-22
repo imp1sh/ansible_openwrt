@@ -48,7 +48,7 @@
     success_msg: "host forwardings seem valid."
   loop: "{{ openwrt_firewall_forwardingsmergedgroup }}"
   when: openwrt_firewall_forwardingsmergedgroup is defined
-- name: rudimentary check of default rules
+- name: check of default rules
   assert:
     that:
       - (item.target | upper == "ACCEPT") or ( item.target | upper == "REJECT") or (item.target | upper == "DROP")
@@ -57,6 +57,22 @@
     success_msg: Rule {{ item }} seems valid."
   loop: "{{ openwrt_firewall_default_rules }}"
   when: openwrt_firewall_default_rules is defined
+- name: check for openwrt_firewall_ruleshost
+  assert:
+    that:
+      - item.port is not defined
+      - (item.target | upper == "ACCEPT") or (item.target | upper == "REJECT") or (item.target | upper == "DROP")
+    fail_msg: "openwrt_firewall_ruleshost contains errors. Make sure target is set to either ACCEPT DROP or REJECT. Do not define port, use dest_port or src_port."
+  loop: "{{ openwrt_firewall_ruleshost }}"
+  when: openwrt_firewall_ruleshost is defined
+- name: check for openwrt_firewall_rulesgroup
+  assert:
+    that:
+      - item.port is not defined
+      - (item.target | upper == "ACCEPT") or (item.target | upper == "REJECT") or (item.target | upper == "DROP")
+    fail_msg: "openwrt_firewall_rulesgroup contains errors. Make sure target is set to either ACCEPT DROP or REJECT. Do not define port, use dest_port or src_port."
+  loop: "{{ openwrt_firewall_rulesmergedgroup }}"
+  when: openwrt_firewall_rulesmergedgroup is defined
     #- name: Rudimentary check of default zones
     # needs to be reimplemented since var type changed from list to dict
     #  assert:
