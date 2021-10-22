@@ -56,9 +56,15 @@ config dnsmasq
 {% for pool in openwrt_dhcp_poolshost %}
 config dhcp "{{ pool['name'] }}"
 	option interface "{{ pool['interface'] }}"
+{% if pool['leasetime'] is defined %}
 	option leasetime "{{ pool['leasetime'] | default('12h', true) }}"
+{% endif %}
+{% if pool['start'] is defined %}
 	option start "{{ pool['start'] }}"
+{% endif %}
+{% if pool['limit'] is defined %}
 	option limit "{{ pool['limit'] }}"
+{% endif %}
 {% if pool['dhcp_option'] is defined %}
 {% for option in pool['dhcp_option'] %}
 	list dhcp_option "{{ option }}"
