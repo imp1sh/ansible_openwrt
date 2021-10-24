@@ -1,0 +1,26 @@
+---
+- name: Install restic and other needed software
+  opkg:
+    name: restic,openssh-client-utils,shadow-usermod
+    state: present
+    update_cache: yes
+- name: add /etc/config/installed.packages to sysupgrade config
+  lineinfile:
+    path: /etc/sysupgrade.conf
+    line: /etc/config/installed.packages
+    regexp: /etc/config/installed.packages
+    state: present
+- name: deploy restic configuration
+  template:
+    src: restic.conf.jinja2
+    dest: /etc/restic
+    owner: root
+    group: root
+    mode: 0600
+- name: deploy restic password file
+  template:
+    src: password.jinja2
+    dest: /etc/resticpassword
+    owner: root
+    group: root
+    mode: 0600
