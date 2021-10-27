@@ -3,3 +3,4 @@ This is an Ansible collection for OpenWrt devices. It will only work if you have
 It's being tested with virtualized x86 OpenWrt instances that obviously don't suffer from this problem.
 
 Click the link for the [documentation.](https://wiki.junicast.de/de/junicast/docs/ansible_openwrt)
+Here is a [Youtube video](https://youtu.be/f1qrP3AagLM) I made in order to introduce it.
