@@ -24,7 +24,7 @@ openwrt_firewall_default_zones:
   NEIGHBOURS:
     forward: "ACCEPT"
     input: "REJECT"
-    output: "REJECT"
+    output: "ACCEPT"
     log: "1"
   GUESTS:
     forward: "ACCEPT"
