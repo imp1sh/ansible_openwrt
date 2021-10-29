@@ -1,0 +1,8 @@
+---
+# tasks file for ansible_openwrtpackage
+- name: Install tasks
+  include_tasks: "install.yml"
+  when: openwrt_packagesinstallhost is defined or openwrt_packagesinstallgroup is defined
+- name: Remove tasks
+  include_tasks: "remove.yml"
+  when: openwrt_packagesremovehost is defined or openwrt_packagesremovegroup is defined
