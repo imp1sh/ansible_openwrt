@@ -1,5 +1,8 @@
 ---
 # tasks file for ansible_openwrtdhcp
+- name: merge dhcp group pools
+  include_tasks: merge.yml
+  when: openwrt_dhcp_poolsgroup is defined
 - name: Install dhcp config
   template:
     src: dhcp.jinja2
