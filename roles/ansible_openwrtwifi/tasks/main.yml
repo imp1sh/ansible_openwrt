@@ -1,0 +1,10 @@
+---
+# tasks file for ansible_openwrtwifi
+- name: deploy wifi config
+  template:
+    src: "wireless.jinja2"
+    dest: "/etc/config/wireless"
+    owner: "root"
+    group: "root"
+    mode: "0600"
+  notify: restart wifi
