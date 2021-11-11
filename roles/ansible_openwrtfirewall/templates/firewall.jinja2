@@ -51,7 +51,9 @@ config defaults "defaults"
 
 # Zones
 # Ansible default zones
+{% if openwrt_firewall_setdefaultzones %}
 {{ functions.create_dictzone(openwrt_firewall_default_zones) }}
+{% endif %}
 # Ansible group based zones
 {% if openwrt_firewall_zonesmergedgroup is defined %}
 {% for zone in openwrt_firewall_zonesmergedgroup %}
@@ -65,10 +67,12 @@ config defaults "defaults"
 
 # Forwardings
 # Ansible default forwardings
+{% if openwrt_firewall_setdefaultzones %}
 {% if openwrt_firewall_default_forwardings is defined %}
 {% for forwarding in openwrt_firewall_default_forwardings %}
 {{ functions.create_forwarding(forwarding) }}
 {% endfor %}
+{% endif %}
 {% endif %}
 # Ansible group based forwardings
 {% if openwrt_firewall_forwardingsmergedgroup is defined %}
@@ -85,9 +89,11 @@ config defaults "defaults"
 
 # Rules
 # Ansible default rules
+{% if openwrt_firewall_setdefaultzones %}
 {% for rule in openwrt_firewall_default_rules %}
 {{ functions.create_filter(rule) }}
 {% endfor %}
+{% endif %}
 # Ansible group based rules
 {% if openwrt_firewall_rulesmergedgroup is defined %}
 {% for rule in openwrt_firewall_rulesmergedgroup | sort(attribute='src') %}
