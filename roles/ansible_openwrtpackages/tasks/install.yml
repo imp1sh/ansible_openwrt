@@ -14,8 +14,10 @@
 - name: Cast from list to comma seperated string - Install
   set_fact:
     openwrt_packages_install: "{{ (openwrt_packagesinstallmergedgroup + openwrt_packagesinstallhost) | join (',') }}"
+  when: openwrt_packagesinstallmergedgroup is defined
 - name: Install packages
   opkg:
     name: "{{ openwrt_packages_install }}"
     state: present
     update_cache: yes
+  when: openwrt_packages_install is defined
