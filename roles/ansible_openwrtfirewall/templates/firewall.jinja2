@@ -90,24 +90,9 @@ config defaults "defaults"
 {% endif %}
 
 # Rules
-# Ansible default rules
-{% if openwrt_firewall_setdefaultzones %}
-{% for rule in openwrt_firewall_default_rules %}
+{% for rule in openwrt_firewall_rulesall | sort(attribute='src') %}
 {{ functions.create_filter(rule) }}
 {% endfor %}
-{% endif %}
-# Ansible group based rules
-{% if openwrt_firewall_rulesmergedgroup is defined %}
-{% for rule in openwrt_firewall_rulesmergedgroup | sort(attribute='src') %}
-{{ functions.create_filter(rule) }}
-{% endfor %}
-{% endif %}
-# Ansible host based rules
-{% if openwrt_firewall_ruleshost is defined %}
-{% for rule in openwrt_firewall_ruleshost | sort(attribute='src') %}
-{{ functions.create_filter(rule) }}
-{% endfor %}
-{% endif %}
 
 config include "include1"
         option path "/etc/firewall.user"
