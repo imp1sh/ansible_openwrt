@@ -1,3 +1,4 @@
 ---
 # defaults file for ansible_openwrtsystem
 openwrt_system_ttylogin: "1"
+openwrt_system_kernellogonconsole: false

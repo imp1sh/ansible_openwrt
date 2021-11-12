@@ -4,8 +4,6 @@
   import_tasks: merge.yml
 - name: Run checks on variables
   import_tasks: checks.yml
-- name: Set kernel logging console
-  import_tasks: kernellog.yml
 - name: Create firewall uci in /etc/config/firewall
   template:
     src: "firewall.jinja2"
