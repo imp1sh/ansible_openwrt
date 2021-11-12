@@ -57,7 +57,9 @@ config defaults "defaults"
 # Ansible group based zones
 {% if openwrt_firewall_zonesmergedgroup is defined %}
 {% for zone in openwrt_firewall_zonesmergedgroup %}
+{% if ( zone['disabled'] is not defined ) or ( zone['disabled'] is defined and not zone['disabled'] ) %}
 {{ functions.create_zone(zone) }}
+{% endif %}
 {% endfor %}
 {% endif %}
 # Ansible host based zones

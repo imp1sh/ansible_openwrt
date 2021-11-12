@@ -33,6 +33,7 @@ config zone
 
 {% macro create_dictzone(zones) %}
 {% for key, value in zones.items() %}
+{% if ( value['disabled'] is not defined ) or ( value['disabled'] is defined and not value['disabled'] )%}
 config zone
 	option name "{{ key }}"
 	option forward "{{ value['forward'] }}"
@@ -61,6 +62,7 @@ config zone
 {% for masq_dest in value['masq_dest'] %}
 	list masq_dest "{{ masq_dest }}"
 {% endfor %}
+{% endif %}
 {% endif %}
 
 {% endfor %}
