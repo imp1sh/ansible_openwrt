@@ -215,7 +215,7 @@ openwrt_firewall_default_rules:
     src: "WAN"
     target: "ACCEPT"
   - name: "Support-UDP-Traceroute WAN"
-    dest_port: "33434:33689"
+    dest_port: "33434-33689"
     family: "ipv4"
     proto:
       - "udp"
