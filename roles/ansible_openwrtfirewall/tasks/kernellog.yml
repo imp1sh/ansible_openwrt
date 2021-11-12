@@ -1,0 +1,14 @@
+---
+- name: enable kernel logging on console
+  file:
+    path: "/etc/sysctl.d/kernellogging.conf"
+    state: absent
+  when: openwrt_firewall_kernellogonconsole
+- name: disable kernel logging on console
+  template:
+    src: "sysctl.conf.jinja2"
+    dest: "/etc/sysctl.d/kernellogging.conf"
+    mode: 0644
+    owner: "root"
+    group: "root"
+  when: not openwrt_firewall_kernellogonconsole 

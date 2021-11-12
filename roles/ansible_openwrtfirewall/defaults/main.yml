@@ -1,6 +1,7 @@
 ---
 # defaults file for ansible_openwrtfirewall
 # global parameters
+openwrt_firewall_kernellogonconsole: false
 openwrt_firewall_setdefaultzones: true
 openwrt_firewall_default_forward: "REJECT"
 openwrt_firewall_default_input: "ACCEPT"
