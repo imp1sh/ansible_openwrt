@@ -18,9 +18,6 @@
     - "openwrt_firewall_default_flow_offloading"
     - "openwrt_firewall_default_flow_offloading_hw"
     - "openwrt_firewall_default_drop_invalid"
-- name: debug var
-  debug:
-    var: openwrt_firewall_default_forwardings | type_debug
 - name: check default forwards
   assert:
     that:
