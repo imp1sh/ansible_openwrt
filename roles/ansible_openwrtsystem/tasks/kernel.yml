@@ -6,9 +6,16 @@
   when: openwrt_system_kernellogonconsole
 - name: disable kernel logging on console
   template:
-    src: "sysctl.conf.jinja2"
+    src: "kernellogging.conf.jinja2"
     dest: "/etc/sysctl.d/kernellogging.conf"
     mode: 0644
     owner: "root"
     group: "root"
   when: not openwrt_system_kernellogonconsole 
+- name: set additional kernel parameters in sysctl.conf
+  template:
+    src: sysctl.conf.jinja2
+    dest: "/etc/sysctl.conf"
+    mode: 0644
+    owner: "root"
+    group: "root"

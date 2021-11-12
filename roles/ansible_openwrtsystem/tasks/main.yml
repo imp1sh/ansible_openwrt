@@ -3,7 +3,7 @@
 - name: Run checks if variables meet the requirements
   import_tasks: checks.yml
 - name: Set kernel logging console
-  import_tasks: kernellog.yml
+  import_tasks: kernel.yml
 - name: Install system config /etc/config/system
   template:
     src: system.jinja2

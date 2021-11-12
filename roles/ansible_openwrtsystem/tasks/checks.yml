@@ -45,3 +45,15 @@
     fail_msg: "openwrt_system_ntp_enabled must be either 0 or 1."
     success_msg: "openwrt_system_ntp_enabled is valid."
   when: openwrt_system_ntp_enabled is defined
+    # not working, check later, why
+    #- name: run checkint tasks
+    #  include_tasks: checkint.yml
+    #  loop:
+    #    - "{{ openwrt_system_nf_conntrack_acct }}"
+    #    - "{{ openwrt_system_nf_conntrack_checksum }}"
+    #    - "{{ openwrt_system_nf_conntrack_max }}"
+    #    - "{{ openwrt_system_nf_conntrack_tcp_timeout_established }}"
+    #    - "{{ openwrt_system_nf_conntrack_udp_timeout }}"
+    #    - "{{ openwrt_system_nf_conntrack_udp_timeout_stream }}"
+    #  loop_control:
+    #    loop_var: kernelvariable
