@@ -1,16 +1,19 @@
 # Zones
 - name: merge group firewall zones from different groups
   set_fact:
-    openwrt_firewall_zonesmergedgroup: "{{ openwrt_firewall_zonesgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_zonesgroup) | list | flatten }}"
+    openwrt_firewall_zonesmergedgroup: "{{ openwrt_firewall_zonesgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_zonesgroup) | combine }}"
   when: openwrt_firewall_zonesgroup is defined
+- name: combine all zones into openwrt_firewall_zonesall
+  set_fact:
+    openwrt_firewall_zonesall: "{{ openwrt_firewall_zonesdefault | combine(openwrt_firewall_zoneshost | default({}), openwrt_firewall_zonesmergedgroup | default({}) ) }}"
 # Rules
 - name: merge group firewall rules from different groups
   set_fact:
-    openwrt_firewall_rulesmergedgroup: "{{ openwrt_firewall_rulesgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_rulesgroup) | list | flatten }}"
+    openwrt_firewall_rulesmergedgroup: "{{ openwrt_firewall_rulesgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_rulesgroup) | combine }}"
   when: openwrt_firewall_rulesgroup is defined
-- name: merge all firewall rules into one array
+- name: combine all rules into openwrt_firewall_rulesall
   set_fact:
-    openwrt_firewall_rulesall: "{{ openwrt_firewall_default_rules | default([]) + openwrt_firewall_rulesmergedgroup | default ([]) + openwrt_firewall_ruleshost | default([]) }}"
+    openwrt_firewall_rulesall: "{{ openwrt_firewall_rulesdefault | combine(openwrt_firewall_ruleshost | default({}), openwrt_firewall_rulesmergedgroup | default({}) ) }}"
 # Forwardings
 - name: merge group firewall forwardings from different groups
   set_fact:

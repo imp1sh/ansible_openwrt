@@ -1,6 +1,6 @@
 ---
 # tasks file for ansible_openwrtfirewall
-- name: Merge Groups
+- name: Merge rules, zones and forwardings
   import_tasks: merge.yml
 - name: Run checks on variables
   import_tasks: checks.yml

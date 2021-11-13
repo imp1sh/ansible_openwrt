@@ -25,8 +25,8 @@
       - item.dest is defined
     fail_msg: "forwarding list item needs a src AND dest key."
     success_msg: "forwarding item seems valid."
-  loop: "{{ openwrt_firewall_default_forwardings }}"
-  when: openwrt_firewall_default_forwardings is defined
+  loop: "{{ openwrt_firewall_forwardingsdefault }}"
+  when: openwrt_firewall_forwardingsdefault is defined
 - name: check host based forwardings
   assert:
     that:
@@ -45,48 +45,26 @@
     success_msg: "host forwardings seem valid."
   loop: "{{ openwrt_firewall_forwardingsmergedgroup }}"
   when: openwrt_firewall_forwardingsmergedgroup is defined
-- name: check of default rules
-  assert:
-    that:
-      - (item.target | upper == "ACCEPT") or ( item.target | upper == "REJECT") or (item.target | upper == "DROP")
-      - item.src is defined
-    fail_msg: "Rule {{ item }} target is invalid, needs to be either REJECT, DROP or ACCEPT"
-    success_msg: Rule {{ item }} seems valid."
-  loop: "{{ openwrt_firewall_default_rules }}"
-  when: openwrt_firewall_default_rules is defined
-- name: check for openwrt_firewall_ruleshost
-  assert:
-    that:
-      - item.port is not defined
-      - (item.target | upper == "ACCEPT") or (item.target | upper == "REJECT") or (item.target | upper == "DROP")
-    fail_msg: "openwrt_firewall_ruleshost contains errors. Make sure target is set to either ACCEPT DROP or REJECT. Do not define port, use dest_port or src_port."
-  loop: "{{ openwrt_firewall_ruleshost }}"
-  when: openwrt_firewall_ruleshost is defined
-- name: check for openwrt_firewall_rulesgroup
-  assert:
-    that:
-      - item.port is not defined
-      - (item.target | upper == "ACCEPT") or (item.target | upper == "REJECT") or (item.target | upper == "DROP")
-    fail_msg: "openwrt_firewall_rulesgroup contains errors. Make sure target is set to either ACCEPT DROP or REJECT. Do not define port, use dest_port or src_port."
-  loop: "{{ openwrt_firewall_rulesmergedgroup }}"
-  when: openwrt_firewall_rulesmergedgroup is defined
-    #- name: Rudimentary check of default zones
-    # needs to be reimplemented since var type changed from list to dict
+    # this check is bullshit, need to write new checks for rules
+    #- name: rudimentary checks on rules
     #  assert:
-    #    that: 
-    #      - (item.forward | upper == "ACCEPT") or (item.forward | upper == "REJECT") or (item.forward | upper == "DROP")
-    #      - (item.input | upper == "ACCEPT") or (item.input | upper == "REJECT") or (item.input | upper == "DROP")
-    #      - (item.output | upper == "ACCEPT") or (item.output | upper == "REJECT") or (item.output | upper == "DROP")
-    #    fail_msg: "Zone {{ item }} is invalid. Use only ACCEPT, FORWARD and REJECT for input, output and forward as values."
-    #    success_msg: "Zone {{ item }} seems valid."
-    #  loop: "{{ openwrt_firewall_default_zones }}"
-    #  when: openwrt_firewall_default_zones is defined
-      #- name: Check default zones
-      #  assert:
-      #    that: openwrt_firewall_default_forwardings['{{ item }}'] is defined
-      #    fail_msg: "openwrt_firewall_default_forwardings needs attribute {{ item }}."
-      #    success_msg: openwrt_firewall_default_forwardings attribute {{ item }} seems valid.
-      #  loop:
-      #    - "src"
-      #    - "dest"
-      #  when: openwrt_firewall_default_forwardings is defined
+    #    that:
+    #      - item.value.src is defined
+    #    fail_msg: "Rule {{ item.key}} contains errors, it has no attribute src."
+    #    success_msg: "Rule {{ item.key }} seems OK."
+    #  loop: "{{ openwrt_firewall_rulesall | dict2items }}"
+- name: rudimentary checks on zones
+  assert:
+    that:
+      - (item.value.forward | upper == "ACCEPT") or (item.value.forward | upper == "REJECT") or (item.value.forward | upper == "DROP")
+      - (item.value.input | upper == "ACCEPT") or (item.value.input | upper == "REJECT") or (item.value.input | upper == "DROP")
+      - (item.value.output | upper == "ACCEPT") or (item.value.output | upper == "REJECT") or (item.value.output | upper == "DROP")
+    fail_msg: "Zone {{ item.key }} is invalid. Attribute forward, input and ouput need to be either ACCEPT, REJECT or DROP."
+    success_msg: "Zone {{ item.key }} seems OK."
+  loop: "{{ openwrt_firewall_zonesall | dict2items }}"
+    #- name: show all rules
+    #  debug:
+    #    var: openwrt_firewall_rulesall
+    #- name: show all zones
+    #  debug:
+    #    var: openwrt_firewall_zonesall

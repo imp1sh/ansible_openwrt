@@ -50,28 +50,13 @@ config defaults "defaults"
 {% endif %}
 
 # Zones
-# Ansible default zones
-{% if openwrt_firewall_setdefaultzones %}
-{{ functions.create_dictzone(openwrt_firewall_default_zones) }}
-{% endif %}
-# Ansible group based zones
-{% if openwrt_firewall_zonesmergedgroup is defined %}
-{% for zone in openwrt_firewall_zonesmergedgroup %}
-{% if ( zone['disabled'] is not defined ) or ( zone['disabled'] is defined and not zone['disabled'] ) %}
-{{ functions.create_zone(zone) }}
-{% endif %}
-{% endfor %}
-{% endif %}
-# Ansible host based zones
-{% if openwrt_firewall_zoneshost is defined %}
-{{ functions.create_dictzone(openwrt_firewall_zoneshost) }}
-{% endif %}
+{{ functions.create_zones(openwrt_firewall_zonesall) }}
 
 # Forwardings
 # Ansible default forwardings
 {% if openwrt_firewall_setdefaultzones %}
-{% if openwrt_firewall_default_forwardings is defined %}
-{% for forwarding in openwrt_firewall_default_forwardings %}
+{% if openwrt_firewall_forwardingsdefault is defined %}
+{% for forwarding in openwrt_firewall_forwardingsdefault %}
 {{ functions.create_forwarding(forwarding) }}
 {% endfor %}
 {% endif %}
@@ -90,9 +75,7 @@ config defaults "defaults"
 {% endif %}
 
 # Rules
-{% for rule in openwrt_firewall_rulesall | sort(attribute='src') %}
-{{ functions.create_filter(rule) }}
-{% endfor %}
+{{ functions.create_rules(openwrt_firewall_rulesall) }}
 
 config include "include1"
         option path "/etc/firewall.user"

@@ -10,11 +10,11 @@ openwrt_firewall_default_flow_offloading: "0"
 openwrt_firewall_default_flow_offloading_hw: "0"
 openwrt_firewall_default_drop_invalid: "0"
 # default forwardings
-openwrt_firewall_default_forwardings:
+openwrt_firewall_forwardingsdefault:
   - src: "LAN"
     dest: "WAN"
 # default policies for the default zones
-openwrt_firewall_default_zones:
+openwrt_firewall_zonesdefault:
   WAN:
     forward: "REJECT"
     input: "REJECT"
@@ -48,8 +48,8 @@ openwrt_firewall_default_zones:
     output: "ACCEPT"
     log: "1"
 # default rules
-openwrt_firewall_default_rules:
-  - name: "Allow-Ping WAN to firewall"
+openwrt_firewall_rulesdefault:
+  "Allow-Ping WAN to firewall":
     family: "ipv4"
     icmp_type:
       - "echo-request"
@@ -57,48 +57,48 @@ openwrt_firewall_default_rules:
       - "icmp"
     src: "WAN"
     target: "ACCEPT"
-  - name: "Allow-IGMP WAN to firewall"
+  "Allow-IGMP WAN to firewall":
     family: "ipv4"
     proto:
       - "igmp"
     src: "WAN"
     target: "ACCEPT"
-  - name: "DHCPv4 NEIGHBOURS"
+  "DHCPv4 NEIGHBOURS":
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
     src: "NEIGHBOURS"
     target: "ACCEPT"
-  - name: "DHCPv4 GUESTS"
+  "DHCPv4 GUESTS":
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
     src: "GUESTS"
     target: "ACCEPT"
-  - name: "DHCPv4 LAN"
+  "DHCPv4 LAN":
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
     src: "LAN"
     target: "ACCEPT"
-  - name: "DHCPv4 MGMT"
+  "DHCPv4 MGMT":
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
     src: "MGMT"
     target: "ACCEPT"
-  - name: "DHCPv4 DMZ"
+  "DHCPv4 DMZ":
     dest_port: "67"
     family: "ipv4"
     proto:
       - "udp"
     src: "DMZ"
     target: "ACCEPT"
-  - name: "DHCPv6 MGMT"
+  "DHCPv6 MGMT":
     dest_port: "547"
     family: "ipv6"
     proto:
@@ -107,7 +107,7 @@ openwrt_firewall_default_rules:
       - "fe80::/10"
     src: "MGMT"
     target: "ACCEPT"
-  - name: "DHCPv6 GUESTS"
+  "DHCPv6 GUESTS":
     dest_port: "547"
     family: "ipv6"
     proto:
@@ -116,7 +116,7 @@ openwrt_firewall_default_rules:
       - "fe80::/10"
     src: "GUESTS"
     target: "ACCEPT"
-  - name: "DHCPv6 LAN"
+  "DHCPv6 LAN":
     dest_port: "547"
     family: "ipv6"
     proto:
@@ -125,7 +125,7 @@ openwrt_firewall_default_rules:
       - "fe80::/10"
     src: "LAN"
     target: "ACCEPT"
-  - name: "DHCPv6 DMZ"
+  "DHCPv6 DMZ":
     dest_port: "547"
     family: "ipv6"
     proto:
@@ -134,7 +134,7 @@ openwrt_firewall_default_rules:
       - "fe80::/10"
     src: "DMZ"
     target: "ACCEPT"
-  - name: "DHCPv6 MGMT"
+  "DHCPv6 MGMT":
     dest_port: "547"
     family: "ipv6"
     proto:
@@ -143,7 +143,7 @@ openwrt_firewall_default_rules:
       - "fe80::/10"
     src: "MGMT"
     target: "ACCEPT"
-  - name: "Allow-DHCPv6 WAN"
+  "Allow-DHCPv6 WAN":
     dest_ip:
       - "fc00::/6"
     dest_port: "546"
@@ -154,7 +154,7 @@ openwrt_firewall_default_rules:
     src_ip:
       - "fc00::/6"
     target: "ACCEPT"
-  - name: "Allow-MLD WAN"
+  "Allow-MLD WAN":
     family: "ipv6"
     icmp_type:
       - "130/0"
@@ -167,7 +167,7 @@ openwrt_firewall_default_rules:
     src_ip:
       - "fe80::/10"
     target: "ACCEPT"
-  - name: "Allow-ICMPv6-Input"
+  "Allow-ICMPv6-Input":
     family: "ipv6"
     icmp_type:
         -  "echo-request"
@@ -186,7 +186,7 @@ openwrt_firewall_default_rules:
       - "icmp"
     src: "*"
     target: "ACCEPT"
-  - name: "Allow-ICMPv6-Forward any to any"
+  "Allow-ICMPv6-Forward any to any":
     family: "ipv6"
     icmp_type:
         - "destination-unreachable"
@@ -201,20 +201,20 @@ openwrt_firewall_default_rules:
     src: "*"
     dest: "*"
     target: "ACCEPT"
-  - name: "Allow-IPSec-ESP LAN"
+  "Allow-IPSec-ESP LAN":
     dest: " LAN"
     proto:
       - "esp"
     src: "WAN"
     target: "ACCEPT"
-  - name: "Allow-ISAKMP WAN"
+  "Allow-ISAKMP WAN":
     dest: "LAN"
     proto:
       - "udp"
     dest_port: "500"
     src: "WAN"
     target: "ACCEPT"
-  - name: "Support-UDP-Traceroute WAN"
+  "Support-UDP-Traceroute WAN":
     dest_port: "33434-33689"
     family: "ipv4"
     proto:
