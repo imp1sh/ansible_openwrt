@@ -1,0 +1,48 @@
+config general
+        option ipv6_subtrees 'true'
+        option ubus_bindings 'true'
+        option random_id 'true'
+        option local_port '33123'
+
+{% if openwrt_babeld_interfaces is defined %}
+{% for interface in openwrt_babeld_interfaces %}
+config interface
+        option ifname "{{ interface['name'] }}"
+{% if interface['type'] is defined %}
+	option type "{{ interface['type'] }}"
+{% endif %}
+{% if interface['max_rtt_penalty'] is defined %}
+	option max_rtt_penalty "{{ interface['max_rtt_penalty'] }}"
+{% endif %}
+
+{% endfor %}
+{% endif %}
+
+{% if openwrt_babeld_prefixes is defined %}
+config filter
+{% for prefix in openwrt_babeld_prefixes %}
+        option type "redistribute"
+        option ip "{{ prefix }}"
+        option eq "{{ prefix | ipaddr('prefix') }}"
+        option proto '4'
+
+{% endfor %}
+{% endif %}
+
+{% if openwrt_babeld_collectedprefixes is defined %}
+config filter
+	option type "redistribute"
+	option ip "{{ openwrt_babeld_collectedprefixes.stdout }}"
+	option eq "{{ openwrt_babeld_collectedprefixes.stdout | ipaddr('prefix') }}"
+	option proto "4"
+
+{% endif %}
+
+{% if openwrt_babeld_ulaprefix is defined %}
+config filter
+	option type "redistribute"
+	option ip "{{ openwrt_babeld_ulaprefix.stdout }}"
+	option eq "{{ openwrt_babeld_ulaprefix.stdout | ipaddr('prefix') }}"
+	option proto "4"
+
+{% endif %}

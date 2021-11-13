@@ -1,0 +1,10 @@
+---
+# tasks file for ansible_openwrtbatmanadv
+- name: Install batman-adv software
+  package:
+    name:
+      - kmod-batman-adv
+      - alfred
+      - batctl-full
+    state: present
+
