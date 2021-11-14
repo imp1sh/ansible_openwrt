@@ -4,4 +4,5 @@ openwrt_defaultinterfaces:
   loopback:
     device: "lo"
     proto: "static"
-    ipaddr: "127.0.0.1/8"
+    ipaddr:
+      - "127.0.0.1/8"

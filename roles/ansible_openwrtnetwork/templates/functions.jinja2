@@ -143,11 +143,9 @@ config interface "{{ key }}"
         option gateway "{{ value['gateway'] }}"
 {% endif %}
 {% if value['ipaddr'] is defined %}
-        option ipaddr "{{ value['ipaddr'] | ipaddr('address') }}"
-        option netmask "{{ value['ipaddr'] | ipaddr('netmask') }}"
-{% if value['broadcast'] is defined %}
-        option broadcast "{{ value['broadcast'] }}"
-{% endif %}
+{% for singleip in value['ipaddr'] %}
+	list ipaddr "{{ singleip }}"
+{% endfor %}
 {% endif %}
 {% if value['ip6assign'] is defined %}
 	option ip6assign "{{ value['ip6assign'] }}"
