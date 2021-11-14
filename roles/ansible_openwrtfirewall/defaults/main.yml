@@ -5,10 +5,10 @@ openwrt_firewall_setdefaultzones: true
 openwrt_firewall_default_forward: "REJECT"
 openwrt_firewall_default_input: "ACCEPT"
 openwrt_firewall_default_output: "ACCEPT"
-openwrt_firewall_default_synflood_protect: "1"
-openwrt_firewall_default_flow_offloading: "0"
-openwrt_firewall_default_flow_offloading_hw: "0"
-openwrt_firewall_default_drop_invalid: "0"
+openwrt_firewall_default_synflood_protect: 1
+openwrt_firewall_default_flow_offloading: 0
+openwrt_firewall_default_flow_offloading_hw: 0
+openwrt_firewall_default_drop_invalid: 0
 # default forwardings
 openwrt_firewall_forwardingsdefault:
   - src: "LAN"
