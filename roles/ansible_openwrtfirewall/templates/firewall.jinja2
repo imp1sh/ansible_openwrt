@@ -77,6 +77,9 @@ config defaults "defaults"
 # Rules
 {{ functions.create_rules(openwrt_firewall_rulesall) }}
 
+# Redirects
+{{ functions.create_redirects(openwrt_firewall_redirectsall) }}
+
 config include "include1"
         option path "/etc/firewall.user"
 

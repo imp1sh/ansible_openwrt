@@ -8,16 +8,19 @@
     - "openwrt_firewall_default_forward"
     - "openwrt_firewall_default_input"
     - "openwrt_firewall_default_output"
-- name: Check all variables that either need to be 1 or 0
-  assert:
-    that: ({{ item }}== "1") or ({{ item }}=="0")
-    fail_msg: "{{ item }} needs to be 1 or 0."
-    success_msg: "{{ item }} is valid."
-  loop:
-    - "openwrt_firewall_default_synflood_protect"
-    - "openwrt_firewall_default_flow_offloading"
-    - "openwrt_firewall_default_flow_offloading_hw"
-    - "openwrt_firewall_default_drop_invalid"
+      # check somehow not working
+      #- name: Check all variables that either need to be 1 or 0
+      #  assert:
+      #    that:
+      #      - item is int
+      #        #- item == 1 or item == 0
+      #    fail_msg: "{{ item }} needs to be 1 or 0."
+      #    success_msg: "{{ item }} is valid."
+      #  loop:
+      #    - "openwrt_firewall_default_synflood_protect"
+      #    - "openwrt_firewall_default_flow_offloading"
+      #    - "openwrt_firewall_default_flow_offloading_hw"
+      #    - "openwrt_firewall_default_drop_invalid"
 - name: check default forwards
   assert:
     that:

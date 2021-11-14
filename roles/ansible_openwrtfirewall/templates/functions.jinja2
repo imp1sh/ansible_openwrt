@@ -1,3 +1,94 @@
+{% macro create_redirects(allredirects) %}
+{% for key, value in allredirects.items() %}
+config redirect
+	option name "{{ key }}"
+	option src "{{ value['src'] }}"
+{% if value['src_ip'] is defined %}
+	option src_ip "{{ value['src_ip'] }}"
+{% endif %}
+{% if value['src_dip'] is defined %}
+	option src_dip "{{ value['src_dip'] }}"
+{% endif %}
+{% if value['src_mac'] is defined %}
+	option src_mac "{{ value['src_mac'] }}"
+{% endif %}
+{% if value['src_port'] is defined %}
+	option src_port "{{ value['src_port'] }}"
+{% endif %}
+{% if value['proto'] is defined %}
+	option proto "{{ value['proto'] }}"
+{% endif %}
+{% if value['dest'] is defined %}
+	option dest "{{ value['dest'] }}"
+{% endif %}
+{% if value['dest_ip'] is defined %}
+	option dest_ip "{{ value['dest_ip'] }}"
+{% endif %}
+{% if value['dest_port'] is defined %}
+	option dest_port "{{ value['dest_port'] }}"
+{% endif %}
+{% if value['ipset'] is defined %}
+	option ipset "{{ value['ipset'] }}"
+{% endif %}
+{% if value['mark'] is defined %}
+	option mark "{{ value['mark'] }}"
+{% endif %}
+{% if value['start_date'] is defined %}
+	option start_date "{{ value['start_date'] }}"
+{% endif %}
+{% if value['stop_date'] is defined %}
+	option stop_date "{{ value['stop_date'] }}"
+{% endif %}
+{% if value['start_time'] is defined %}
+	option start_time "{{ value['start_time'] }}"
+{% endif %}
+{% if value['stop_time'] is defined %}
+	option stop_time "{{ value['stop_time'] }}"
+{% endif %}
+{% if value['weekdays'] is defined %}
+{% for weekday in value['weekdays'] %}
+	list weekdays "{{ weekday }}"
+{% endfor %}
+{% endif %}
+{% if value['monthdays'] is defined %}
+{% for monthday in value['monthdays'] %}
+	option monthdays "{{ monthday }}"
+{% endfor %}
+{% endif %}
+{% if value['utc_time'] is defined %}
+	option utc_time "{{ value['utc_time'] }}"
+{% endif %}
+{% if value['target'] is defined %}
+	option target "{{ value['target'] }}"
+{% endif %}
+{% if value['family'] is defined %}
+	option family "{{ value['family'] }}"
+{% endif %}
+{% if value['reflection'] is defined %}
+	option reflection "{{ value['reflection'] }}"
+{% endif %}
+{% if value['reflection_src'] is defined %}
+	option reflection_src "{{ value['reflection_src'] }}"
+{% endif %}
+{% if value['limit'] is defined %}
+	option limit "{{ value['limit'] }}"
+{% endif %}
+{% if value['limit_burst'] is defined %}
+	option limit_burst "{{ value['limit_burst'] }}"
+{% endif %}
+{% if value['extra'] is defined %}
+	option extra "{{ value['extra'] }}"
+{% endif %}
+{% if value['enabled'] is defined %}
+	option enabled "{{ value['enabled'] }}"
+{% endif %}
+{% if value['hellper'] is defined %}
+	option hellper "{{ value['hellper'] }}"
+{% endif %}
+
+{% endfor %}
+{% endmacro %}
+
 {% macro create_zones(allzones) %}
 {% for key, value in allzones.items() %}
 {% if ( value['disabled'] is not defined ) or ( value['disabled'] is defined and not value['disabled'] )%}
