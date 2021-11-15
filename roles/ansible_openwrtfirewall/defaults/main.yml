@@ -202,7 +202,7 @@ openwrt_firewall_rulesdefault:
     dest: "*"
     target: "ACCEPT"
   "Allow-IPSec-ESP LAN":
-    dest: " LAN"
+    dest: "LAN"
     proto:
       - "esp"
     src: "WAN"
