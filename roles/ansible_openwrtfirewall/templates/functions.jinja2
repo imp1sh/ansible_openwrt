@@ -85,7 +85,6 @@ config redirect
 {% if value['hellper'] is defined %}
 	option hellper "{{ value['hellper'] }}"
 {% endif %}
-
 {% endfor %}
 {% endmacro %}
 
@@ -122,28 +121,31 @@ config zone
 {% endfor %}
 {% endif %}
 {% endif %}
-
 {% endfor %}
 {% endmacro %}
 
-{% macro create_forwarding(singleforward) %}
+{% macro create_forwardings(allforwardings) %}
+{% for forwarding in allforwardings %}
+{% if forwarding['src'] in openwrt_firewall_zonesactive and forwarding['dest'] in openwrt_firewall_zonesactive %}
 config forwarding
-        option src "{{ singleforward['src'] }}"
-	option dest "{{ singleforward['dest'] }}"
-{% if singleforward['name'] is defined %}
-        option name "{{ singleforward['name'] }}"
+	option src "{{ forwarding['src'] }}"
+	option dest "{{ forwarding['dest'] }}"
+{% if forwarding['name'] is defined %}
+        option name "{{ forwarding['name'] }}"
 {% endif %}
-{% if singleforward['family'] is defined %}
-        option family "{{ singleforward['family'] }}"
+{% if forwarding['family'] is defined %}
+        option family "{{ forwarding['family'] }}"
 {% endif %}
-{% if singleforward['enabled'] is defined %}
-        option enabled "{{ singleforward['enabled'] }}"
+{% if forwarding['enabled'] is defined %}
+        option enabled "{{ forwarding['enabled'] }}"
 {% endif %}
-
+{% endif %}
+{% endfor %}
 {% endmacro %}
 
 {% macro create_rules(allrules) %}
 {% for key, value in allrules.items() %}
+{% if ( value['src'] is defined and value['dest'] is defined and ( (value['src'] in openwrt_firewall_zonesactive or value['src'] == "*" ) and (value['dest'] in openwrt_firewall_zonesactive or value['dest'] == "*" ))) or   (( value['src'] is defined and value['dest'] is not defined and (value['src'] in openwrt_firewall_zonesactive or value['src'] == "*")) or ( value['dest'] is defined and value['src'] is not defined and ( value['dest'] in openwrt_firewall_zonesactive or value['dest'] == "*" ))) %}
 config rule
 	option name "{{ key }}"
 {% if value['enabled'] is defined %}
@@ -200,6 +202,6 @@ config rule
 	option limit "{{ value['limit'] }}"
 {% endif %}
 	option target "{{ value['target'] }}"
-
+{% endif %}
 {% endfor %}
 {% endmacro %}

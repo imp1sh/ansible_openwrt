@@ -53,26 +53,7 @@ config defaults "defaults"
 {{ functions.create_zones(openwrt_firewall_zonesall) }}
 
 # Forwardings
-# Ansible default forwardings
-{% if openwrt_firewall_setdefaultzones %}
-{% if openwrt_firewall_forwardingsdefault is defined %}
-{% for forwarding in openwrt_firewall_forwardingsdefault %}
-{{ functions.create_forwarding(forwarding) }}
-{% endfor %}
-{% endif %}
-{% endif %}
-# Ansible group based forwardings
-{% if openwrt_firewall_forwardingsmergedgroup is defined %}
-{% for forwarding in openwrt_firewall_forwardingsmergedgroup %}
-{{ functions.create_forwarding(forwarding) }}
-{% endfor %}
-{% endif %}
-# Ansible host based forwardings
-{% if openwrt_firewall_forwardingshost is defined %}
-{% for forwarding in openwrt_firewall_forwardingshost %}
-{{ functions.create_forwarding(forwarding) }}
-{% endfor %}
-{% endif %}
+{{ functions.create_forwardings(openwrt_firewall_forwardingsall) }}
 
 # Rules
 {{ functions.create_rules(openwrt_firewall_rulesall) }}

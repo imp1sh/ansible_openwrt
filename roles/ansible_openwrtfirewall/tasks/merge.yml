@@ -6,6 +6,11 @@
 - name: combine all zones into openwrt_firewall_zonesall
   set_fact:
     openwrt_firewall_zonesall: "{{ openwrt_firewall_zonesdefault | combine(openwrt_firewall_zoneshost | default({}), openwrt_firewall_zonesmergedgroup | default({}) ) }}"
+  when: openwrt_firewall_setdefaultzones
+- name: combine only host and group zones into openwrt_firewall_zonesall
+  set_fact:
+    openwrt_firewall_zonesall: "{{ openwrt_firewall_zoneshost | default({}) | combine(openwrt_firewall_zonesmergedgroup | default({}) ) }}"
+  when: not openwrt_firewall_setdefaultzones
 # Rules
 - name: merge group firewall rules from different groups
   set_fact:
@@ -19,6 +24,9 @@
   set_fact:
     openwrt_firewall_forwardingsmergedgroup: "{{ openwrt_firewall_forwardingsgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_forwardingsgroup) | list | flatten }}"
   when: openwrt_firewall_forwardingsgroup is defined
+- name: combine all forwardings into openwrt_firewall_forwardingsall
+  set_fact:
+    openwrt_firewall_forwardingsall: "{{ openwrt_firewall_forwardingsdefault | default([]) + openwrt_firewall_forwardingsmergedgroup | default([]) + openwrt_firewall_forwardingshost | default([]) }}"
 # REDIRECTS
 # DNATS
 - name: merge group firewall redirects from different groups
