@@ -6,6 +6,9 @@ config redirect
 {% if value['src_ip'] is defined %}
 	option src_ip "{{ value['src_ip'] }}"
 {% endif %}
+{% if value['src_dport'] is defined %}
+	option src_dport "{{ value['src_dport'] }}"
+{% endif %}
 {% if value['src_dip'] is defined %}
 	option src_dip "{{ value['src_dip'] }}"
 {% endif %}
@@ -117,7 +120,7 @@ config zone
 {% endif %}
 {% if value['masq_dest'] is defined %}
 {% for masq_dest in value['masq_dest'] %}
-	list masq_dest "{{ masq_dest }}"
+	option masq_dest "{{ value['masq_dest'] }}"
 {% endfor %}
 {% endif %}
 {% endif %}
