@@ -51,6 +51,16 @@ config dnsmasq
 {% if openwrt_dhcp_dnsmasq_localservice is defined %}
 	option localservice "{{ openwrt_dhcp_dnsmasq_localservice }}"
 {% endif %}
+{% if openwrt_dhcp_dnsmasq_interface is defined %}
+{% for listenif in openwrt_dhcp_dnsmasq_interface %}
+	list interface "{{ listenif }}"
+{% endfor %}
+{% endif %}
+{% if openwrt_dhcp_dnsmasq_notinterface is defined %}
+{% for notlistenif in openwrt_dhcp_dnsmasq_notinterface %}
+	list notinterface "{{ notlistenif }}"
+{% endfor %}
+{% endif %}
 
 # DHCP Pools
 # Host based DHCP pool definitions
