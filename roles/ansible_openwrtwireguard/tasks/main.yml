@@ -1,0 +1,5 @@
+---
+# tasks file for ansible_openwrtwireguard
+- name: Install Wireguard Tools
+  package:
+    name: "wireguard-tools,kmod-wireguard,luci-app-wireguard,luci-proto-wireguard"
