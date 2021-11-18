@@ -1,6 +1,6 @@
 ---
 # defaults file for ansible_openwrtnetwork
-openwrt_defaultinterfaces:
+openwrt_network_interfacesdefault:
   loopback:
     device: "lo"
     proto: "static"
