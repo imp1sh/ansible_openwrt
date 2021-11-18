@@ -1,3 +1,29 @@
+{% macro create_wireguardpeers(allpeers) %}
+{% for key, value in allpeers.items() %}
+config wireguard_{{ value['interface'] }}
+	option description "{{ key }}"
+	option public_key "{{ value['public_key'] }}"
+{% if value['preshared_key'] is defined %}
+	option preshared_key "{{ value['preshared_key'] }}"
+{% endif %}
+{% for allowedip in value['allowed_ips'] %}
+	list allowed_ips "{{ allowedip }}"
+{% endfor %}
+{% if value['route_allowed_ips'] is defined %}
+	option route_allowed_ips "{{ value['route_allowed_ips'] }}"
+{% endif %}
+{% if value['endpoint_host'] is defined %}
+	option endpoint_host "{{ value['endpoint_host'] }}"
+{% endif %}
+{% if value['endpoint_port'] is defined %}
+	option endpoint_port "{{ value['endpoint_port'] }}"
+{% endif %}
+{% if value['persistent_keepalive'] is defined %}
+	option persistent_keepalive "{{ value['persistent_keepalive'] }}"
+{% endif %}
+{% endfor %}
+{% endmacro %}
+
 {% macro create_bridge_vlan(allbrvlan) %}
 {% for bridgevlan in allbrvlan %}
 config bridge-vlan
@@ -125,6 +151,23 @@ config interface "{{ key }}"
         option device "{{ value['device'] }}"
 {% endif %}
         option proto "{{ value['proto'] }}"
+{% if value['proto'] == "wireguard" %}
+	option private_key "{{ value['wg_private_key'] }}"
+{% if value['wg_listen_port'] is defined %}
+	option listen_port "{{ value['wg_listen_port'] }}"
+{% endif %}
+{% if value['wg_addresses'] is defined %}
+{% for wglistenaddress in value['wg_addresses'] %}
+	list addresses "{{ wglistenaddress }}"
+{% endfor %}
+{% endif %}
+{% if value['wg_peerdns'] is defined %}
+	option peerdns "{{ value['wg_peerdns'] }}"
+{% endif %}
+{% if value['wg_nohostroute'] is defined %}
+	option nohostroute "{{ value['wg_nohostroute'] }}"
+{% endif %}
+{% endif %}
 {% if value['proto'] == "dhcp" %}
         # DHCP client config
 {% endif %}
