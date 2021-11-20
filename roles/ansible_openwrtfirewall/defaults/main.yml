@@ -8,7 +8,7 @@ openwrt_firewall_default_output: "ACCEPT"
 openwrt_firewall_default_synflood_protect: 1
 openwrt_firewall_default_flow_offloading: 0
 openwrt_firewall_default_flow_offloading_hw: 0
-openwrt_firewall_default_drop_invalid: 0
+openwrt_firewall_default_drop_invalid: "3"
 # default forwardings
 openwrt_firewall_forwardingsdefault:
   - src: "LAN"
@@ -19,34 +19,34 @@ openwrt_firewall_zonesdefault:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
-    log: "1"
-    masq: "1"
-    mtu_fix: "1"
+    log: 1
+    masq: 1
+    mtu_fix: 1
   NEIGHBOURS:
     forward: "ACCEPT"
     input: "REJECT"
     output: "ACCEPT"
-    log: "1"
+    log: 1
   GUESTS:
     forward: "ACCEPT"
     input: "REJECT"
     output: "ACCEPT"
-    log: "1"
+    log: 1
   LAN:
     forward: "ACCEPT"
     input: "ACCEPT"
     output: "ACCEPT"
-    log: "1"
+    log: 1
   DMZ:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
-    log: "1"
+    log: 1
   MGMT:
     forward: "REJECT"
     input: "REJECT"
     output: "ACCEPT"
-    log: "1"
+    log: 1
 # default rules
 openwrt_firewall_rulesdefault:
   "Allow-Ping WAN to firewall":
