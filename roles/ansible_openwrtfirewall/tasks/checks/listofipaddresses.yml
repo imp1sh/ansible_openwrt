@@ -1,0 +1,13 @@
+---
+- name: debugstuff
+  debug:
+    var: listofips
+- name: check if it is a list
+  assert:
+    that: listofips is mapping
+    fail_msg: "Variable {{ listofips }} type is not list / array."
+    success_msg: "Variable {{ listofips }} is list / array."
+- name: check if entries are valid ip addresses
+  assert:
+    that: "{{ item | ipaddr }}"
+  loop: "{{ listofips }}"

@@ -1,0 +1,28 @@
+---
+- name: check input, output and forward attributes
+  assert:
+    that:
+      - (item.value.forward | default(omit) | upper == "ACCEPT") or (item.value.forward | default(omit) | upper == "REJECT") or (item.value.forward | default(omit)| upper == "DROP")
+      - (item.value.input | default(omit) | upper == "ACCEPT") or (item.value.input | default(omit) | upper == "REJECT") or (item.value.input | default(omit) | upper == "DROP")
+      - (item.value.output | default(omit) | upper == "ACCEPT") or (item.value.output | default(omit) | upper == "REJECT") or (item.value.output | default(omit) |  upper == "DROP")
+    fail_msg: "Zone {{ item.key }} is invalid. Attributes forward, input and ouput need to be either ACCEPT, REJECT or DROP."
+    success_msg: "Zone {{ item.key }} seems OK."
+  loop: "{{ zones | dict2items }}"
+- name: check log attribute
+  assert:
+    that:
+      - item.value.log | type_debug == 'int'
+      - item.value.log == 0 or item.value.log == 1
+    fail_msg: "Zone {{ item.key }} log attribute is invalid. It needs to be to be of type integer and 0 or 1."
+    success_msg: "Zone {{ item.key }} log attribute is OK."
+  when: item.value.log is defined
+  loop: "{{ zones | dict2items }}"
+- name: check masq attribute
+  assert:
+    that:
+      - item.value.masq | type_debug == 'int'
+      - item.value.masq == 0 or item.value.masq == 1
+    fail_msg: "Zone {{ item.key }} masq attribute is invalid. It needs to be of type integer and 0 or 1."
+    success_msg: "Zone {{ item.key }} masq attribute is OK."
+  when: item.value.masq is defined
+  loop: "{{ zones | dict2items }}"

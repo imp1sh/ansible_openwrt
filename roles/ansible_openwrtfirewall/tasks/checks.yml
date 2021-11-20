@@ -1,13 +1,42 @@
 ---
-- name: Check all variables that either need to be accept, reject or drop
-  assert:
-    that: ({{ item }} | upper == "ACCEPT") or ({{ item }} | upper == "REJECT") or ({{ item }} | upper == "DROP")
-    fail_msg: "{{ item }} needs to be either ACCEPT, REJECT or DROP."
-    success_msg: "{{ item }} is valid."
-  loop:
-    - "openwrt_firewall_default_forward"
-    - "openwrt_firewall_default_input"
-    - "openwrt_firewall_default_output"
+# waiting for Ansible 2.11 and this feature
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#role-argument-validation
+# Global Firewall parameters
+#- name: Check firewall global policies
+#  include_tasks: checks/accept_reject_drop.yml
+#  loop:
+#    - "{{ openwrt_firewall_default_forward }}"
+#    - "{{ openwrt_firewall_default_input }}"
+#    - "{{ openwrt_firewall_default_output }}"
+#  loop_control:
+#    loop_var: policyitemA
+#      #no_log: true
+#- name: Check firewall global booleans
+#  include_tasks: checks/boolean.yml
+#  loop:
+#    - "{{ openwrt_firewall_default_drop_invalid | default(omit) }}"
+#    - "{{ openwrt_firewall_default_synflood | default(omit) }}"
+#    - "{{ openwrt_firewall_default_synflood_protect | default(omit) }}"
+#    - "{{ openwrt_firewall_default_tcp_syncookies | default(omit) }}"
+#    - "{{ openwrt_firewall_default_tcp_ecn | default(omit) }}"
+#    - "{{ openwrt_firewall_default_tcp_window_scaling | default(omit) }}"
+#    - "{{ openwrt_firewall_default_accept_redirects | default(omit) }}"
+#    - "{{ openwrt_firewall_default_accept_source_route | default(omit) }}"
+#    - "{{ openwrt_firewall_default_custom_chains | default(omit) }}"
+#    - "{{ openwrt_firewall_default_disable_ipv6 | default(omit) }}"
+#    - "{{ openwrt_firewall_default_flow_offloading | default(omit) }}"
+#    - "{{ openwrt_firewall_default_flow_offloading_hw | default(omit) }}"
+#    - "{{ openwrt_firewall_default_auto_helper | default(omit) }}"
+#  loop_control:
+#    loop_var: booleanitem
+#  no_log: true
+#- name: run zone checks
+#  include_tasks: checks/zones.yml
+#  loop:
+#    - "{{ openwrt_firewall_zoneshost | default(omit) }}"
+#    - "{{ openwrt_firewall_zonesdefault | default(omit) }}"
+#  loop_control:
+#    loop_var: zones
       # check somehow not working
       #- name: Check all variables that either need to be 1 or 0
       #  assert:
@@ -56,15 +85,6 @@
     #    fail_msg: "Rule {{ item.key}} contains errors, it has no attribute src."
     #    success_msg: "Rule {{ item.key }} seems OK."
     #  loop: "{{ openwrt_firewall_rulesall | dict2items }}"
-- name: rudimentary checks on zones
-  assert:
-    that:
-      - (item.value.forward | upper == "ACCEPT") or (item.value.forward | upper == "REJECT") or (item.value.forward | upper == "DROP")
-      - (item.value.input | upper == "ACCEPT") or (item.value.input | upper == "REJECT") or (item.value.input | upper == "DROP")
-      - (item.value.output | upper == "ACCEPT") or (item.value.output | upper == "REJECT") or (item.value.output | upper == "DROP")
-    fail_msg: "Zone {{ item.key }} is invalid. Attribute forward, input and ouput need to be either ACCEPT, REJECT or DROP."
-    success_msg: "Zone {{ item.key }} seems OK."
-  loop: "{{ openwrt_firewall_zonesall | dict2items }}"
     #- name: show all rules
     #  debug:
     #    var: openwrt_firewall_rulesall
