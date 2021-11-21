@@ -37,7 +37,6 @@ config bridge-vlan
 	list ports "{{ port }}"
 {% endfor %}
 {% endif %}
-
 {% endfor %}
 {% endmacro %}
 
@@ -137,7 +136,15 @@ config device
 {% if value.neighlocktime is defined %}
         option neighlocktime "{{ value.neighlocktime }}"
 {% endif %}
-
+{% if value.multicast is defined %}
+	option multicast "{{ value.multicast }}"
+{% endif %}
+{% if value.igmpversion is defined %}
+	option igmpversion "{{ value.igmpversion }}"
+{% endif %}
+{% if value.mldversion is defined %}
+	option mldversion "{{ value.mldversion }}"
+{% endif %}
 {% endfor %}
 {% endmacro %}
 
@@ -250,6 +257,5 @@ config interface "{{ key }}"
         option service "{{ value['service'] }}"
 {% endif %}
 {% endif %}
-
 {% endfor %}
 {% endmacro %}
