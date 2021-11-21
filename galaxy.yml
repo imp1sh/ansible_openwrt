@@ -23,7 +23,7 @@ authors:
 ### OPTIONAL but strongly recommended
 
 # A short summary description of the collection
-description: ansible_openwrt is a full featured openwrt collection. It relies on python so you need enough flash space in order to be able to use it. 
+description: ansible_openwrt is a full featured openwrt collection. It relies on python so you need enough disk space in order to be able to use it. 
 
 # Either a single license or a list of licenses for content inside of a collection. Ansible Galaxy currently only
 # accepts L(SPDX,https://spdx.org/licenses/) licenses. This key is mutually exclusive with 'license_file'
@@ -46,7 +46,7 @@ dependencies: {}
 repository: https://github.com/imp1sh/ansible_openwrt
 
 # The URL to any online docs
-documentation: https://github.com/imp1sh/ansible_openwrt/README.md
+documentation: https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection
 
 # The URL to the homepage of the collection/project
 homepage: https://github.com/imp1sh/ansible_openwrt
