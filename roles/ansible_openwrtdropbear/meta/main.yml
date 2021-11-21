@@ -1,7 +1,7 @@
 galaxy_info:
   author: Jochen Demmer
   description: configures dropbear ssh for OpenWrt
-  company: junicast
+  company: libcom.de
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
