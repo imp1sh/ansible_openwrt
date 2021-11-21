@@ -134,14 +134,14 @@ openwrt_firewall_rulesdefault:
       - "fe80::/10"
     src: "DMZ"
     target: "ACCEPT"
-  "DHCPv6 MGMT":
+  "DHCPv6 NEIGHBOURS":
     dest_port: "547"
     family: "ipv6"
     proto:
       - "udp"
     src_ip:
       - "fe80::/10"
-    src: "MGMT"
+    src: "NEIGHBOURS"
     target: "ACCEPT"
   "Allow-DHCPv6 WAN":
     dest_ip:
