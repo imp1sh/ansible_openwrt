@@ -26,6 +26,10 @@
   become: True
   become_user: root
   delegate_to: "{{ restic_sshkey_targethost }}"
+- name: make sure known_hosts file exists
+  file:
+    path: "/root/.ssh/known_hosts"
+    state: "touch"
 - name: install target hosts fingerprint to known hosts
   known_hosts:
     path: "/root/.ssh/known_hosts"
