@@ -33,6 +33,6 @@
 - name: install target hosts fingerprint to known hosts
   known_hosts:
     path: "/root/.ssh/known_hosts"
-    key: "{{ lookup('pipe', '/usr/bin/ssh-keyscan -trsa ' + borgmatic_sshkey_targethost) }}"
+    key: "{{ lookup('pipe', '/usr/bin/ssh-keyscan -tecdsa ' + borgmatic_sshkey_targethost) }}"
     name: "{{ restic_sshkey_targethost }}"
     state: present
