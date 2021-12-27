@@ -1,3 +1,21 @@
+{% macro create_staticroutes4(allroutes4) %}
+{% for route4 in allroutes4 %}
+config route
+	option target "{{ route4['target'] }}"
+	option gateway "{{ route4['gateway'] }}"
+	option interface "{{ route4['interface'] }}"
+{% endfor %}
+{% endmacro %}
+
+{% macro create_staticroutes6(allroutes6) %}
+{% for route6 in allroutes6 %}
+config route6
+	option target "{{ route6['target'] }}"
+	option gateway "{{ route6['gateway'] }}"
+	option interface "{{ route6['interface'] }}"
+{% endfor %}
+{% endmacro %}
+
 {% macro create_wireguardpeers(allpeers) %}
 {% for key, value in allpeers.items() %}
 config wireguard_{{ value['interface'] }}

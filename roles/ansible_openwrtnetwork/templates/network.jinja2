@@ -30,3 +30,13 @@ config globals "globals"
 {% if openwrt_network_wireguardpeers is defined %}
 {{ functions.create_wireguardpeers(openwrt_network_wireguardpeers) }}
 {% endif %}
+
+# Static routes
+# IPv4
+{% if openwrt_network_staticroutes4 is defined %}
+{{ functions.create_staticroutes4(openwrt_network_staticroutes4) }}
+{% endif %}
+# IPv6
+{% if openwrt_network_staticroutes6 is defined %}
+{{ functions.create_staticroutes6(openwrt_network_staticroutes6) }}
+{% endif %}
