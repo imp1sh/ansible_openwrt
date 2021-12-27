@@ -20,7 +20,7 @@ config redirect
 {% endif %}
 {% if value['proto'] is defined %}
 {% for proto in value['proto'] %}
-	option proto "{{ proto }}"
+	list proto "{{ proto }}"
 {% endfor %}
 {% endif %}
 {% if value['dest'] is defined %}
