@@ -19,7 +19,9 @@ config redirect
 	option src_port "{{ value['src_port'] }}"
 {% endif %}
 {% if value['proto'] is defined %}
-	option proto "{{ value['proto'] }}"
+{% for proto in value['proto'] %}
+	option proto "{{ proto }}"
+{% endfor %}
 {% endif %}
 {% if value['dest'] is defined %}
 	option dest "{{ value['dest'] }}"
