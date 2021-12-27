@@ -8,7 +8,7 @@ openwrt_firewall_default_output: "ACCEPT"
 openwrt_firewall_default_synflood_protect: 1
 openwrt_firewall_default_flow_offloading: 0
 openwrt_firewall_default_flow_offloading_hw: 0
-openwrt_firewall_default_drop_invalid: "3"
+openwrt_firewall_default_drop_invalid: 1
 # default forwardings
 openwrt_firewall_forwardingsdefault:
   - src: "LAN"
