@@ -62,6 +62,15 @@ config bridge-vlan
 {% for key, value in alldevices.items() %}
 config device
 {% if value.type is defined %}
+{% if value.type == "8021q" %}
+        # VLAN Interface
+	option name "{{ key }}"
+	option type "{{ value.type }}"
+	option vid "{{ value.vid }}"
+{% if value.vlaninfo is defined %}
+	# Vlan Description: "{{ value.vlaninfo }}"
+{% endif %}
+{% endif %}
 {% if value.type == "bridge" %}
         # Bridge specific configuration
         option name "{{ key }}"
