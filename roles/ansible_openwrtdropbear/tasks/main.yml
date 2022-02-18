@@ -1,6 +1,6 @@
 ---
 # tasks file for ansible_openwrtdropbear
-- name: Install dropbear config /etc/config/dropbear and ssh keys into /etc/dropbear/authorized_keys
+- name: Installing dropbear config /etc/config/dropbear
   template:
     src: dropbear.jinja2
     dest: /etc/config/dropbear
@@ -8,7 +8,7 @@
     group: root
     mode: 0600
   notify: restart dropbear
-- name: Install ssh keys into /etc/dropbear/authorized_keys
+- name: Installing ssh keys into /etc/dropbear/authorized_keys
   template:
     src: dropbearkeys.jinja2
     dest: /etc/dropbear/authorized_keys
