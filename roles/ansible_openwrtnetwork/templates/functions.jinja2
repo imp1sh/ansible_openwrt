@@ -65,6 +65,7 @@ config device
 {% if value.type == "8021q" %}
         # VLAN Interface
 	option name "{{ key }}"
+	option ifname "{{ value.ifname }}"
 	option type "{{ value.type }}"
 	option vid "{{ value.vid }}"
 {% if value.vlaninfo is defined %}
