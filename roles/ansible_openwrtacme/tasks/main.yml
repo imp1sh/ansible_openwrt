@@ -1,0 +1,10 @@
+---
+# tasks file for ansible_openwrtacme
+- name: Install packages
+  opkg:
+    name: "acme,acme-dnsapi,luci-app-acme"
+- name: Setup acme config
+  template:
+    src: "acme.jinja2"
+    dest: "/etc/config/acme"
+  notify: restart acme

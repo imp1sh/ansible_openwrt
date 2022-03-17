@@ -1,0 +1,4 @@
+---
+# defaults file for ansible_openwrtacme
+openwrt_acme_state_dir: "/etc/acme"
+openwrt_acme_debug: 0
