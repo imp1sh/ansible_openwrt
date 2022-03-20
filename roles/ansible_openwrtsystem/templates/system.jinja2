@@ -46,8 +46,8 @@ config system 'system'
 {% if openwrt_system_logsize is defined %}
         option log_size "{{ openwrt_system_logsize }}"
 {% endif %}
-{% if openwrt_system_logip is defined %}
-        option log_ip "{{ openwrt_system_logip }}"
+{% if openwrt_system_log_ip is defined %}
+        option log_ip "{{ openwrt_system_log_ip }}"
 {% endif %}
 {% if openwrt_system_log_hostname is defined %}
 	option log_hostname "{{ openwrt_system_log_hostname }}"
