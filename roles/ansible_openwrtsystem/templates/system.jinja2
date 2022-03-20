@@ -20,7 +20,7 @@ config system 'system'
 
         # System Logging Settings
 {% if openwrt_system_log_proto is defined %}
-        option log_proto "{{ openwrt_system_logproto }}"
+        option log_proto "{{ openwrt_system_log_proto }}"
 {% endif %}
 {% if openwrt_system_log_trailer_null is defined %}
 	option log_trailer_null "{{ openwrt_system_log_trailer_null }}"
