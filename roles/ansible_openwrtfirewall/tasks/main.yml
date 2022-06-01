@@ -16,7 +16,7 @@
 - name: Create firewall uci in /etc/config/firewall
   template:
     src: "firewall.jinja2"
-    dest: "/etc/config/firewall"
+    dest: "{{ openwrt_firewall_deploypath }}"
     owner: root
     group: root
     mode: 0600

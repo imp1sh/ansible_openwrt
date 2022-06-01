@@ -7,7 +7,7 @@
 - name: Install system config /etc/config/system
   template:
     src: system.jinja2
-    dest: /etc/config/system
+    dest: "{{ openwrt_system_deploypath }}"
     owner: root
     group: root
     mode: 0600

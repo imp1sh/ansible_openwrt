@@ -19,7 +19,7 @@
 - name: Setup Start Scripts in /etc/rc.local
   template:
     src: rc.local.jinja2
-    dest: /etc/rc.local
+    dest: "{{ openwrt_services_deploypath }}"
     owner: root
     group: root
     mode: 0600

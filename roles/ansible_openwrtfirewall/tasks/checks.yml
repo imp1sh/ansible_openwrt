@@ -1,35 +1,6 @@
 ---
 # waiting for Ansible 2.11 and this feature
 # https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#role-argument-validation
-# Global Firewall parameters
-#- name: Check firewall global policies
-#  include_tasks: checks/accept_reject_drop.yml
-#  loop:
-#    - "{{ openwrt_firewall_default_forward }}"
-#    - "{{ openwrt_firewall_default_input }}"
-#    - "{{ openwrt_firewall_default_output }}"
-#  loop_control:
-#    loop_var: policyitemA
-#      #no_log: true
-#- name: Check firewall global booleans
-#  include_tasks: checks/boolean.yml
-#  loop:
-#    - "{{ openwrt_firewall_default_drop_invalid | default(omit) }}"
-#    - "{{ openwrt_firewall_default_synflood | default(omit) }}"
-#    - "{{ openwrt_firewall_default_synflood_protect | default(omit) }}"
-#    - "{{ openwrt_firewall_default_tcp_syncookies | default(omit) }}"
-#    - "{{ openwrt_firewall_default_tcp_ecn | default(omit) }}"
-#    - "{{ openwrt_firewall_default_tcp_window_scaling | default(omit) }}"
-#    - "{{ openwrt_firewall_default_accept_redirects | default(omit) }}"
-#    - "{{ openwrt_firewall_default_accept_source_route | default(omit) }}"
-#    - "{{ openwrt_firewall_default_custom_chains | default(omit) }}"
-#    - "{{ openwrt_firewall_default_disable_ipv6 | default(omit) }}"
-#    - "{{ openwrt_firewall_default_flow_offloading | default(omit) }}"
-#    - "{{ openwrt_firewall_default_flow_offloading_hw | default(omit) }}"
-#    - "{{ openwrt_firewall_default_auto_helper | default(omit) }}"
-#  loop_control:
-#    loop_var: booleanitem
-#  no_log: true
 #- name: run zone checks
 #  include_tasks: checks/zones.yml
 #  loop:

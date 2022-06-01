@@ -3,7 +3,7 @@
 - name: Deploy Network configuration 
   template:
     src: network.jinja2
-    dest: /etc/config/network
+    dest: "{{ openwrt_network_deploypath }}"
     owner: root
     group: root
     mode: 0600

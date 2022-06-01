@@ -6,7 +6,7 @@
 - name: Install dhcp config
   template:
     src: dhcp.jinja2
-    dest: /etc/config/dhcp
+    dest: "{{ openwrt_dhcp_deploypath }}"
     owner: root
     group: root
     mode: 0600

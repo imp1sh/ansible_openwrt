@@ -3,7 +3,7 @@
 - name: Installing dropbear config /etc/config/dropbear
   template:
     src: dropbear.jinja2
-    dest: /etc/config/dropbear
+    dest: "{{ openwrt_dropbear_deploypath }}"
     owner: root
     group: root
     mode: 0600
@@ -11,6 +11,7 @@
 - name: Installing ssh keys into /etc/dropbear/authorized_keys
   template:
     src: dropbearkeys.jinja2
+    dest: "{{ openwrt_dropbear_deploypath_keys }}"
     dest: /etc/dropbear/authorized_keys
     owner: root
     group: root

@@ -86,4 +86,17 @@ argument_specs:
         choices:
           - 0
           - 1
-
+      openwrt_firewall_synflood_burst:
+        type: 'int'
+        choices:
+          - 0
+          - 1
+      openwrt_firewall_zoneshost:
+        type: 'dict'
+          #options:
+          #  forward:
+          #    type: 'str'
+          #      choices:
+          #        - "ACCEPT"
+          #        - "REJECT"
+          #        - "DROP"

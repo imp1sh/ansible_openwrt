@@ -2,12 +2,13 @@
 - name: enable kernel logging on console
   file:
     path: "/etc/sysctl.d/kernellogging.conf"
+    path: "{{ openwrt_system_deploypath_kernellogging }}"
     state: absent
   when: openwrt_system_kernellogonconsole
 - name: disable kernel logging on console
   template:
     src: "kernellogging.conf.jinja2"
-    dest: "/etc/sysctl.d/kernellogging.conf"
+    dest: "{{ openwrt_system_deploypath_kernellogging }}"
     mode: 0644
     owner: "root"
     group: "root"
@@ -15,7 +16,7 @@
 - name: set additional kernel parameters in sysctl.conf
   template:
     src: sysctl.conf.jinja2
-    dest: "/etc/sysctl.conf"
+    dest: "{{ openwrt_system_deploypath_sysctl }}"
     mode: 0644
     owner: "root"
     group: "root"

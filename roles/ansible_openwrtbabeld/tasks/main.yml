@@ -22,7 +22,7 @@
 - name: Provide babeld configuration
   template:
     src: babeld.jinja2
-    dest: /etc/config/babeld
+    dest: "{{ openwrt_babeld_deploypath }}"
     owner: root
     group: root
     mode: 0600

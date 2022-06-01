@@ -1,5 +1,6 @@
 ---
 # defaults file for ansible_openwrtnetwork
+openwrt_network_deploypath: "/etc/config/network"
 openwrt_network_interfacesdefault:
   loopback:
     device: "lo"

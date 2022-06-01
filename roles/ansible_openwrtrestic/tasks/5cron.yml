@@ -7,16 +7,16 @@
     job: "/bin/opkg list-installed > /etc/config/installed.packages"
 - name: setup cron backup jobs for different include paths
   cron:
-    name: "{{ restic_cron_name }} {{ item }}"
-    hour: "{{ restic_cron_hour }}"
-    minute: "{{ restic_cron_minute }}"
+    name: "{{ openwrt_restic_cron_name }} {{ item }}"
+    hour: "{{ openwrt_restic_cron_hour }}"
+    minute: "{{ openwrt_restic_cron_minute }}"
     user: "root"
-    job: "/usr/bin/restic -p /etc/resticpassword -r {{ restic_repository }} backup {{ item }}"
-  loop: "{{ restic_srcdirs }}"
+    job: "/usr/bin/restic -p /etc/resticpassword -r {{ openwrt_restic_repository }} backup {{ item }}"
+  loop: "{{ openwrt_restic_srcdirs }}"
 - name: setup cron prune jobs
   cron:
-    name: "{{ restic_cron_name }} prune"
+    name: "{{ openwrt_restic_cron_name }} prune"
     hour: 6
     minute: 0
     user: "root"
-    job: "/usr/bin/restic forget --keep-daily {{ restic_keepdaily }} --keep-weekly {{ restic_keepweekly }} --keep-monthly {{ restic_keepmonthly }} -p /etc/resticpassword -r {{ restic_repository }} --prune"
+    job: "/usr/bin/restic forget --keep-daily {{ openwrt_restic_keepdaily }} --keep-weekly {{ openwrt_restic_keepweekly }} --keep-monthly {{ openwrt_restic_keepmonthly }} -p /etc/resticpassword -r {{ restic_repository }} --prune"

@@ -6,6 +6,7 @@
     update_cache: yes
 - name: add /etc/config/installed.packages to sysupgrade config
   lineinfile:
+    path: "{{ openwrt_restic_deploypath_sysupgrade }}"
     path: /etc/sysupgrade.conf
     line: /etc/config/installed.packages
     regexp: /etc/config/installed.packages
@@ -13,14 +14,14 @@
 - name: deploy restic configuration
   template:
     src: restic.conf.jinja2
-    dest: /etc/restic
+    dest: "{{ openwrt_restic_deploypath }}"
     owner: root
     group: root
     mode: 0600
 - name: deploy restic password file
   template:
     src: password.jinja2
-    dest: /etc/resticpassword
+    dest: "{{ openwrt_restic_deploypath_passwordfile }}"
     owner: root
     group: root
     mode: 0600

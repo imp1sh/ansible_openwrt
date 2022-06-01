@@ -3,7 +3,7 @@
 - name: deploy wifi config
   template:
     src: "wireless.jinja2"
-    dest: "/etc/config/wireless"
+    dest: "{{ openwrt_wifi_deploypath }}"
     owner: "root"
     group: "root"
     mode: "0600"

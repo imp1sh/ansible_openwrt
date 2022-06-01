@@ -1,2 +1,3 @@
 ---
 # defaults file for ansible_openwrtservices
+openwrt_services_deploypath: "/etc/rc.local"

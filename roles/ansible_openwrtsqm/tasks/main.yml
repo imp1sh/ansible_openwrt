@@ -3,6 +3,6 @@
 - name: deploy sqm configuration
   template:
     src: sqm.jinja2
-    dest: /etc/config/sqm
+    dest: "{{ openwrt_sqm_deploypath }}"
   when: openwrt_sqm_interfaces is defined
   notify: restart sqm

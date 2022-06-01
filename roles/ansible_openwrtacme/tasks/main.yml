@@ -6,5 +6,5 @@
 - name: Setup acme config
   template:
     src: "acme.jinja2"
-    dest: "/etc/config/acme"
+    dest: "{{ openwrt_acme_deploypath }}"
   notify: restart acme

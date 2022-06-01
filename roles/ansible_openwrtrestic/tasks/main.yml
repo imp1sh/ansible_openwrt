@@ -5,9 +5,9 @@
 - name: SSH setup
   include_tasks: 3ssh.yml
 - name: init repository
-  command: "restic -r {{ restic_repository }} init"
+  command: "restic -r {{ openwrt_restic_repository }} init"
   environment:
-    RESTIC_PASSWORD: "{{ restic_encpassphrase }}"
+    RESTIC_PASSWORD: "{{ openwrt_restic_encpassphrase }}"
   register: restic_init
   failed_when:
     - restic_init.rc != 0
