@@ -12,7 +12,6 @@
   template:
     src: dropbearkeys.jinja2
     dest: "{{ openwrt_dropbear_deploypath_keys }}"
-    dest: /etc/dropbear/authorized_keys
     owner: root
     group: root
     mode: 0600

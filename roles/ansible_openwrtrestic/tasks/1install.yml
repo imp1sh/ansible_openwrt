@@ -7,7 +7,6 @@
 - name: add /etc/config/installed.packages to sysupgrade config
   lineinfile:
     path: "{{ openwrt_restic_deploypath_sysupgrade }}"
-    path: /etc/sysupgrade.conf
     line: /etc/config/installed.packages
     regexp: /etc/config/installed.packages
     state: present
