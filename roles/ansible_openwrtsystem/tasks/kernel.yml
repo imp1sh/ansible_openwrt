@@ -1,7 +1,6 @@
 ---
 - name: enable kernel logging on console
   file:
-    path: "/etc/sysctl.d/kernellogging.conf"
     path: "{{ openwrt_system_deploypath_kernellogging }}"
     state: absent
   when: openwrt_system_kernellogonconsole
