@@ -4,7 +4,11 @@
   service:
     name: firewall
     state: reloaded
+  when:
+    not openwrt_firewall_runimagebuilder | default(false)
 - name: restart firewall
   service:
     name: firewall
     state: restarted
+  when:
+    not openwrt_firewall_runimagebuilder | default(false)
