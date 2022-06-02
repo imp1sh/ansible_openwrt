@@ -4,3 +4,5 @@
   service:
     name: dropbear
     state: restarted
+  when:
+    not openwrt_dropbear_runimagebuilder | default(false)
