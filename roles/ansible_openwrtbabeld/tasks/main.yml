@@ -55,5 +55,6 @@
     src: ../init.d/babeld
     dest: "{{ openwrt_babeld_deploypath_initlink }}"
     state: link
+    force: yes
   when:
     openwrt_babeld_runimagebuilder | default(false)
