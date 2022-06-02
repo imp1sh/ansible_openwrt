@@ -53,7 +53,7 @@
 - name: enable babeld service in imagebuilder
   ansible.builtin.file:
     src: ../init.d/babeld
-    dest: {{ openwrt_babeld_deploypath_initlink }}
+    dest: "{{ openwrt_babeld_deploypath_initlink }}"
     state: link
   when:
     openwrt_babeld_runimagebuilder | default(false)
