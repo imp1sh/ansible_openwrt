@@ -4,3 +4,5 @@
   service:
     name: dnsmasq
     state: restarted
+  when:
+    not openwrt_dhcp_runimagebuilder | default(false)
