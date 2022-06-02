@@ -4,3 +4,5 @@
   service:
     name: babeld
     state: restarted
+  when:
+    not openwrt_babeld_runimagebuilder | default(false)
