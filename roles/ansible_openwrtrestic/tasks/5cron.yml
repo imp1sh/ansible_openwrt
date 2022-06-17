@@ -19,4 +19,4 @@
     hour: 6
     minute: 0
     user: "root"
-    job: "/usr/bin/restic forget --keep-daily {{ openwrt_restic_keepdaily }} --keep-weekly {{ openwrt_restic_keepweekly }} --keep-monthly {{ openwrt_restic_keepmonthly }} -p /etc/resticpassword -r {{ restic_repository }} --prune"
+    job: "/usr/bin/restic forget --keep-daily {{ openwrt_restic_keepdaily }} --keep-weekly {{ openwrt_restic_keepweekly }} --keep-monthly {{ openwrt_restic_keepmonthly }} -p /etc/resticpassword -r {{ openwrt_restic_repository }} --prune"
