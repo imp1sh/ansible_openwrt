@@ -1,4 +1,0 @@
----
-# handlers file for ansible_openwrtwifi
-- name: restart wifi
-  command: /sbin/wifi

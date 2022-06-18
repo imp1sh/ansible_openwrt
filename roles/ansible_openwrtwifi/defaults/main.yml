@@ -1,3 +1,0 @@
----
-# defaults file for ansible_openwrtwifi
-openwrt_wifi_deploypath: "/etc/config/wireless"
