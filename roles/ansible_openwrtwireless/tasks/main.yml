@@ -1,0 +1,11 @@
+---
+# tasks file for ansible_openwrtwireless
+- name: deploy wireless config
+  template:
+    src: "wireless.jinja2"
+    dest: "{{ openwrt_wireless_deploypath }}"
+    owner: "root"
+    group: "root"
+    mode: "0600"
+  when: openwrt_wireless_devices is defined
+  notify: restart wireless
