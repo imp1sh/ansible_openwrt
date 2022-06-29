@@ -3,7 +3,7 @@
   opkg:
     name: restic,openssh-client-utils,shadow-usermod
     state: present
-    update_cache: yes
+    update_cache: true
 - name: add /etc/config/installed.packages to sysupgrade config
   lineinfile:
     path: "{{ openwrt_restic_deploypath_sysupgrade }}"

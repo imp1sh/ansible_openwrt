@@ -13,7 +13,7 @@
 - name: make sure root user has ssh public key
   user:
     name: "root"
-    generate_ssh_key: yes
+    generate_ssh_key: true
   register: rootuser
 #- name: get root users public key
 #  set_fact:
@@ -23,7 +23,7 @@
     user: "{{ openwrt_restic_sshkey_user }}"
     state: present
     key: "{{ rootuser['ssh_public_key'] }}"
-  become: True
+  become: true
   become_user: root
   delegate_to: "{{ openwrt_restic_sshkey_targethost }}"
 - name: make sure known_hosts file exists
