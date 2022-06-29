@@ -1,0 +1,23 @@
+[Interface]
+Address    = {{ item.value.allowed_ips | join(', ') }}
+PrivateKey = {{ client_privatekey_data_decoded }}
+
+[Peer]
+PublicKey    = {{ server_publickey_data_decoded }}
+{% if item.value.s2s is defined and item.value.s2s %}
+PresharedKey = {{ s2s_psk_decoded }}
+{% else %}
+PresharedKey = {{ client_psk_decoded }}
+{% endif %}
+{% if item.value.routes_to is defined %}
+AllowedIPs   = {{ hostvars[inventory_hostname]['openwrt_network_interfaces'][item.value.interface]['wg_addresses'] | join(', ') }}, {{ routes_to | join(', ') }}
+{% else %}
+AllowedIPs   = {{ hostvars[inventory_hostname]['openwrt_network_interfaces'][item.value.interface]['wg_addresses'] | join(', ') }}
+{% endif %}
+
+{% if item.value.endpoint is not defined %}
+Endpoint     = {{ hostvars[inventory_hostname]['openwrt_network_interfaces'][item.value.interface]['wg_myendpoint']}}:{{ hostvars[inventory_hostname]['openwrt_network_interfaces'][item.value.interface]['wg_listen_port']}}
+{% else %}
+Endpoint     = {{ item.value.endpoint }}:{{ item.value.endpointport }}
+{% endif %}
+PersistentKeepalive = {{ item.value.keepalive | default('30', true) }}

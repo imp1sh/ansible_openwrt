@@ -1,5 +1,19 @@
 ---
 # tasks file for ansible_openwrtnetwork
+# Wireguard
+- name: make sure wireguard management dir exists
+  file:
+    path: "{{ openwrt_network_wg_keypath }}"
+    state: directory
+    mode: 0700
+  delegate_to: 127.0.0.1
+  become: false
+- name: run wg server tasks
+  include_tasks: wg_server.yml
+  loop: "{{ openwrt_network_interfaces | dict2items }}"
+- name: run wg peers tasks
+  include_tasks: wg_client.yml
+  loop: "{{ openwrt_network_wireguardpeers | dict2items }}"
 - name: Deploy Network configuration 
   template:
     src: network.jinja2
