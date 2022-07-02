@@ -124,6 +124,9 @@ config wifi-iface "{{ key }}"
 	option device "{{ value.device }}"
 	option network "{{ value.network }}"
 	option mode "{{ value.mode }}"
+{% if value.ifname is defined %}
+	option ifname "{{ value.ifname }}"
+{% endif %}
 {% if value.disabled is defined %}
 	option disabled "{{ value.disabled }}"
 {% endif %}
@@ -201,6 +204,12 @@ config wifi-iface "{{ key }}"
 {% endif %}
 {% if value.max_listen_int is defined %}
 	option max_listen_int "{{ value.max_listen_int }}"
+{% endif %}
+{% if value.disassoc_low_ack is defined %}
+	option disassoc_low_ack "{{ value.disassoc_low_ack }}"
+{% endif %}
+{% if value.wpa_disable_eapol_key_retries is defined %}
+	option wpa_disable_eapol_key_retries "{{ value.wpa_disable_eapol_key_retries }}"
 {% endif %}
 {% if value.mcast_rate is defined %}
 	option mcast_rate "{{ value.mcast_rate }}"
