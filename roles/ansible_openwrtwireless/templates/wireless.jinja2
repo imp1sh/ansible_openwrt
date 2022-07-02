@@ -1,6 +1,6 @@
 # Distributed by Ansible
 # Wifi devices
-{% for key, value in openwrt_wireless_devices.items() %}
+{% for key, value in openwrt_wifi_devices.items() %}
 config wifi-device "{{ key }}"
 {% if value.type is defined %}
 	option type "{{ value.type }}"
