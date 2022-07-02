@@ -119,7 +119,7 @@ config wifi-device "{{ key }}"
 
 {% endfor %}
 # Wifi interfaces
-{% for key, value in openwrt_wireless_interfaces.items() %}
+{% for key, value in openwrt_wifi_interfaces.items() %}
 config wifi-iface "{{ key }}"
 	option device "{{ value.device }}"
 	option network "{{ value.network }}"
