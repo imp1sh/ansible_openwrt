@@ -7,5 +7,5 @@
     owner: "root"
     group: "root"
     mode: "0600"
-  when: openwrt_wireless_devices is defined
+  when: openwrt_wifi_devices is defined
   notify: restart wireless
