@@ -1,6 +1,6 @@
 # Distributed by Ansible
 # Wifi devices
-{% for key, value in openwrt_wireless_devices.items() %}
+{% for key, value in openwrt_wifi_devices.items() %}
 config wifi-device "{{ key }}"
 {% if value.type is defined %}
 	option type "{{ value.type }}"
@@ -80,9 +80,6 @@ config wifi-device "{{ key }}"
 {% if value.path is defined %}
 	option path "{{ value.path }}"
 {% endif %}
-{% if value.htmode is defined %}
-	option htmode "{{ value.htmode }}"
-{% endif %}
 {% if value.chanbw is defined %}
 	option chanbw "{{ value.chanbw }}"
 {% endif %}
@@ -119,7 +116,7 @@ config wifi-device "{{ key }}"
 
 {% endfor %}
 # Wifi interfaces
-{% for key, value in openwrt_wireless_interfaces.items() %}
+{% for key, value in openwrt_wifi_interfaces.items() %}
 config wifi-iface "{{ key }}"
 	option device "{{ value.device }}"
 	option network "{{ value.network }}"
