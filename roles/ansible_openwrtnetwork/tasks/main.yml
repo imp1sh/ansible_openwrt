@@ -6,6 +6,7 @@
     path: "{{ openwrt_network_wg_keypath }}"
     state: directory
     mode: 0700
+  when: openwrt_network_wg_keypath is defined
   delegate_to: 127.0.0.1
   become: false
 - name: run wg server tasks
