@@ -23,26 +23,26 @@ config filter
 {% for prefix in openwrt_babeld_prefixes %}
         option type "redistribute"
         option ip "{{ prefix }}"
-        option eq "{{ prefix | ipaddr('prefix') }}"
+        option eq "{{ prefix | ansible.utils.ipaddr('prefix') }}"
         option proto '4'
 
 {% endfor %}
 {% endif %}
 
-{% if openwrt_babeld_collectedprefixes is defined %}
+{% if not openwrt_babeld_collectedprefixes.skipped %}
 config filter
 	option type "redistribute"
 	option ip "{{ openwrt_babeld_collectedprefixes.stdout }}"
-	option eq "{{ openwrt_babeld_collectedprefixes.stdout | ipaddr('prefix') }}"
+	option eq "{{ openwrt_babeld_collectedprefixes.stdout | ansible.utils.ipaddr('prefix') }}"
 	option proto "4"
 
 {% endif %}
 
-{% if openwrt_babeld_ulaprefix is defined %}
+{% if not openwrt_babeld_ulaprefix.skipped %}
 config filter
 	option type "redistribute"
 	option ip "{{ openwrt_babeld_ulaprefix.stdout }}"
-	option eq "{{ openwrt_babeld_ulaprefix.stdout | ipaddr('prefix') }}"
+	option eq "{{ openwrt_babeld_ulaprefix.stdout | ansible.utils.ipaddr('prefix') }}"
 	option proto "4"
 
 {% endif %}
