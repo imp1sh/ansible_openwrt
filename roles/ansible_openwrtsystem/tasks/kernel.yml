@@ -1,6 +1,6 @@
 ---
 - name: enable kernel logging on console
-  file:
+  ansible.builtin.file:
     path: "{{ openwrt_system_deploypath_kernellogging }}"
     state: absent
   when: openwrt_system_kernellogonconsole
@@ -15,7 +15,7 @@
 - name: set additional kernel parameters in sysctl.conf
   template:
     src: sysctl.conf.jinja2
-    dest: "{{ openwrt_system_deploypath_sysctl }}"
+    dest: "{{ openwrt_system_deploypath_sysctl }}/{{ openwrt_system_deployfile_sysctl }}"
     mode: 0644
     owner: "root"
     group: "root"
