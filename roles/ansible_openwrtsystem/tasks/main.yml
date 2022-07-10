@@ -4,10 +4,14 @@
   import_tasks: checks.yml
 - name: Set kernel logging console
   import_tasks: kernel.yml
+- name: make sure deploypath is present
+  ansible.builtin.file:
+    path: "{{ openwrt_system_deploypath }}"
+    state: directory
 - name: Install system config /etc/config/system
-  template:
+  ansible.builtin.template:
     src: system.jinja2
-    dest: "{{ openwrt_system_deploypath }}"
+    dest: "{{ openwrt_system_deploypath }}/{{ openwrt_system_deployfile }}"
     owner: root
     group: root
     mode: 0600
