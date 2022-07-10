@@ -13,11 +13,9 @@
   when:
     - ( item.value.disabled is not defined ) or ( item.value.disabled is defined and not item.value.disabled )
   loop: "{{ openwrt_firewall_zonesall | dict2items }}"
-- name: Create firewall uci in /etc/config/firewall
-  template:
+- name: Deploy firewall config
+  ansible.builtin.template:
     src: "firewall.jinja2"
-    dest: "{{ openwrt_firewall_deploypath }}"
-    owner: root
-    group: root
+    dest: "{{ openwrt_firewall_deploypath }}/{{ openwrt_firewall_deployfile }}"
     mode: 0600
   notify: reload firewall
