@@ -15,6 +15,7 @@
 - name: run wg peers tasks
   include_tasks: wg_client.yml
   loop: "{{ openwrt_network_wireguardpeers | dict2items }}"
+  when: openwrt_network_wireguardpeers is defined
 - name: make sure network deploypath exists
   ansible.builtin.file:
     path: "{{ openwrt_network_deploypath }}"
