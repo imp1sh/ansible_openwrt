@@ -1,19 +1,23 @@
 ---
 # tasks file for ansible_openwrtdropbear
-- name: Installing dropbear config /etc/config/dropbear
-  template:
+- name: make sure deploypath config exists
+  ansible.builtin.file:
+    path: "{{ openwrt_dropbear_deploypath }}"
+    state: directory
+- name: Installing dropbear config
+  ansible.builtin.template:
     src: dropbear.jinja2
-    dest: "{{ openwrt_dropbear_deploypath }}"
-    owner: root
-    group: root
+    dest: "{{ openwrt_dropbear_deploypath }}/{{ openwrt_dropbear_deployfile }}"
     mode: 0600
   notify: restart dropbear
+- name: make sure deploypath keys exists
+  ansible.builtin.file:
+    path: "{{ openwrt_dropbear_deploypath_keys }}"
+    state: directory
 - name: Installing ssh keys into /etc/dropbear/authorized_keys
-  template:
+  ansible.builtin.template:
     src: dropbearkeys.jinja2
-    dest: "{{ openwrt_dropbear_deploypath_keys }}"
-    owner: root
-    group: root
+    dest: "{{ openwrt_dropbear_deploypath_keys }}/{{ openwrt_dropbear_deployfile_keys }}"
     mode: 0600
   when: openwrt_dropbear_keys is defined
 
