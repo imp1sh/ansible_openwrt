@@ -1,17 +1,17 @@
 ---
 # tasks file for ansible_openwrtbabeld
 - name: Refresh opkg so packages will be found
-  shell: opkg update
+  ansible.builtin.shell: opkg update
   when:
     not openwrt_babeld_runimagebuilder | default(false)
 - name: Install jq in order to be able to parse ifstatus
-  package:
+  ansible.builtin.package:
     name: jq
     state: present
   when:
     not openwrt_babeld_runimagebuilder | default(false)
 - name: Install getprefix script
-  template:
+  ansible.builtin.template:
     src: getprefix.sh.jinja2
     dest: /root/getprefix.sh
     owner: root
@@ -20,7 +20,7 @@
   when:
     not openwrt_babeld_runimagebuilder | default(false)
 - name: register dynamic prefixes from script
-  shell: /root/getprefix.sh
+  ansible.builtin.shell: /root/getprefix.sh
   register: openwrt_babeld_collectedprefixes
   when:
     not openwrt_babeld_runimagebuilder | default(false)
@@ -31,30 +31,39 @@
 #  when:
 #    openwrt_babeld_runimagebuilder | default(false)
 - name: register local ula
-  shell: /sbin/uci get network.globals.ula_prefix
+  ansible.builtin.shell: /sbin/uci get network.globals.ula_prefix
   register: openwrt_babeld_ulaprefix
   when:
     not openwrt_babeld_runimagebuilder | default(false)
+- name: debug stuff
+  debug:
+    msg: "AAAAAAAAAAAAAAAA {{ openwrt_babeld_collectedprefixes }} BBBBBBBBBBBBBBBBBBBB {{ openwrt_babeld_ulaprefix }}"
+- name: Make sure babel deploypath exists
+  ansible.builtin.file:
+    path: "{{ openwrt_babeld_deploypath }}"
+    state: directory
 - name: Provide babeld configuration
-  template:
+  ansible.builtin.template:
     src: babeld.jinja2
-    dest: "{{ openwrt_babeld_deploypath }}"
-    owner: root
-    group: root
+    dest: "{{ openwrt_babeld_deploypath }}/{{ openwrt_babeld_deployfile }}"
     mode: 0600
   notify: restart babeld
 - name: enable babeld service
-  service:
+  ansible.builtin.service:
     name: babeld
     state: started
     enabled: yes
   when:
     not openwrt_babeld_runimagebuilder | default(false)
+- name: Make sure babeld service deploypath exists
+  ansible.builtin.file:
+    path: "{{ openwrt_babeld_deploypath_initlink }}"
+    state: directory
+  when: openwrt_babeld_runimagebuilder
 - name: enable babeld service in imagebuilder
   ansible.builtin.file:
     src: ../init.d/babeld
-    dest: "{{ openwrt_babeld_deploypath_initlink }}"
+    dest: "{{ openwrt_babeld_deploypath_initlink }}/{{ openwrt_babeld_deployfile_initlink }}"
     state: link
     force: yes
-  when:
-    openwrt_babeld_runimagebuilder | default(false)
+  when: openwrt_babeld_runimagebuilder
