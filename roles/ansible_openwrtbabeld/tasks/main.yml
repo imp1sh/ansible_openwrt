@@ -35,9 +35,6 @@
   register: openwrt_babeld_ulaprefix
   when:
     not openwrt_babeld_runimagebuilder | default(false)
-- name: debug stuff
-  debug:
-    msg: "AAAAAAAAAAAAAAAA {{ openwrt_babeld_collectedprefixes }} BBBBBBBBBBBBBBBBBBBB {{ openwrt_babeld_ulaprefix }}"
 - name: Make sure babel deploypath exists
   ansible.builtin.file:
     path: "{{ openwrt_babeld_deploypath }}"
