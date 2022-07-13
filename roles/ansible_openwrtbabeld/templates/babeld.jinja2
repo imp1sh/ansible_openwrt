@@ -23,8 +23,8 @@ config filter
 {% for prefix in openwrt_babeld_prefixes %}
         option type "redistribute"
         option ip "{{ prefix }}"
-        option eq "{{ prefix | ansible.utils.ipaddr('prefix') }}"
-        option proto '4'
+        #option eq "{{ prefix | ansible.utils.ipaddr('prefix') }}"
+        #option proto '4'
 
 {% endfor %}
 {% endif %}
