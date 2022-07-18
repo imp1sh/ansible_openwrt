@@ -18,6 +18,7 @@
 - name: Combine vlan group devices that the host belongs to into one list variable
   set_fact:
     openwrt_network_bridge_vlanmergedgroup: "{{ openwrt_network_bridge_vlangroup.keys() | list | intersect(group_names) | map('extract', openwrt_network_bridge_vlangroup) | list | flatten }}"
+  when: openwrt_network_bridge_vlangroup is defined
 - name: combine all bridge_vlan into openwrt_network_bridge_vlan
   set_fact:
     openwrt_network_bridge_vlan: "{{ openwrt_network_bridge_vlanhost | default([]) + openwrt_network_bridge_vlanmergedgroup | default([]) }}"
