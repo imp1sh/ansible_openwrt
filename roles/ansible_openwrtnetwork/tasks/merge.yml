@@ -15,10 +15,9 @@
   set_fact:
     openwrt_network_devices: "{{ openwrt_network_deviceshost | default({}) | combine(openwrt_network_devicesmergedgroup | default({}) ) }}"
 # Merge VLAN Devices
-- name: merge bridge vlans
+- name: Combine vlan group devices that the host belongs to into one list variable
   set_fact:
-    openwrt_network_bridge_vlanmergedgroup: "{{ openwrt_network_bridge_vlangroup.keys() | list | intersect(group_names) | map('extract', openwrt_network_bridge_vlangroup) | combine }}"
-  when: openwrt_network_bridge_vlangroup is defined
+    openwrt_network_bridge_vlanmergedgroup: "{{ openwrt_network_bridge_vlangroup.keys() | list | intersect(group_names) | map('extract', openwrt_network_bridge_vlangroup) | list | flatten }}"
 - name: combine all bridge_vlan into openwrt_network_bridge_vlan
   set_fact:
-    openwrt_network_bridge_vlan: "{{ openwrt_network_bridge_vlanhost | default({}) | combine(openwrt_network_bridge_vlanmergedgroup | default({}) ) }}"
+    openwrt_network_bridge_vlan: "{{ openwrt_network_bridge_vlanhost | default([]) + openwrt_network_bridge_vlanmergedgroup | default([]) }}"
