@@ -31,7 +31,7 @@
 # DNATS
 - name: merge group firewall redirects from different groups
   set_fact:
-    openwrt_firewall_redirectsmergedgroup: "{{ openwrt_firewall_redirectsgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_redirectsgroup | combine }}"
+    openwrt_firewall_redirectsmergedgroup: "{{ openwrt_firewall_redirectsgroup.keys() | list | intersect(group_names) | map('extract', openwrt_firewall_redirectsgroup) | combine }}"
   when: openwrt_firewall_redirectsgroup is defined
 - name: combine all redirects into openwrt_firewall_redirectsall
   set_fact:
