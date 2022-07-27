@@ -4,23 +4,20 @@
     name: restic,openssh-client-utils,shadow-usermod
     state: present
     update_cache: true
+  when: not openwrt_restic_runimagebuilder | default(false)
 - name: add /etc/config/installed.packages to sysupgrade config
   lineinfile:
-    path: "{{ openwrt_restic_deploypath_sysupgrade }}"
+    path: "{{ openwrt_restic_deploypath_sysupgrade }}/{{ openwrt_restic_deployfile_sysupgrade }}"
     line: /etc/config/installed.packages
     regexp: /etc/config/installed.packages
     state: present
 - name: deploy restic configuration
   template:
     src: restic.conf.jinja2
-    dest: "{{ openwrt_restic_deploypath }}"
-    owner: root
-    group: root
+    dest: "{{ openwrt_restic_deploypath }}/{{ openwrt_restic_deployfile }}"
     mode: 0600
 - name: deploy restic password file
   template:
     src: password.jinja2
-    dest: "{{ openwrt_restic_deploypath_passwordfile }}"
-    owner: root
-    group: root
+    dest: "{{ openwrt_restic_deploypath_passwordfile }}/{{ openwrt_restic_deployfile_passwordfile }}"
     mode: 0600
