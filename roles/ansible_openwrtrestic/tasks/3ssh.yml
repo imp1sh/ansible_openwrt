@@ -11,7 +11,7 @@
 #  command: "/usr/bin/ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ''"
 #  when: not publickey.stat.exists or not privatekey.stat.exists
 - name: make sure root user has ssh public key
-  user:
+  ansible.builtin.user:
     name: "root"
     generate_ssh_key: true
   register: rootuser
@@ -19,7 +19,7 @@
 #  set_fact:
 #    currentpublickey: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
 - name: provide root user's public key to destination machine
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ openwrt_restic_sshkey_user }}"
     state: present
     key: "{{ rootuser['ssh_public_key'] }}"
@@ -27,11 +27,11 @@
   become_user: root
   delegate_to: "{{ openwrt_restic_sshkey_targethost }}"
 - name: make sure known_hosts file exists
-  file:
+  ansible.builtin.file:
     path: "{{ openwrt_restic_deploypath_knownhosts }}"
     state: "touch"
 - name: install target hosts fingerprint to known hosts
-  known_hosts:
+  ansible.builtin.known_hosts:
     path: "/root/.ssh/known_hosts"
     key: "{{ lookup('pipe', '/usr/bin/ssh-keyscan -tecdsa ' + borgmatic_sshkey_targethost) }}"
     name: "{{ openwrt_restic_sshkey_targethost }}"
