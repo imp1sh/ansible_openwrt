@@ -12,7 +12,11 @@ openwrt_restic_ssh_manage: true
 openwrt_restic_keepweekly: 3
 openwrt_restic_keepdaily: 9
 openwrt_restic_keepmonthly: 2
-openwrt_restic_deploypath: "/etc/restic"
-openwrt_restic_deploypath_sysupgrade: "/etc/sysupgrade.conf"
-openwrt_restic_deploypath_passwordfile: "/etc/resticpassword"
-openwrt_restic_deploypath_knownhosts: "/root/.ssh/known_hosts"
+openwrt_restic_deployroot: "/"
+openwrt_restic_deploypath: "{{ openwrt_restic_deployroot }}etc/restic"
+openwrt_restic_deploypath_sysupgrade: "{{ openwrt_restic_deployroot }}etc"
+openwrt_restic_deployfilie_sysupgrade: "sysupgrade.conf"
+openwrt_restic_deploypath_passwordfile: "{{ openwrt_restic_deployroot }}etc"
+openwrt_restic_deployfile_passwordfile: "resticpassword"
+openwrt_restic_deploypath_knownhosts: "{{ openwrt_restic_deployroot }}root/.ssh"
+openwrt_restic_deployfile_knownhosts: "known_hosts"

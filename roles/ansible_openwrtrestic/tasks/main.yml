@@ -4,6 +4,7 @@
   include_tasks: 1install.yml
 - name: SSH setup
   include_tasks: 3ssh.yml
+  when: not openwrt_restic_runimagebuilder | default(false)
 - name: init repository
   command: "restic -r {{ openwrt_restic_repository }} init"
   environment:
@@ -16,3 +17,4 @@
     - not 'config already exists' in restic_init.stderr
 - name: "setup cron jobs"
   include_tasks: 5cron.yml
+  when: not openwrt_restic_runimagebuilder | default(false)
