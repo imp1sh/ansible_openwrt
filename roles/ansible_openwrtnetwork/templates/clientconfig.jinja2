@@ -11,9 +11,9 @@ PresharedKey = {{ s2s_psk_decoded }}
 PresharedKey = {{ client_psk_decoded }}
 {% endif %}
 {% if item.value.routes_to is defined %}
-AllowedIPs   = {{ hostvars[inventory_hostname]['openwrt_network_interfaces'][item.value.interface]['wg_addresses'] | ipaddr('net') | join(', ') }}, {{ item.value.routes_to | ipaddr('net') | join (', ') }}
+AllowedIPs   = {{ hostvars[inventory_hostname]['openwrt_network_interfaceshost'][item.value.interface]['wg_addresses'] | ipaddr('network/prefix') | join(', ') }}, {{ item.value.routes_to | join (', ') }}
 {% else %}
-AllowedIPs   = {{ hostvars[inventory_hostname]['openwrt_network_interfaces'][item.value.interface]['wg_addresses'] | ipaddr('net') | join(', ') }}
+AllowedIPs   = {{ hostvars[inventory_hostname]['openwrt_network_interfaceshost'][item.value.interface]['wg_addresses'] | ipaddr('network/prefix') | join(', ') }}
 {% endif %}
 
 {% if item.value.endpoint is not defined %}
@@ -21,4 +21,6 @@ Endpoint     = {{ hostvars[inventory_hostname]['openwrt_network_interfaces'][ite
 {% else %}
 Endpoint     = {{ item.value.endpoint }}:{{ item.value.endpointport }}
 {% endif %}
-PersistentKeepalive = {{ item.value.keepalive | default('30', true) }}
+{% if item.value.keepalive is defined %}
+PersistentKeepalive = {{ item.value.keepalive }}
+{% endif %}
