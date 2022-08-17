@@ -12,7 +12,7 @@
     openwrt_firewall_zonesactive: "{{ openwrt_firewall_zonesactive + [ item.key ] }}"
   when:
     - ( item.value.disabled is not defined ) or ( item.value.disabled is defined and not item.value.disabled )
-  loop: "{{ openwrt_firewall_zonesall | dict2items }}"
+  loop: "{{ openwrt_firewall_zones | dict2items }}"
 - name: Deploy firewall config
   ansible.builtin.template:
     src: "firewall.jinja2"

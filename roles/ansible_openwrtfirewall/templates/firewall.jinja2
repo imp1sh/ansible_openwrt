@@ -50,16 +50,16 @@ config defaults "defaults"
 {% endif %}
 
 # Zones
-{{ functions.create_zones(openwrt_firewall_zonesall) }}
+{{ functions.create_zones(openwrt_firewall_zones) }}
 
 # Forwardings
-{{ functions.create_forwardings(openwrt_firewall_forwardingsall) }}
+{{ functions.create_forwardings(openwrt_firewall_forwardings) }}
 
 # Rules
-{{ functions.create_rules(openwrt_firewall_rulesall) }}
+{{ functions.create_rules(openwrt_firewall_rules) }}
 
 # Redirects
-{{ functions.create_redirects(openwrt_firewall_redirectsall) }}
+{{ functions.create_redirects(openwrt_firewall_redirects) }}
 
 config include "include1"
         option path "/etc/firewall.user"

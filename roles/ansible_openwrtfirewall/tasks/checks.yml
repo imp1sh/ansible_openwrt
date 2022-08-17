@@ -55,10 +55,10 @@
     #      - item.value.src is defined
     #    fail_msg: "Rule {{ item.key}} contains errors, it has no attribute src."
     #    success_msg: "Rule {{ item.key }} seems OK."
-    #  loop: "{{ openwrt_firewall_rulesall | dict2items }}"
+    #  loop: "{{ openwrt_firewall_rules | dict2items }}"
     #- name: show all rules
     #  debug:
-    #    var: openwrt_firewall_rulesall
+    #    var: openwrt_firewall_rules
     #- name: show all zones
     #  debug:
-    #    var: openwrt_firewall_zonesall
+    #    var: openwrt_firewall_zones
