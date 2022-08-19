@@ -258,7 +258,11 @@ config interface "{{ key }}"
 {% endif %}
 {% if value['proto'] == "ppp" %}
         # PPP config
+{% if value['ipv6'] is defined %}
+	option ipv6 "value['ipv6']"
+{% else %}
         option ipv6 "auto"
+{% endif %}
 {% if value['device'] is defined %}
         option device "{{ value['device'] }}"
 {% endif %}
@@ -271,7 +275,11 @@ config interface "{{ key }}"
 {% endif %}
 {% if value['proto'] == "pppoe" %}
         # PPPoE config
+{% if value['ipv6'] is defined %}
+	option ipv6 "value['ipv6']"
+{% else %}
         option ipv6 "auto"
+{% endif %}
 {% if value['username'] is defined %}
         option username "{{ value['username'] }}"
 {% endif %}
