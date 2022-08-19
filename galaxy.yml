@@ -10,7 +10,7 @@ namespace: imp1sh
 name: ansible_openwrt
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 0.2.0
+version: 0.2.1
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
@@ -18,7 +18,7 @@ readme: README.md
 # A list of the collection's content authors. Can be just the name or in the format 'Full Name <email> (url)
 # @nicks:irc/im.site#channel'
 authors:
-  - Jochen Demmer <jochen@winteltosh.de>
+  - Jochen Demmer <jochen@libcom.de>
 
 
 ### OPTIONAL but strongly recommended
