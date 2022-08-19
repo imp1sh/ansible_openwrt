@@ -229,5 +229,38 @@ config wifi-iface "{{ key }}"
 {% if value.default_disabled is defined %}
 	option default_disabled "{{ value.default_disabled }}"
 {% endif %}
+{% if value.ieee80211r is defined %}
+	option ieee80211r "{{ value.ieee80211r }}"
+{% endif %}
+{% if value.nasid is defined %}
+	option nasid "{{ value.nasid }}"
+{% endif %}
+{% if value.mobility_domain is defined %}
+	option mobility_domain "{{ value.mobility_domain }}"
+{% endif %}
+{% if value.r0_key_lifetime is defined %}
+	option r0_key_lifetime "{{ value.r0_key_lifetime }}"
+{% endif %}
+{% if value.r1_key_holder is defined %}
+	option r1_key_holder "{{ value.r1_key_holder }}"
+{% endif %}
+{% if value.reassociation_deadline is defined %}
+	option reassociation_deadline "{{ value.reassociation_deadline }}"
+{% endif %}
+{% if value.r0kh is defined %}
+	option r0kh "{{ value.r0kh }}"
+{% endif %}
+{% if value.r1kh is defined %}
+	option r1kh "{{ value.r1kh }}"
+{% endif %}
+{% if value.pmk_r1_push is defined %}
+	option pmk_r1_push "{{ value.pmk_r1_push }}"
+{% endif %}
+{% if value.ft_over_ds is defined %}
+	option ft_over_ds "{{ value.ft_over_ds }}"
+{% endif %}
+{% if value.ft_psk_generate_local is defined %}
+	option ft_psk_generate_local "{{ value.ft_psk_generate_local }}"
+{% endif %}
 
 {% endfor %}
