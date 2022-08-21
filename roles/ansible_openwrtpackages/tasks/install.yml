@@ -15,18 +15,19 @@
   set_fact:
     openwrt_packages_install: "{{ (openwrt_packagesinstallmergedgroup + openwrt_packagesinstallhost) | join (',') }}"
   when:
-    - openwrt_packagesinstallmergedgroup is defined
+    #- openwrt_packagesinstallmergedgroup is defined
+    # I don't understand why I once set this condition. I can always merge the lists..., can I not?
     - not openwrt_packages_runimagebuilder | default(false)
 - name: Cast from list to space seperated string - Install Imagebuilder
   set_fact:
     openwrt_packages_install_imagebuilder: "{{ (openwrt_packagesinstallmergedgroup + openwrt_packagesinstallhost) | join (' ') }}"
   when:
     - openwrt_packages_runimagebuilder | default(false)
-    # todo: routine to also include packages that shall not be included in image (dash in front of the package name)
-    # https://openwrt.org/docs/guide-user/additional-software/imagebuilder#selecting_packages
 - name: Install packages
   opkg:
     name: "{{ openwrt_packages_install }}"
     state: present
     update_cache: yes
-  when: openwrt_packages_install is defined
+  when:
+    - openwrt_packages_install is defined
+    - not openwrt_packages_runimagebuilder | default(false)
