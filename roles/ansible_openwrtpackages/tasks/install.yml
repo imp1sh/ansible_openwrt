@@ -14,7 +14,16 @@
 - name: Cast from list to comma seperated string - Install
   set_fact:
     openwrt_packages_install: "{{ (openwrt_packagesinstallmergedgroup + openwrt_packagesinstallhost) | join (',') }}"
-  when: openwrt_packagesinstallmergedgroup is defined
+  when:
+    - openwrt_packagesinstallmergedgroup is defined
+    - not openwrt_packages_runimagebuilder | default(false)
+- name: Cast from list to space seperated string - Install Imagebuilder
+  set_fact:
+    openwrt_packages_install_imagebuilder: "{{ (openwrt_packagesinstallmergedgroup + openwrt_packagesinstallhost) | join (' ') }}"
+  when:
+    - openwrt_packages_runimagebuilder | default(false)
+    # todo: routine to also include packages that shall not be included in image (dash in front of the package name)
+    # https://openwrt.org/docs/guide-user/additional-software/imagebuilder#selecting_packages
 - name: Install packages
   opkg:
     name: "{{ openwrt_packages_install }}"
