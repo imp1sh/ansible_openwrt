@@ -1,9 +1,9 @@
 ---
 # tasks file for ansible_openwrtdhcp
 - name: make sure deploypath is present
-    ansible.builtin.file:
-      path: "{{ openwrt_dhcp_deploypath }}"
-      state: directory
+  ansible.builtin.file:
+    path: "{{ openwrt_dhcp_deploypath }}"
+    state: directory
 - name: merge dhcp group pools
   include_tasks: merge.yml
   when: openwrt_dhcp_poolsgroup is defined
