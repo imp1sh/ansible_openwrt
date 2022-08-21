@@ -1,0 +1,57 @@
+---
+# tasks file for ansible_openwrtimagebuilder
+- name: make sure builddir exists
+  ansible.builtin.file:
+    path: "{{ openwrt_imagebuilder_builddir }}"
+    state: directory
+- name: make sure outputdir exists
+  ansible.builtin.file:
+    path: "{{ openwrt_imagebuilder_outputdir }}"
+    state: directory
+- name: download and extract imagebuilder
+  ansible.builtin.unarchive:
+    src: "{{ openwrt_imagebuilder_downloadurl }}"
+    list_files: yes
+    remote_src: yes
+    dest: "{{ openwrt_imagebuilder_builddir }}"
+  register: openwrt_imagebuilder_extraction
+- name: get extracted folder name
+  set_fact:
+    openwrt_imagebuilder_extractedfolder: "{{ openwrt_imagebuilder_extraction.files[0] }}"
+- name: remove old files dir if exist
+  ansible.builtin.file:
+    path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}{{ openwrt_imagebuilder_filesdir }}"
+    state: absent
+- name: create empty files dir
+  ansible.builtin.file:
+    path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}{{ openwrt_imagebuilder_filesdir }}"
+    state: directory
+- name: set this files directory to use as openwrt deployroot for all compatible roles
+  set_fact:
+    "{{ item }}": "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}{{ openwrt_imagebuilder_filesdir }}/"
+  loop:
+    - openwrt_acme_deployroot
+    - openwrt_batmanadv_deployroot
+    - openwrt_babeld_deployroot
+    - openwrt_bmx7_deployroot
+    - openwrt_dhcp_deployroot
+    - openwrt_dropbear_deployroot
+    - openwrt_firewall_deployroot
+    - openwrt_network_deployroot
+    - openwrt_restic_deployroot
+    - openwrt_services_deployroot
+    - openwrt_system_deployroot
+- name: run all openwrt roles that are compatible with imagebuilder
+  ansible.builtin.include_role:
+    name: "{{ item }}"
+  loop:
+    - imp1sh.ansible_openwrt.ansible_openwrtacme
+    - imp1sh.ansible_openwrt.ansible_openwrtbatmanadv
+    - imp1sh.ansible_openwrt.ansible_openwrtbabeld
+    - imp1sh.ansible_openwrt.ansible_openwrtdhcp
+    - imp1sh.ansible_openwrt.ansible_openwrtdropbear
+    - imp1sh.ansible_openwrt.ansible_openwrtfirewall
+    - imp1sh.ansible_openwrt.ansible_openwrtnetwork
+    - imp1sh.ansible_openwrt.ansible_openwrtrestic
+    - imp1sh.ansible_openwrt.ansible_openwrtsystem
+      #- imp1sh.ansible_openwrt.ansible_openwrtbmx7

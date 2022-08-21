@@ -1,5 +1,9 @@
 ---
 # tasks file for ansible_openwrtrestic
+- name: make sure deploypath config exists
+  ansible.builtin.file:
+    path: "{{ openwrt_restic_deploypath }}"
+    state: directory
 - name: Installation and preparation
   include_tasks: 1install.yml
 - name: SSH setup
@@ -15,6 +19,7 @@
     - not 'config file already exists' in restic_init.stderr
     - not 'config already initialized' in restic_init.stderr
     - not 'config already exists' in restic_init.stderr
+    - not openwrt_restic_runimagebuilder | default(false)
 - name: "setup cron jobs"
   include_tasks: 5cron.yml
   when: not openwrt_restic_runimagebuilder | default(false)

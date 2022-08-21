@@ -1,5 +1,9 @@
 ---
 # tasks file for ansible_openwrtacme
+- name: make sure deploypath is present
+  ansible.builtin.file:
+    path: "{{ openwrt_acme_deploypath }}"
+    state: directory
 - name: Install packages
   opkg:
     name: "acme,acme-dnsapi,luci-app-acme"

@@ -13,9 +13,10 @@ openwrt_restic_keepweekly: 3
 openwrt_restic_keepdaily: 9
 openwrt_restic_keepmonthly: 2
 openwrt_restic_deployroot: "/"
-openwrt_restic_deploypath: "{{ openwrt_restic_deployroot }}etc/restic"
+openwrt_restic_deploypath: "{{ openwrt_restic_deployroot }}etc"
+openwrt_restic_deployfile: "restic"
 openwrt_restic_deploypath_sysupgrade: "{{ openwrt_restic_deployroot }}etc"
-openwrt_restic_deployfilie_sysupgrade: "sysupgrade.conf"
+openwrt_restic_deployfile_sysupgrade: "sysupgrade.conf"
 openwrt_restic_deploypath_passwordfile: "{{ openwrt_restic_deployroot }}etc"
 openwrt_restic_deployfile_passwordfile: "resticpassword"
 openwrt_restic_deploypath_knownhosts: "{{ openwrt_restic_deployroot }}root/.ssh"
