@@ -41,6 +41,7 @@ galaxy_info:
   - name: OpenWrt
     versions:
       - 21.02
+      - 22.03
 
   galaxy_tags: [openwrt, lede, letsencrypt, acme, cert-manager]
     # List tags for your role here, one per line. A tag is a keyword that describes
