@@ -12,6 +12,4 @@
   ansible.builtin.template:
     src: system.jinja2
     dest: "{{ openwrt_system_deploypath }}/{{ openwrt_system_deployfile }}"
-    owner: root
-    group: root
     mode: 0600

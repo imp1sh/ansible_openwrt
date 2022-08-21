@@ -32,7 +32,5 @@
   template:
     src: rc.local.jinja2
     dest: "{{ openwrt_services_deploypath }}/{{ openwrt_services_deployfile }}"
-    owner: root
-    group: root
     mode: 0600
   when: openwrt_scriptlinesafterboot is defined

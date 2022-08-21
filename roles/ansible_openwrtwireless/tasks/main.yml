@@ -4,8 +4,6 @@
   template:
     src: "wireless.jinja2"
     dest: "{{ openwrt_wireless_deploypath }}"
-    owner: "root"
-    group: "root"
     mode: "0600"
   when: openwrt_wifi_devices is defined
   notify: restart wireless

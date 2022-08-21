@@ -30,8 +30,6 @@
   template:
     src: getprefix.sh.jinja2
     dest: /root/getprefix.sh
-    owner: root
-    group: root
     mode: 0744
 - name: register dynamic prefixes
   shell: /root/getprefix.sh
@@ -43,8 +41,6 @@
   template:
     src: bmx7.jinja2
     dest: /etc/config/bmx7
-    owner: root
-    group: root
     mode: 0600
   notify: restart bmx7
 - name: enable bmx7 service

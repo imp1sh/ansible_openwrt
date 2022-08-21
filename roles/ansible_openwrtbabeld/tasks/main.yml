@@ -14,8 +14,6 @@
   ansible.builtin.template:
     src: getprefix.sh.jinja2
     dest: /root/getprefix.sh
-    owner: root
-    group: root
     mode: 0744
   when:
     not openwrt_babeld_runimagebuilder | default(false)
