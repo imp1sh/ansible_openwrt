@@ -1,5 +1,9 @@
 ---
 # tasks file for ansible_openwrtbmx7
+- name: make sure deploypath is present
+    ansible.builtin.file:
+      path: "{{ openwrt_bmx7_deploypath }}"
+      state: directory
 - name: Refresh opkg so packages will be found
   shell: opkg update
 - name: Install json plugin

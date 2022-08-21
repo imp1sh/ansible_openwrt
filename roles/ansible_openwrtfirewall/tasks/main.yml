@@ -1,5 +1,9 @@
 ---
 # tasks file for ansible_openwrtfirewall
+- name: make sure deploypath config exists
+    ansible.builtin.file:
+      path: "{{ openwrt_firewall_deploypath }}"
+      state: directory
 - name: declare emtpy zone array
   set_fact:
     openwrt_firewall_zonesactive: []

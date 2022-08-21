@@ -1,5 +1,9 @@
 ---
 # tasks file for ansible_openwrtbatmanadv
+- name: make sure deploypath is present
+  ansible.builtin.file:
+        path: "{{ openwrt_batmanadv_deploypath }}"
+    state: directory
 - name: Install batman-adv software
   package:
     name:
