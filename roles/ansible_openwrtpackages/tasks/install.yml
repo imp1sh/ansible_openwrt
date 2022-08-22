@@ -9,14 +9,12 @@
   when: openwrt_packagesinstallhost is not defined
 - name: Initialize unset installgroup variable as empty list
   set_fact:
-    openwrt_packagesinstallgroup: []
-  when: openwrt_packagesinstallgroup is not defined
+    openwrt_packagesinstallmergedgroup: []
+  when: openwrt_packagesinstallmergedgroup is not defined
 - name: Cast from list to comma seperated string - Install
   set_fact:
     openwrt_packages_install: "{{ (openwrt_packagesinstallmergedgroup + openwrt_packagesinstallhost) | join (',') }}"
   when:
-    #- openwrt_packagesinstallmergedgroup is defined
-    # I don't understand why I once set this condition. I can always merge the lists..., can I not?
     - not openwrt_packages_runimagebuilder | default(false)
 - name: Cast from list to space seperated string - Install Imagebuilder
   set_fact:
