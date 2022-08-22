@@ -8,6 +8,8 @@
   ansible.builtin.file:
     path: "{{ openwrt_imagebuilder_outputdir }}"
     state: directory
+# todo: it would be nice if the image would not be downloaded again and again
+# instead use existing tarball.
 - name: download and extract imagebuilder
   ansible.builtin.unarchive:
     src: "{{ openwrt_imagebuilder_downloadurl }}"
@@ -52,6 +54,31 @@
     - imp1sh.ansible_openwrt.ansible_openwrtdropbear
     - imp1sh.ansible_openwrt.ansible_openwrtfirewall
     - imp1sh.ansible_openwrt.ansible_openwrtnetwork
+    - imp1sh.ansible_openwrt.ansible_openwrtpackages
     - imp1sh.ansible_openwrt.ansible_openwrtrestic
     - imp1sh.ansible_openwrt.ansible_openwrtsystem
       #- imp1sh.ansible_openwrt.ansible_openwrtbmx7
+- name: create image with default size
+  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_install_imagebuilder }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
+  args: 
+    chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
+  when: ( not openwrt_imagebuilder_partsize_kernel is defined ) or ( not openwrt_imagebuilder_partsize_root is defined )
+- name: create image with given partition sizes
+  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_install_imagebuilder }}" FILES="{{ openwrt_imagebuilder_filesdir }}" CONFIG_TARGET_KERNEL_PARTSIZE="{{ openwrt_imagebuilder_partsize_kernel }}" CONFIG_TARGET_ROOTFS_PARTSIZE="{{ openwrt_imagebuilder_partsize_root }}"
+  args:
+    chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
+  when:
+    - openwrt_imagebuilder_partsize_kernel is defined
+    - openwrt_imagebuilder_partsize_root is defined
+- name: compress and remove for user set path
+  community.general.archive:
+    path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}/bin"
+    dest: "{{ openwrt_imagebuilder_destinationpath }}/{{ inventory_hostname }}.tar.gz"
+    remove: true
+  when: openwrt_imagebuilder_destinationpath is defined
+- name: compress images and remove 
+  community.general.archive:
+    path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}/bin"
+    dest: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}{{ inventory_hostname }}.tar.gz"
+    remove: true
+  when: not openwrt_imagebuilder_destinationpath is defined
