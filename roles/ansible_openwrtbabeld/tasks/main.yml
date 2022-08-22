@@ -43,6 +43,9 @@
     dest: "{{ openwrt_babeld_deploypath }}/{{ openwrt_babeld_deployfile }}"
     mode: 0600
   notify: restart babeld
+  when: openwrt_babeld_interfaces is defined
+  # todo: it's not up to this role to activate services
+  # there is a dedicated role for this
 - name: enable babeld service
   ansible.builtin.service:
     name: babeld
