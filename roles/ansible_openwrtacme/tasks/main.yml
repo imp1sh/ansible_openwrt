@@ -14,3 +14,4 @@
     src: "acme.jinja2"
     dest: "{{ openwrt_acme_deploypath }}/{{ openwrt_acme_deployfile }}"
   notify: restart acme
+  when: openwrt_acme_cert is defined
