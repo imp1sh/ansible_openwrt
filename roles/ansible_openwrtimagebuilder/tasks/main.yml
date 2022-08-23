@@ -1,4 +1,5 @@
 ---
+# todo, install packages necessary for imagebuilder on building host
 # tasks file for ansible_openwrtimagebuilder
 - name: make sure builddir exists
   ansible.builtin.file:
@@ -58,18 +59,28 @@
     - imp1sh.ansible_openwrt.ansible_openwrtrestic
     - imp1sh.ansible_openwrt.ansible_openwrtsystem
       #- imp1sh.ansible_openwrt.ansible_openwrtbmx7
-- name: create image with default size
+- name: set kernel parameters for build
+  ansible.builtin.lineinfile:
+    path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}/.config"
+    regexp: "^{{ item.name }}="
+    line: "{{ item.name}}={{ item.value }}"
+  loop: "{{ openwrt_imagebuilder_kernelvars }}"
+- name: create image
   ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_install_imagebuilder }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
-  args: 
-    chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
-  when: ( not openwrt_imagebuilder_partsize_kernel is defined ) or ( not openwrt_imagebuilder_partsize_root is defined )
-- name: create image with given partition sizes
-  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_install_imagebuilder }}" FILES="{{ openwrt_imagebuilder_filesdir }}" CONFIG_TARGET_KERNEL_PARTSIZE="{{ openwrt_imagebuilder_partsize_kernel }}" CONFIG_TARGET_ROOTFS_PARTSIZE="{{ openwrt_imagebuilder_partsize_root }}"
   args:
     chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
-  when:
-    - openwrt_imagebuilder_partsize_kernel is defined
-    - openwrt_imagebuilder_partsize_root is defined
+      #- name: create image with default size
+      #  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_install_imagebuilder }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
+      #  args: 
+      #    chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
+      #  when: ( not openwrt_imagebuilder_partsize_kernel is defined ) or ( not openwrt_imagebuilder_partsize_root is defined )
+      #- name: create image with given partition sizes
+      #  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_install_imagebuilder }}" FILES="{{ openwrt_imagebuilder_filesdir }}" CONFIG_TARGET_KERNEL_PARTSIZE="{{ openwrt_imagebuilder_partsize_kernel }}" CONFIG_TARGET_ROOTFS_PARTSIZE="{{ openwrt_imagebuilder_partsize_root }}"
+      #  args:
+      #    chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
+      #  when:
+      #    - openwrt_imagebuilder_partsize_kernel is defined
+      #    - openwrt_imagebuilder_partsize_root is defined
 - name: compress and remove for user set path
   community.general.archive:
     path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}/bin"
@@ -79,6 +90,6 @@
 - name: compress images and remove 
   community.general.archive:
     path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}/bin"
-    dest: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}{{ inventory_hostname }}.tar.gz"
+    dest: "{{ openwrt_imagebuilder_outputdir }}/{{ inventory_hostname }}.tar.gz"
     remove: true
   when: not openwrt_imagebuilder_destinationpath is defined
