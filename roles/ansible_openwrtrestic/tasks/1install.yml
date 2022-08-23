@@ -21,8 +21,10 @@
     src: restic.conf.jinja2
     dest: "{{ openwrt_restic_deploypath }}/{{ openwrt_restic_deployfile }}"
     mode: 0600
+  when: openwrt_restic_repository is defined
 - name: deploy restic password file
   template:
     src: password.jinja2
     dest: "{{ openwrt_restic_deploypath_passwordfile }}/{{ openwrt_restic_deployfile_passwordfile }}"
     mode: 0600
+  when: openwrt_restic_repository is defined

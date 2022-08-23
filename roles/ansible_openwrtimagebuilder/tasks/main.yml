@@ -1,4 +1,5 @@
 ---
+# todo, install packages necessary for imagebuilder on building host
 # tasks file for ansible_openwrtimagebuilder
 - name: make sure builddir exists
   ansible.builtin.file:
@@ -8,11 +9,22 @@
   ansible.builtin.file:
     path: "{{ openwrt_imagebuilder_outputdir }}"
     state: directory
-- name: download and extract imagebuilder
+- name: get filename from url
+  set_fact:
+    openwrt_imagebuilder_filename: "{{ openwrt_imagebuilder_downloadurl | basename }}"
+- name: check if download is needed
+  ansible.builtin.stat:
+    path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_filename }}"
+  register: downloaded_file
+- name: conditional download file
+  ansible.builtin.get_url:
+    url: "{{ openwrt_imagebuilder_downloadurl }}"
+    dest: "{{ openwrt_imagebuilder_builddir }}"
+  when: not downloaded_file.stat.exists
+- name: extract imagebuilder
   ansible.builtin.unarchive:
-    src: "{{ openwrt_imagebuilder_downloadurl }}"
+    src: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_filename }}"
     list_files: yes
-    remote_src: yes
     dest: "{{ openwrt_imagebuilder_builddir }}"
   register: openwrt_imagebuilder_extraction
 - name: get extracted folder name
@@ -44,14 +56,38 @@
 - name: run all openwrt roles that are compatible with imagebuilder
   ansible.builtin.include_role:
     name: "{{ item }}"
-  loop:
-    - imp1sh.ansible_openwrt.ansible_openwrtacme
-    - imp1sh.ansible_openwrt.ansible_openwrtbatmanadv
-    - imp1sh.ansible_openwrt.ansible_openwrtbabeld
-    - imp1sh.ansible_openwrt.ansible_openwrtdhcp
-    - imp1sh.ansible_openwrt.ansible_openwrtdropbear
-    - imp1sh.ansible_openwrt.ansible_openwrtfirewall
-    - imp1sh.ansible_openwrt.ansible_openwrtnetwork
-    - imp1sh.ansible_openwrt.ansible_openwrtrestic
-    - imp1sh.ansible_openwrt.ansible_openwrtsystem
-      #- imp1sh.ansible_openwrt.ansible_openwrtbmx7
+  loop: "{{ openwrt_imagebuilder_roles }}"
+- name: set kernel parameters for build
+  ansible.builtin.lineinfile:
+    path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}/.config"
+    regexp: "^{{ item.name }}="
+    line: "{{ item.name}}={{ item.value }}"
+  loop: "{{ openwrt_imagebuilder_kernelvars }}"
+- name: create image
+  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_install_imagebuilder|default("") }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
+  args:
+    chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
+      #- name: create image with default size
+      #  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_install_imagebuilder }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
+      #  args: 
+      #    chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
+      #  when: ( not openwrt_imagebuilder_partsize_kernel is defined ) or ( not openwrt_imagebuilder_partsize_root is defined )
+      #- name: create image with given partition sizes
+      #  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_install_imagebuilder }}" FILES="{{ openwrt_imagebuilder_filesdir }}" CONFIG_TARGET_KERNEL_PARTSIZE="{{ openwrt_imagebuilder_partsize_kernel }}" CONFIG_TARGET_ROOTFS_PARTSIZE="{{ openwrt_imagebuilder_partsize_root }}"
+      #  args:
+      #    chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
+      #  when:
+      #    - openwrt_imagebuilder_partsize_kernel is defined
+      #    - openwrt_imagebuilder_partsize_root is defined
+- name: compress and remove for user set path
+  community.general.archive:
+    path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}/bin"
+    dest: "{{ openwrt_imagebuilder_destinationpath }}/{{ inventory_hostname }}.tar.gz"
+    remove: true
+  when: openwrt_imagebuilder_destinationpath is defined
+- name: compress images and remove 
+  community.general.archive:
+    path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}/bin"
+    dest: "{{ openwrt_imagebuilder_outputdir }}/{{ inventory_hostname }}.tar.gz"
+    remove: true
+  when: not openwrt_imagebuilder_destinationpath is defined
