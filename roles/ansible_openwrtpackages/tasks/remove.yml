@@ -13,15 +13,15 @@
   when: openwrt_packagesremovemergedgroup is not defined 
 - name: Cast from list to comma seperated list - Remove
   set_fact:
-    openwrt_packages_remove: "{{ (openwrt_packagesremovemergedgroup + openwrt_packagesremovehost) | join (',') }}"
+    openwrt_packagesremove: "{{ (openwrt_packagesremovemergedgroup + openwrt_packagesremovehost) | join (',') }}"
   when:
     - not openwrt_packages_runimagebuilder | default(false)
     # todo: routine to also include packages that shall not be included in image (dash in front of the package name)
     # https://openwrt.org/docs/guide-user/additional-software/imagebuilder#selecting_packages
 - name: Uninstall packages
   package:
-    name: "{{ openwrt_packages_remove }}"
+    name: "{{ openwrt_packagesremove }}"
     state: absent
   when:
-    - openwrt_packages_remove is defined
+    - (openwrt_packagesremovehost is defined) or (openwrt_packagesremovegroup is defined)
     - not openwrt_packages_runimagebuilder | default(false)

@@ -27,5 +27,5 @@
     state: present
     update_cache: yes
   when:
-    - openwrt_packages_install is defined
+    - (openwrt_packages_installhost is defined) or (openwrt_packages_installgroup is defined)
     - not openwrt_packages_runimagebuilder | default(false)
