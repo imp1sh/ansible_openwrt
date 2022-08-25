@@ -1,0 +1,8 @@
+---
+- name: Uninstall packages
+  package:
+    name: "{{ openwrt_packages_remove }}"
+    state: absent
+  when:
+    - openwrt_packages_remove is defined
+    - not openwrt_packages_runimagebuilder | default(false)

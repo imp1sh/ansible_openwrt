@@ -1,0 +1,9 @@
+---
+- name: Install packages
+  opkg:
+    name: "{{ openwrt_packages_install }}"
+    state: present
+    update_cache: yes
+  when:
+    - openwrt_packages_install is defined
+    - not openwrt_packages_runimagebuilder | default(false)
