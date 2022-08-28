@@ -3,7 +3,7 @@ galaxy_info:
   description: lets you manage acme letsencrypt certificates on OpenWrt
   company: libcom.de
   license: BSD-3-Clause
-  min_ansible_version: 2.9
+  min_ansible_version: 2.12
   platforms:
     - name: OpenWrt
       versions:
