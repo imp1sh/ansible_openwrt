@@ -1,0 +1,69 @@
+---
+# Prepare first phase
+- name: Merge packages_remove from all groups this host is a member of
+  set_fact:
+    openwrt_packages_removemergedgroup: "{{ openwrt_packages_removegroup.keys() | list | intersect(group_names) | map('extract', openwrt_packages_removegroup) | list | flatten }}"
+  when: openwrt_packages_removegroup is defined
+- name: set seperator if imagebuilder
+  set_fact:
+    openwrt_packages_separator: ' '
+  when: openwrt_packages_runimagebuilder | default(false)
+- name: set separator if not imagebuilder
+  set_fact:
+    openwrt_packages_separator: ','
+  when: not openwrt_packages_runimagebuilder | default(false)
+# Prepare second phase. There are 8 possibilities on how role, group based or host based vars can be set
+# Variant H is where none is set so no action for this
+- name: Variant A - Merge role/host/group
+  set_fact:
+    openwrt_packages_remove: "{{ openwrt_packages_removehost + openwrt_packages_removemergedgroup + openwrt_packages_removerole }}"
+  when:
+    - openwrt_packages_removemergedgroup is defined
+    - openwrt_packages_removehost is defined
+    - openwrt_packages_removerole is defined
+- name: Variant B - Merge Group and Host
+  set_fact:
+    openwrt_packages_remove: "{{ openwrt_packages_removehost + openwrt_packages_removemergedgroup }}"
+  when:
+    - openwrt_packages_removemergedgroup is defined
+    - openwrt_packages_removehost is defined
+    - openwrt_packages_removerole is not defined
+- name: Variant C - Merge Host and Role
+  set_fact:
+    openwrt_packages_remove: "{{ openwrt_packages_removehost + openwrt_packages_removerole }}"
+  when:
+    - openwrt_packages_removemergedgroup is not defined
+    - openwrt_packages_removehost is defined
+    - openwrt_packages_removerole is defined
+- name: Variant D - Only host set
+  set_fact:
+    openwrt_packages_remove: "{{ openwrt_packages_removehost }}"
+  when:
+    - openwrt_packages_removemergedgroup is not defined
+    - openwrt_packages_removehost is defined
+    - openwrt_packages_removerole is not defined
+- name: Variant E - Merge Group and Role
+  set_fact:
+    openwrt_packages_remove: "{{ openwrt_packages_removemergedgroup + openwrt_packages_removerole }}"
+  when:
+    - openwrt_packages_removemergedgroup is defined
+    - openwrt_packages_removehost is not defined
+    - openwrt_packages_removerole is defined
+- name: Variant F - Only group set
+  set_fact:
+    openwrt_packages_remove: "{{ openwrt_packages_removemergedgroup }}"
+  when:
+    - openwrt_packages_removemergedgroup is defined
+    - openwrt_packages_removehost is not defined
+    - openwrt_packages_removerole is not defined
+- name: Variant G - Only role set
+  set_fact:
+    openwrt_packages_remove: "{{ openwrt_packages_removerole }}"
+  when:
+    - openwrt_packages_removemergedgroup is not defined
+    - openwrt_packages_removehost is not defined
+    - openwrt_packages_removerole is defined
+- name: Convert List to string
+  set_fact:
+    openwrt_packages_remove: "{{ openwrt_packages_remove | join(openwrt_packages_separator) }}"
+  when: openwrt_package_remove is defined

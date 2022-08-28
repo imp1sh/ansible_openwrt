@@ -160,25 +160,29 @@ config rule
 	option family "{{ value['family'] }}"
 {% endif %}
 {% if value['proto'] is defined %}
-{% if "icmp" in value['proto'] %}
-	option proto "icmp"
+{% if "all" in value['proto'] %}
+	option proto "all"
+{% elif "icmp" in value['proto'] %}
+	list proto "icmp"
 {% if value['icmp_type'] is defined %}
 {% for icmp_type in value['icmp_type'] %}
 	list icmp_type "{{ icmp_type }}"
 {% endfor %}
 {% endif %}
-{% endif %}
-{% if "udp" in value['proto'] %}
-	option proto "udp"
-{% endif %}
-{% if "tcp" in value['proto'] %}
-	option proto "tcp"
-{% endif %}
-{% if "igmp" in value['proto'] %}
-	option proto "igmp"
-{% endif %}
-{% if "esp" in value['proto'] %}
-	option proto "esp"
+{% elif "udp" in value['proto'] %}
+	list proto "udp"
+{% elif "tcp" in value['proto'] %}
+	list proto "tcp"
+{% elif "igmp" in value['proto'] %}
+	list proto "igmp"
+{% elif "esp" in value['proto'] %}
+	list proto "esp"
+{% elif "udplite" in value['proto'] %}
+	list proto "udplite"
+{% elif "ah" in value['proto'] %}
+	list proto "ah"
+{% elif "sctp" in value['proto'] %}
+	list proto "sctp"
 {% endif %}
 {% endif %}
 {% if value['src'] is defined %}

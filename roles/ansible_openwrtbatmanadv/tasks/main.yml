@@ -4,13 +4,17 @@
   ansible.builtin.file:
     path: "{{ openwrt_batmanadv_deploypath }}"
     state: directory
-- name: Install batman-adv software
-  package:
-    name:
-      - kmod-batman-adv
-      - alfred
-      - batctl-full
-    state: present
+- name: initialize openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: []
   when:
-    - not openwrt_batmanadv_runimagebuilder | default(false)
+    - openwrt_packages_installimagebuilder is not defined
+    - openwrt_batmanadv_runimagebuilder | default(false)
+- name: debug
+  debug:
+    msg: "imagebuilder:  {{ openwrt_packages_installimagebuilder }} sowie role: {{ openwrt_packages_installrole }}"
+- name: merge role packages into openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}"
+  when: openwrt_batmanadv_runimagebuilder | default(false)
 
