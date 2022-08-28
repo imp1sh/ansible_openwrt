@@ -4,11 +4,6 @@
   ansible.builtin.file:
     path: "{{ openwrt_acme_deploypath }}"
     state: directory
-- name: Install packages
-  opkg:
-    name: "acme,acme-dnsapi,luci-app-acme"
-  when:
-    not openwrt_acme_runimagebuilder | default(false)
 - name: Setup acme config
   template:
     src: "acme.jinja2"

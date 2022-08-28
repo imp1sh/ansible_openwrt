@@ -1,15 +1,5 @@
 ---
 # tasks file for ansible_openwrtbabeld
-- name: Refresh opkg so packages will be found
-  ansible.builtin.shell: opkg update
-  when:
-    not openwrt_babeld_runimagebuilder | default(false)
-- name: Install jq in order to be able to parse ifstatus
-  ansible.builtin.package:
-    name: jq
-    state: present
-  when:
-    not openwrt_babeld_runimagebuilder | default(false)
 - name: Install getprefix script
   ansible.builtin.template:
     src: getprefix.sh.jinja2

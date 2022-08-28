@@ -16,21 +16,21 @@
 # Variant H is where none is set so no action for this
 - name: Variant A - Merge role/host/group
   set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installmergedgroup + openwrt_packages_installrole) | join({{ openwrt_packages_separator }}) }}"
+    openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installmergedgroup + openwrt_packages_installrole }}"
   when:
     - openwrt_packages_installmergedgroup is defined
     - openwrt_packages_installhost is defined
     - openwrt_packages_installrole is defined
 - name: Variant B - Merge Group and Host
   set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installmergedgroup) | join({{ openwrt_packages_separator }}) }}"
+    openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installmergedgroup }}"
   when:
     - openwrt_packages_installmergedgroup is defined
     - openwrt_packages_installhost is defined
     - openwrt_packages_installrole is not defined
 - name: Variant C - Merge Host and Role
   set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installrole) join({{ openwrt_packages_separator }}) }}"
+    openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installrole }}"
   when:
     - openwrt_packages_installmergedgroup is not defined
     - openwrt_packages_installhost is defined
@@ -44,7 +44,7 @@
     - openwrt_packages_installrole is not defined
 - name: Variant E - Merge Group and Role
   set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installmergedgroup + openwrt_packages_installrole) join({{ openwrt_packages_separator }}) }}"
+    openwrt_packages_install: "{{ openwrt_packages_installmergedgroup + openwrt_packages_installrole }}"
   when:
     - openwrt_packages_installmergedgroup is defined
     - openwrt_packages_installhost is not defined
@@ -63,3 +63,6 @@
     - openwrt_packages_installmergedgroup is not defined
     - openwrt_packages_installhost is not defined
     - openwrt_packages_installrole is defined
+- name: Convert List to string
+  set_fact:
+    openwrt_packages_install: "{{ openwrt_packages_install | join(openwrt_packages_separator) }}"

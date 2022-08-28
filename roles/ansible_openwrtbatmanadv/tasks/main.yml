@@ -4,13 +4,4 @@
   ansible.builtin.file:
     path: "{{ openwrt_batmanadv_deploypath }}"
     state: directory
-- name: Install batman-adv software
-  package:
-    name:
-      - kmod-batman-adv
-      - alfred
-      - batctl-full
-    state: present
-  when:
-    - not openwrt_batmanadv_runimagebuilder | default(false)
 

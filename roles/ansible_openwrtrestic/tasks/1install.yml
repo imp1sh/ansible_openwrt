@@ -1,10 +1,4 @@
 ---
-- name: Install restic and other needed software
-  opkg:
-    name: restic,openssh-client-utils,shadow-usermod
-    state: present
-    update_cache: true
-  when: not openwrt_restic_runimagebuilder | default(false)
 - name: make sure sysupgrade.conf file exists
   ansible.builtin.file:
     path: "{{ openwrt_restic_deploypath_sysupgrade }}/{{ openwrt_restic_deployfile_sysupgrade }}"

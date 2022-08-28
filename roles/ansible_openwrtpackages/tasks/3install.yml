@@ -1,6 +1,10 @@
 ---
+- name: Refresh opkg so packages will be found
+  ansible.builtin.shell: opkg update
+  when:
+    - not openwrt_bmx7_runimagebuilder | default(false)
 - name: Install packages
-  opkg:
+  community.general.opkg:
     name: "{{ openwrt_packages_install }}"
     state: present
     update_cache: yes
