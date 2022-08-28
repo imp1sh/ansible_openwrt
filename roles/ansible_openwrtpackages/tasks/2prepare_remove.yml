@@ -16,21 +16,21 @@
 # Variant H is where none is set so no action for this
 - name: Variant A - Merge role/host/group
   set_fact:
-    openwrt_packages_remove: "{{ openwrt_packages_removehost + openwrt_packages_removemergedgroup + openwrt_packages_removerole) | join({{ openwrt_packages_separator }}) }}"
+    openwrt_packages_remove: "{{ openwrt_packages_removehost + openwrt_packages_removemergedgroup + openwrt_packages_removerole }}"
   when:
     - openwrt_packages_removemergedgroup is defined
     - openwrt_packages_removehost is defined
     - openwrt_packages_removerole is defined
 - name: Variant B - Merge Group and Host
   set_fact:
-    openwrt_packages_remove: "{{ openwrt_packages_removehost + openwrt_packages_removemergedgroup) | join({{ openwrt_packages_separator }}) }}"
+    openwrt_packages_remove: "{{ openwrt_packages_removehost + openwrt_packages_removemergedgroup }}"
   when:
     - openwrt_packages_removemergedgroup is defined
     - openwrt_packages_removehost is defined
     - openwrt_packages_removerole is not defined
 - name: Variant C - Merge Host and Role
   set_fact:
-    openwrt_packages_remove: "{{ openwrt_packages_removehost + openwrt_packages_removerole) join({{ openwrt_packages_separator }}) }}"
+    openwrt_packages_remove: "{{ openwrt_packages_removehost + openwrt_packages_removerole }}"
   when:
     - openwrt_packages_removemergedgroup is not defined
     - openwrt_packages_removehost is defined
@@ -44,7 +44,7 @@
     - openwrt_packages_removerole is not defined
 - name: Variant E - Merge Group and Role
   set_fact:
-    openwrt_packages_remove: "{{ openwrt_packages_removemergedgroup + openwrt_packages_removerole) join({{ openwrt_packages_separator }}) }}"
+    openwrt_packages_remove: "{{ openwrt_packages_removemergedgroup + openwrt_packages_removerole }}"
   when:
     - openwrt_packages_removemergedgroup is defined
     - openwrt_packages_removehost is not defined
@@ -63,3 +63,7 @@
     - openwrt_packages_removemergedgroup is not defined
     - openwrt_packages_removehost is not defined
     - openwrt_packages_removerole is defined
+- name: Convert List to string
+  set_fact:
+    openwrt_packages_remove: "{{ openwrt_packages_remove | join(openwrt_packages_separator) }}"
+  when: openwrt_package_remove is defined

@@ -10,8 +10,11 @@
   when:
     - openwrt_packages_installimagebuilder is not defined
     - openwrt_batmanadv_runimagebuilder | default(false)
+- name: debug
+  debug:
+    msg: "imagebuilder:  {{ openwrt_packages_installimagebuilder }} sowie role: {{ openwrt_packages_installrole }}"
 - name: merge role packages into openwrt_packages_installimagebuilder
   set_fact:
-    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}":w
+    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}"
   when: openwrt_batmanadv_runimagebuilder | default(false)
 

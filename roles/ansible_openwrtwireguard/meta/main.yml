@@ -55,7 +55,7 @@ galaxy_info:
 dependencies:
   - role: imp1sh.ansible_openwrt.ansible_openwrtpackages
     vars:
-      ansible_openwrt_packagesinstallrole:
+      openwrt_packages_installrole:
         - wireguard-tools
         - kmod-wireguard
         - luci-app-wireguard

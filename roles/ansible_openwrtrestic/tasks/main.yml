@@ -24,3 +24,13 @@
 - name: "setup cron jobs"
   include_tasks: 5cron.yml
   when: not openwrt_restic_runimagebuilder | default(false)
+- name: initialize openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: []
+  when:
+    - openwrt_packages_installimagebuilder is not defined
+    - openwrt_restic_runimagebuilder | default(false)
+- name: merge role packages into openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}"
+  when: openwrt_restic_runimagebuilder | default(false)

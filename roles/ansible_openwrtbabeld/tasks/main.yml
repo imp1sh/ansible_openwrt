@@ -63,5 +63,5 @@
     - openwrt_babeld_runimagebuilder | default(false)
 - name: merge role packages into openwrt_packages_installimagebuilder
   set_fact:
-    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}":w
+    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}"
   when: openwrt_babeld_runimagebuilder | default(false)

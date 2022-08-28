@@ -63,6 +63,24 @@
     - openwrt_packages_installmergedgroup is not defined
     - openwrt_packages_installhost is not defined
     - openwrt_packages_installrole is defined
+- name: initialize openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: []
+  when:
+    - openwrt_packages_installimagebuilder is not defined
+    - openwrt_packages_runimagebuilder | default(false)
+- name: merge role packages into openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_install }}"
+  when: openwrt_packages_runimagebuilder | default(false)
+- name: remove duplicates from list
+  set_fact:
+    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder | unique }}"
+  when: openwrt_packages_runimagebuilder | default(false)
+- name: debug
+  debug:
+    var: openwrt_packages_installimagebuilder
 - name: Convert List to string
   set_fact:
     openwrt_packages_install: "{{ openwrt_packages_install | join(openwrt_packages_separator) }}"
+  when: openwrt_packages_install is defined
