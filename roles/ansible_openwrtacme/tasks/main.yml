@@ -10,3 +10,13 @@
     dest: "{{ openwrt_acme_deploypath }}/{{ openwrt_acme_deployfile }}"
   notify: restart acme
   when: openwrt_acme_cert is defined
+- name: initialize openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: []
+  when:
+    - openwrt_packages_installimagebuilder is not defined
+    - openwrt_acme_runimagebuilder | default(false)
+- name: merge role packages into openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}"
+  when: openwrt_acme_runimagebuilder | default(false)
