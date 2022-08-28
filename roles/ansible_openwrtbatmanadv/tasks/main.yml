@@ -4,4 +4,14 @@
   ansible.builtin.file:
     path: "{{ openwrt_batmanadv_deploypath }}"
     state: directory
+- name: initialize openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: []
+  when:
+    - openwrt_packages_installimagebuilder is not defined
+    - openwrt_batmanadv_runimagebuilder | default(false)
+- name: merge role packages into openwrt_packages_installimagebuilder
+  set_fact:
+    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}":w
+  when: openwrt_batmanadv_runimagebuilder | default(false)
 
