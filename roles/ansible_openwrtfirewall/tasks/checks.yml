@@ -1,7 +1,7 @@
 ---
 # waiting for Ansible 2.11 and this feature
 # https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#role-argument-validation
-#- name: run zone checks
+# - name: run zone checks
 #  include_tasks: checks/zones.yml
 #  loop:
 #    - "{{ openwrt_firewall_zoneshost | default(omit) }}"
@@ -9,8 +9,8 @@
 #  loop_control:
 #    loop_var: zones
       # check somehow not working
-      #- name: Check all variables that either need to be 1 or 0
-      #  assert:
+      # - name: Check all variables that either need to be 1 or 0
+      #  ansible.builtin.assert:
       #    that:
       #      - item is int
       #        #- item == 1 or item == 0
@@ -22,7 +22,7 @@
       #    - "openwrt_firewall_default_flow_offloading_hw"
       #    - "openwrt_firewall_default_drop_invalid"
 - name: check default forwards
-  assert:
+  ansible.builtin.assert:
     that:
       - item.src is defined
       - item.dest is defined
@@ -31,7 +31,7 @@
   loop: "{{ openwrt_firewall_forwardingsdefault }}"
   when: openwrt_firewall_forwardingsdefault is defined
 - name: check host based forwardings
-  assert:
+  ansible.builtin.assert:
     that:
       - item.src is defined
       - item.dest is defined
@@ -40,7 +40,7 @@
   loop: "{{ openwrt_firewall_forwardingshost }}"
   when: openwrt_firewall_forwardingshost is defined
 - name: check group based forwardings
-  assert:
+  ansible.builtin.assert:
     that:
       - item.src is defined
       - item.dest is defined
@@ -49,16 +49,16 @@
   loop: "{{ openwrt_firewall_forwardingsmergedgroup }}"
   when: openwrt_firewall_forwardingsmergedgroup is defined
     # this check is bullshit, need to write new checks for rules
-    #- name: rudimentary checks on rules
-    #  assert:
+    # - name: rudimentary checks on rules
+    #  ansible.builtin.assert:
     #    that:
     #      - item.value.src is defined
     #    fail_msg: "Rule {{ item.key}} contains errors, it has no attribute src."
     #    success_msg: "Rule {{ item.key }} seems OK."
     #  loop: "{{ openwrt_firewall_rules | dict2items }}"
-    #- name: show all rules
+    # - name: show all rules
     #  debug:
     #    var: openwrt_firewall_rules
-    #- name: show all zones
+    # - name: show all zones
     #  debug:
     #    var: openwrt_firewall_zones

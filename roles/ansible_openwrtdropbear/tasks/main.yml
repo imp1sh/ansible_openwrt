@@ -20,4 +20,3 @@
     dest: "{{ openwrt_dropbear_deploypath_keys }}/{{ openwrt_dropbear_deployfile_keys }}"
     mode: 0600
   when: openwrt_dropbear_keys is defined
-

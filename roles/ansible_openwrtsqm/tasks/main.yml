@@ -1,7 +1,7 @@
 ---
 # tasks file for ansible_openwrtsqm
 - name: deploy sqm configuration
-  template:
+  ansible.builtin.template:
     src: sqm.jinja2
     dest: "{{ openwrt_sqm_deploypath }}"
   when: openwrt_sqm_interfaces is defined

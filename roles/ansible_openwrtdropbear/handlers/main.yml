@@ -1,7 +1,7 @@
 ---
 # handlers file for ansible_openwrtdropbear
 - name: restart dropbear
-  service:
+  ansible.builtin.service:
     name: dropbear
     state: restarted
   when:

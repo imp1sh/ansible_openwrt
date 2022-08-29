@@ -10,7 +10,7 @@
     path: "{{ openwrt_imagebuilder_outputdir }}"
     state: directory
 - name: get filename from url
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_imagebuilder_filename: "{{ openwrt_imagebuilder_downloadurl | basename }}"
 - name: check if download is needed
   ansible.builtin.stat:
@@ -24,11 +24,11 @@
 - name: extract imagebuilder
   ansible.builtin.unarchive:
     src: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_filename }}"
-    list_files: yes
+    list_files: true
     dest: "{{ openwrt_imagebuilder_builddir }}"
   register: openwrt_imagebuilder_extraction
 - name: get extracted folder name
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_imagebuilder_extractedfolder: "{{ openwrt_imagebuilder_extraction.files[0] }}"
 - name: remove old files dir if exist
   ansible.builtin.file:
@@ -39,7 +39,7 @@
     path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}{{ openwrt_imagebuilder_filesdir }}"
     state: directory
 - name: set this files directory to use as openwrt deployroot for all compatible roles
-  set_fact:
+  ansible.builtin.set_fact:
     "{{ item }}": "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}{{ openwrt_imagebuilder_filesdir }}/"
   loop:
     - openwrt_acme_deployroot
@@ -64,17 +64,17 @@
     line: "{{ item.name }}={{ item.value }}"
   loop: "{{ openwrt_imagebuilder_kernelvars }}"
 - name: remove duplicates from list
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder | unique }}"
   when: openwrt_packages_runimagebuilder | default(false)
 - name: List packages that will be in the image
   debug:
     var: openwrt_packages_installimagebuilder
 - name: Convert imagebuilder packages into list
-  set_fact:
+  anbisble.builtin.set_fact:
     openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder | join(' ') }}"
   when: openwrt_packages_installimagebuilder is defined
-- name: create image
+- name: Create image
   ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_installimagebuilder|default("") }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
   args:
     chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"

@@ -10,7 +10,7 @@
   include_tasks: 3ssh.yml
   when: not openwrt_restic_runimagebuilder | default(false)
 - name: init repository
-  command: "restic -r {{ openwrt_restic_repository }} init"
+  ansible.builtin.command: "restic -r {{ openwrt_restic_repository }} init"
   environment:
     RESTIC_PASSWORD: "{{ openwrt_restic_encpassphrase }}"
   register: restic_init
@@ -25,12 +25,12 @@
   include_tasks: 5cron.yml
   when: not openwrt_restic_runimagebuilder | default(false)
 - name: initialize openwrt_packages_installimagebuilder
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: []
   when:
     - openwrt_packages_installimagebuilder is not defined
     - openwrt_restic_runimagebuilder | default(false)
 - name: merge role packages into openwrt_packages_installimagebuilder
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}"
   when: openwrt_restic_runimagebuilder | default(false)

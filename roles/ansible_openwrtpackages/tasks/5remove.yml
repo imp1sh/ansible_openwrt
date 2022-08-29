@@ -1,6 +1,6 @@
 ---
 - name: Uninstall packages
-  package:
+  community.general.opkg:
     name: "{{ openwrt_packages_remove }}"
     state: absent
   when:

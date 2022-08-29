@@ -1,6 +1,6 @@
 ---
 - name: Show current zone
-  debug:
+  ansible.builtin.debug:
     msg: "Current zone is {{ zone.key }}"
 - name: check input, output and forward attributes
   include_tasks: accept_reject_drop.yml
@@ -18,7 +18,7 @@
   loop_control:
     loop_var: booleanitem
       # cannot really check this type because ip may have a ! in front
-      #- name: checks on attributes masq_src, masq_dest
+      # - name: checks on attributes masq_src, masq_dest
       #  include_tasks: listofipaddresses.yml
       #  loop:
       #    - "{{ zone.value.masq_src | default(omit) }}"

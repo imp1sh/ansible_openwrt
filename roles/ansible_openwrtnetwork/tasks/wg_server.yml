@@ -1,4 +1,3 @@
-#- name: set empty list to fill with wireguard interfaces and attributes
 - name: display current network interface
   debug:
     msg: "We are iterating on interface {{ item.key }}"
@@ -13,7 +12,7 @@
     - item.value.proto == "wireguard"
     - item.value.wg_managekeys
 - name: generate private key if not there
-  command: wg genkey
+  ansible.builtin.command: wg genkey
   args:
     chdir: "{{ openwrt_network_wg_keypath }}/{{ item.key }}"
     creates: "{{ openwrt_network_wg_keypath }}/{{ item.key }}/{{ inventory_hostname }}_private.key"
@@ -24,7 +23,7 @@
     - item.value.proto == "wireguard"
     - item.value.wg_managekeys
 - name: save private key to file if changed
-  copy:
+  ansible.builtin.copy:
     content: "{{ server_privatekey.stdout }}"
     dest: "{{ openwrt_network_wg_keypath }}/{{ item.key }}/{{ inventory_hostname }}_private.key"
   delegate_to: 127.0.0.1
@@ -43,7 +42,7 @@
     - item.value.proto == "wireguard"
     - item.value.wg_managekeys
 - name: read private key from file
-  slurp:
+  ansible.builtin.slurp:
     src: "{{ openwrt_network_wg_keypath }}/{{ item.key }}/{{ inventory_hostname }}_private.key"
   register: server_privatekey_data
   become: false
@@ -52,20 +51,20 @@
     - item.value.proto == "wireguard"
     - item.value.wg_managekeys
 - name: decode privatekey base64
-  set_fact:
+  ansible.builtin.set_fact:
     server_privatekey_decoded: "{{ server_privatekey_data.content | b64decode | trim }}"
   delegate_to: 127.0.0.1
   when:
     - item.value.proto == "wireguard"
     - item.value.wg_managekeys
 - name: insert private key into dict
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_network_interfaces: "{{ openwrt_network_interfaces | combine({ item.key: {'wg_private_key': server_privatekey_decoded } }, recursive=True) }}"
   when:
     - item.value.proto == "wireguard"
     - item.value.wg_managekeys
 - name: generate public key
-  command: wg pubkey
+  ansible.builtin.command: wg pubkey
   args:
     chdir: "{{ openwrt_network_wg_keypath }}/{{ item.key }}"
     stdin: "{{ server_privatekey_decoded }}"
@@ -77,7 +76,7 @@
     - item.value.proto == "wireguard"
     - item.value.wg_managekeys
 - name: write public key to file
-  copy:
+  ansible.builtin.copy:
     content: "{{ server_publickey.stdout }}"
     dest: "{{ openwrt_network_wg_keypath }}/{{ item.key }}/{{ inventory_hostname }}_public.key"
   delegate_to: 127.0.0.1

@@ -5,19 +5,19 @@
     mode: '0644'
     state: touch
 - name: add /etc/config/installed.packages to sysupgrade config
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ openwrt_restic_deploypath_sysupgrade }}/{{ openwrt_restic_deployfile_sysupgrade }}"
     line: /etc/config/installed.packages
     regexp: /etc/config/installed.packages
     state: present
 - name: deploy restic configuration
-  template:
+  ansible.builtin.template:
     src: restic.conf.jinja2
     dest: "{{ openwrt_restic_deploypath }}/{{ openwrt_restic_deployfile }}"
     mode: 0600
   when: openwrt_restic_repository is defined
 - name: deploy restic password file
-  template:
+  ansible.builtin.template:
     src: password.jinja2
     dest: "{{ openwrt_restic_deploypath_passwordfile }}/{{ openwrt_restic_deployfile_passwordfile }}"
     mode: 0600
