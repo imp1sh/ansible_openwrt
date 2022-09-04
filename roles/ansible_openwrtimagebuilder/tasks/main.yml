@@ -71,7 +71,7 @@
   debug:
     var: openwrt_packages_installimagebuilder
 - name: Convert imagebuilder packages into list
-  anbisble.builtin.set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder | join(' ') }}"
   when: openwrt_packages_installimagebuilder is defined
 - name: Create image
