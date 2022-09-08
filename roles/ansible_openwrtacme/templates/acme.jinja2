@@ -16,6 +16,9 @@ config cert "{{ key }}"
 {% if value['dns'] is defined %}
 	option dns "{{ value['dns'] }}"
 {% endif %}
+{% if value['webroot'] is defined %}
+	option webroot "{{ value['webroot'] }}"
+{% endif %}
 {% if value['credentials'] is defined %}
 {% for creds in value['credentials'] %}
 	list credentials '{{ creds }}'
