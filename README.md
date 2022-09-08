@@ -10,6 +10,7 @@ Currently the documentation is German only but when the basics in Ansible are do
 
 Sections:
 - [Ansible OpenWrt general usage](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection)
+- [Ansible OpenWrt ACME](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleAcme)
 - [Ansible OpenWrt Batman-adv](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleBatmanadv)
 - [Ansible OpenWrt DHCP](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleDHCP)
 - [Ansible OpenWrt Dropbear SSH](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleDropbear)
