@@ -13,4 +13,10 @@ galaxy_info:
         - "21.02"
         - "22.03"
   galaxy_tags: [openwrt, lede, sqm, qos, traffic shaping, bufferbloat]
-dependencies: []
+dependencies:
+  - role: imp1sh.ansible_openwrt.ansible_openwrtpackages
+    vars:
+      openwrt_packages_installrole:
+        - sqm-scripts
+        - sqm-scripts-extra
+        - luci-app-sqm

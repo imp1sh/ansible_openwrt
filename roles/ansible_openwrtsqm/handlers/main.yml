@@ -4,3 +4,5 @@
   ansible.builtin.service:
     name: sqm
     state: restarted
+  when:
+    not openwrt_sqm_runimagebuilder | default(false)
