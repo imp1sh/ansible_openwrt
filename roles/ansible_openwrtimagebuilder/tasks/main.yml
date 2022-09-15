@@ -63,6 +63,7 @@
     regexp: "^{{ item.name }}="
     line: "{{ item.name }}={{ item.value }}"
   loop: "{{ openwrt_imagebuilder_kernelvars }}"
+  when: openwrt_imagebuilder_kernelvars is defined
 - name: remove duplicates from list
   ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder | unique }}"
