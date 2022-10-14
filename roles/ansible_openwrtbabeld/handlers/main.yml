@@ -1,7 +1,7 @@
 ---
 # handlers file for ansible_openwrtbabeld
 - name: restart babeld
-  service:
+  ansible.builtin.service:
     name: babeld
     state: restarted
   when:

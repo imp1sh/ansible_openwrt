@@ -4,11 +4,19 @@
   ansible.builtin.set_fact:
     openwrt_packages_removemergedgroup: "{{ openwrt_packages_removegroup.keys() | list | intersect(group_names) | map('extract', openwrt_packages_removegroup) | list | flatten }}"
   when: openwrt_packages_removegroup is defined
+<<<<<<< HEAD
 - name: Set seperator if imagebuilder
   ansible.builtin.set_fact:
     openwrt_packages_separator: ' '
   when: openwrt_packages_runimagebuilder | default(false)
 - name: Set separator if not imagebuilder
+=======
+- name: set seperator if imagebuilder
+  ansible.builtin.set_fact:
+    openwrt_packages_separator: ' '
+  when: openwrt_packages_runimagebuilder | default(false)
+- name: set separator if not imagebuilder
+>>>>>>> 3beda4ac94e7148ee6197f6f29c40bba3b32efc2
   ansible.builtin.set_fact:
     openwrt_packages_separator: ','
   when: not openwrt_packages_runimagebuilder | default(false)

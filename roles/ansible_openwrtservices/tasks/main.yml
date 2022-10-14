@@ -9,31 +9,31 @@
     path: "{{ openwrt_services_deploypath }}"
     state: directory
 - name: Enable Serices
-  command: /etc/init.d/{{ item }} enable
+  ansible.builtin.command: /etc/init.d/{{ item }} enable
   loop: "{{ openwrt_services_enabled }}"
   when:
     - openwrt_services_enabled is defined
     - not openwrt_services_runimagebuilder | default(false)
 - name: Start Services
-  command: /etc/init.d/{{ item }} start
+  ansible.builtin.command: /etc/init.d/{{ item }} start
   loop: "{{ openwrt_services_enabled }}"
   when:
     - openwrt_services_enabled is defined
     - not openwrt_services_runimagebuilder | default(false)
 - name: Disable Services
-  command: /etc/init.d/{{ item }} disable
+  ansible.builtin.command: /etc/init.d/{{ item }} disable
   loop: "{{ openwrt_services_disabled }}"
   when:
     - openwrt_services_disabled is defined
     - not openwrt_services_runimagebuilder | default(false)
 - name: Stop Services
-  command: /etc/init.d/{{ item }} stop
+  ansible.builtin.command: /etc/init.d/{{ item }} stop
   loop: "{{ openwrt_services_disabled }}"
   when:
     - openwrt_services_disabled is defined
     - not openwrt_services_runimagebuilder | default(false)
 - name: Setup Start Scripts in /etc/rc.local
-  template:
+  ansible.builtin.template:
     src: rc.local.jinja2
     dest: "{{ openwrt_services_deploypath }}/{{ openwrt_services_deployfile }}"
     mode: 0600

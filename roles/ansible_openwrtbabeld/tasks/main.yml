@@ -12,12 +12,12 @@
   register: openwrt_babeld_collectedprefixes
   when:
     not openwrt_babeld_runimagebuilder | default(false)
-# here shall be a task that sets the prefixes to distribute manually
-# by giving specific, predefined prefixes for redistribution
-#- name: register dynamic prefix from variable
-#  set_fact: openwrt_babeld_collectedprefixes
-#  when:
-#    openwrt_babeld_runimagebuilder | default(false)
+  # here shall be a task that sets the prefixes to distribute manually
+  # by giving specific, predefined prefixes for redistribution
+  # - name: register dynamic prefix from variable
+  #  set_fact: openwrt_babeld_collectedprefixes
+  #  when:
+  #    openwrt_babeld_runimagebuilder | default(false)
 - name: register local ula
   ansible.builtin.shell: /sbin/uci get network.globals.ula_prefix
   register: openwrt_babeld_ulaprefix
@@ -40,7 +40,7 @@
   ansible.builtin.service:
     name: babeld
     state: started
-    enabled: yes
+    enabled: true
   when:
     not openwrt_babeld_runimagebuilder | default(false)
 - name: Make sure babeld service deploypath exists
@@ -53,15 +53,15 @@
     src: ../init.d/babeld
     dest: "{{ openwrt_babeld_deploypath_initlink }}/{{ openwrt_babeld_deployfile_initlink }}"
     state: link
-    force: yes
+    force: true
   when: openwrt_babeld_runimagebuilder
 - name: initialize openwrt_packages_installimagebuilder
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: []
   when:
     - openwrt_packages_installimagebuilder is not defined
     - openwrt_babeld_runimagebuilder | default(false)
 - name: merge role packages into openwrt_packages_installimagebuilder
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_installrole }}"
   when: openwrt_babeld_runimagebuilder | default(false)

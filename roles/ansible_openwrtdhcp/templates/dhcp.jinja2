@@ -257,6 +257,11 @@ config host
 {% if lease['ip'] is defined %}
 	option ip "{{ lease['ip'] }}"
 {% endif %}
+{% if lease['match_tag'] is defined %}
+{% for matchtag in lease['match_tag'] %}
+	list match_tag "{{ matchtag }}"
+{% endfor %}
+{% endif %}
 {% endfor %}
 {% endif %}
 
@@ -268,3 +273,34 @@ config domain
 	option ip "{{ hostoverride['ip'] }}"
 {% endfor %}
 {% endif %}
+
+# PXE Boot options
+{% if openwrt_dhcp_boot is defined %}
+{% for bootitem in openwrt_dhcp_boot %}
+config boot
+{% if bootitem['filename'] is defined %}
+	option filename "{{ bootitem['filename'] }}"
+{% endif %}
+{% if bootitem['servername'] is defined %}
+	option servername "{{ bootitem['servername'] }}"
+{% endif %}
+{% if bootitem['serveraddress'] is defined %}
+	option serveraddress "{{ bootitem['serveraddress'] }}"
+{% endif %}
+{% if bootitem['networkid'] is defined %}
+	option networkid "{{ bootitem['networkid'] }}"
+{% endif %}
+{% if bootitem['force'] is defined %}
+	option force "{{ bootitem['force'] }}"
+{% endif %}
+{% if bootitem['instance'] is defined %}
+	option instance "{{ bootitem['instance'] }}"
+{% endif %}
+{% if bootitem['dhcp_option'] is defined %}
+{% for dhcpoption in bootitem['dhcp_option'] %}
+	list dhcp_option "{{ dhcpoption }}"
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
