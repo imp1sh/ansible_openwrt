@@ -1,79 +1,79 @@
 ---
 # Prepare first phase
 - name: Merge packages_install from all groups this host is a member of
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_installmergedgroup: "{{ openwrt_packages_installgroup.keys() | list | intersect(group_names) | map('extract', openwrt_packages_installgroup) | list | flatten }}"
   when: openwrt_packages_installgroup is defined
-- name: set seperator if imagebuilder
-  set_fact:
+- name: Set seperator if imagebuilder
+  ansible.builtin.set_fact:
     openwrt_packages_separator: ' '
   when: openwrt_packages_runimagebuilder | default(false)
-- name: set separator if not imagebuilder
-  set_fact:
+- name: Set separator if not imagebuilder
+  ansible.builtin.set_fact:
     openwrt_packages_separator: ','
   when: not openwrt_packages_runimagebuilder | default(false)
 # Prepare second phase. There are 8 possibilities on how role, group based or host based vars can be set
 # Variant H is where none is set so no action for this
 - name: Variant A - Merge role/host/group
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installmergedgroup + openwrt_packages_installrole }}"
   when:
     - openwrt_packages_installmergedgroup is defined
     - openwrt_packages_installhost is defined
     - openwrt_packages_installrole is defined
 - name: Variant B - Merge Group and Host
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installmergedgroup }}"
   when:
     - openwrt_packages_installmergedgroup is defined
     - openwrt_packages_installhost is defined
     - openwrt_packages_installrole is not defined
 - name: Variant C - Merge Host and Role
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installrole }}"
   when:
     - openwrt_packages_installmergedgroup is not defined
     - openwrt_packages_installhost is defined
     - openwrt_packages_installrole is defined
 - name: Variant D - Only host set
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_install: "{{ openwrt_packages_installhost }}"
   when:
     - openwrt_packages_installmergedgroup is not defined
     - openwrt_packages_installhost is defined
     - openwrt_packages_installrole is not defined
 - name: Variant E - Merge Group and Role
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_install: "{{ openwrt_packages_installmergedgroup + openwrt_packages_installrole }}"
   when:
     - openwrt_packages_installmergedgroup is defined
     - openwrt_packages_installhost is not defined
     - openwrt_packages_installrole is defined
 - name: Variant F - Only group set
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_install: "{{ openwrt_packages_installmergedgroup }}"
   when:
     - openwrt_packages_installmergedgroup is defined
     - openwrt_packages_installhost is not defined
     - openwrt_packages_installrole is not defined
 - name: Variant G - Only role set
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_install: "{{ openwrt_packages_installrole }}"
   when:
     - openwrt_packages_installmergedgroup is not defined
     - openwrt_packages_installhost is not defined
     - openwrt_packages_installrole is defined
 - name: initialize openwrt_packages_installimagebuilder
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: []
   when:
     - openwrt_packages_installimagebuilder is not defined
     - openwrt_packages_runimagebuilder | default(false)
 - name: merge role packages into openwrt_packages_installimagebuilder
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_install }}"
   when: openwrt_packages_runimagebuilder | default(false)
 - name: Convert List to string
-  set_fact:
+  ansible.builtin.set_fact:
     openwrt_packages_install: "{{ openwrt_packages_install | join(openwrt_packages_separator) }}"
   when: openwrt_packages_install is defined
