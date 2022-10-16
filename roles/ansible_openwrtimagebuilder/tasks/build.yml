@@ -17,6 +17,9 @@
   ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder | join(' ') }}"
   when: openwrt_packages_installimagebuilder is defined
+- name: Building info
+  debug:
+    msg: "Building with the following command: make image PACKAGES={{ openwrt_packages_installimagebuilder }} FILES={{ openwrt_imagebuilder_filesdir }}"
 - name: Create image
   ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_installimagebuilder|default("") }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
   args:
