@@ -1,5 +1,7 @@
 ---
 # tasks file for ansible_openwrtdropbear
+- name: merge keys from group and host definitions
+  include_tasks: merge.yml
 - name: make sure deploypath config exists
   ansible.builtin.file:
     path: "{{ openwrt_dropbear_deploypath }}"
