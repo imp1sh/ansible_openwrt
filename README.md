@@ -20,7 +20,7 @@ Sections:
 - [Ansible OpenWrt Restic Backup](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleRestic)
 - [Ansible OpenWrt SQM QoS](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleSqm)
 - [Ansible OpenWrt Service](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleServices)
-- [Ansible OpenWrt Syste](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleSystem)
+- [Ansible OpenWrt System](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleSystem)
 - [Ansible OpenWrt Wireguard](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleWireguard)
 - [Ansible OpenWrt Wireless](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleWireless)
 - [Ansible OpenWrt bmx7](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection/RolleBmx7)
