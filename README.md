@@ -1,4 +1,10 @@
 # Ansible Collection - imp1sh.ansible_openwrt
+
+Install via
+```
+ansible-galaxy collection install imp1sh.ansible_openwrt
+```
+
 This is an Ansible collection for OpenWrt devices. It will only work if you have enough flash space available to install python which is required. Details can be found in the [documentation](https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection).
 It has been tested on virtualized x86 (kvm), PC Engines APU4, Edgerouter X and Deciso DEC740.
 ## Who is this for?

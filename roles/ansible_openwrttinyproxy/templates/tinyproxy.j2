@@ -14,6 +14,35 @@ config tinyproxy
         option MaxRequestsPerChild "{{ openwrt_tinyproxy_maxrequestsperchild | default('0') }}"
         option ViaProxyName "{{ openwrt_tinyproxy_viaproxyname | default('tinyproxy') }}"
         option enabled "{{ openwrt_tinyproxy_enabled | default('1') }}"
+{% if openwrt_tinyproxy_listen is defined %}
+	option Listen "{{ openwrt_tinyproxy_listen }}"
+{% endif %}
+{% if openwrt_tinyproxy_bind is defined %}
+	option Bind "{{ openwrt_tinyproxy_bind }}"
+{% endif %}
+{% if openwrt_tinyproxy_xtinyproxy is defined %}
+	option XTinyproxy "{{ openwrt_tinyproxy_xtinyproxy }}"
+{% endif %}
+{% if openwrt_tinyproxy_filters is defined %}
+	option Filter "/etc/config/{{ openwrt_tinyproxy_filterfile }}"
+{% endif %}
+{% if openwrt_tinyproxy_filterextended is defined %}
+	option FilterExtended "{{ openwrt_tinyproxy_filterextended }}"
+{% endif %}
+{% if openwrt_tinyproxy_filtercasesensitive is defined %}
+	option FilterCaseSensitive "{{ openwrt_tinyproxy_filtercasesensitive }}"
+{% endif %}
+{% if openwrt_tinyproxy_filterurls is defined %}
+	option FilterURLs "{{ openwrt_tinyproxy_filterurls }}"
+{% endif %}
+{% if openwrt_tinyproxy_filterdefaultdeny is defined %}
+	option FilterDefaultDeny "{{ openwrt_tinyproxy_filterdefaultdeny }}"
+{% endif %}
+{% if openwrt_tinyproxy_anonymous is defined %}
+{% for anonymous in openwrt_tinyproxy_anonymous %}
+	list Anonymous "{{ anonymous }}"
+{% endfor %}
+{% endif %}
 {% if openwrt_tinyproxy_allow is defined %}
 {% for allow in openwrt_tinyproxy_allow %}
 	list Allow "{{ allow }}"
@@ -35,4 +64,13 @@ config tinyproxy
         option Syslog "{{ openwrt_tinyproxy_syslog }}"
 {% else %}
 	option LogFile "/var/log/tinyproxy.log"
+{% endif %}
+
+{% if openwrt_tinyproxy_upstream is defined %}
+{% for upstream in openwrt_tinyproxy_upstream %}
+config upstream
+	option type "{{ upstream['type'] }}"
+	option target "{{ upstream['target'] }}"
+	option via "{{ upstream['via'] }}"
+{% endfor %}
 {% endif %}
