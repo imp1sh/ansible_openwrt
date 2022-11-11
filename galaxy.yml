@@ -1,7 +1,7 @@
 ---
 namespace: imp1sh
 name: ansible_openwrt
-version: 0.3.1
+version: 0.4.0
 readme: README.md
 authors:
   - Jochen Demmer <jochen@libcom.de>
@@ -10,6 +10,6 @@ license_file: 'LICENSE'
 tags: [openwrt, lede, dhcp, dnsmasq, dropbear, ssh, firewall, network, packages, restic, backup, services, system, wifi, wireless, wireguard, vpn, sqm, imagebuilder, wireguard]
 dependencies: {}
 repository: https://github.com/imp1sh/ansible_openwrt
-documentation: https://wiki.junicast.de/de/junicast/docs/AnsibleOpenWrtCollection
+documentation: https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection
 homepage: https://github.com/imp1sh/ansible_openwrt
 issues: https://github.com/imp1sh/ansible_openwrt/issues
