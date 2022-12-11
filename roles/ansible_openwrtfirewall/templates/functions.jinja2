@@ -203,11 +203,17 @@ config rule
 {% endif %}
 {% if value['src_port'] is defined %}
 	option src_port "{{ value['src_port'] }}"
+{% elif value['srcport'] is defined %}
+	option src_port "{{ value['srcport'] }}"
+{% elif value['src-port'] is defined %}
+	option src_port "{{ value['src-port'] }}"
 {% endif %}
 {% if value['dest_port'] is defined %}
 	option dest_port "{{ value['dest_port'] }}"
 {% elif value['port'] is defined %}
 	option dest_port "{{ value['port'] }}"
+{% elif value['dest-port'] is defined %}
+	option dest_port "{{ value['dest-port'] }}"
 {% endif %}
 {% if value['limit'] is defined %}
 	option limit "{{ value['limit'] }}"
