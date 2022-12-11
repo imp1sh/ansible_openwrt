@@ -206,6 +206,8 @@ config rule
 {% endif %}
 {% if value['dest_port'] is defined %}
 	option dest_port "{{ value['dest_port'] }}"
+{% elif value['port'] is defined %}
+	option dest_port "{{ value['port'] }}"
 {% endif %}
 {% if value['limit'] is defined %}
 	option limit "{{ value['limit'] }}"
