@@ -6,7 +6,7 @@ openwrt_firewall_deploypath: "{{ openwrt_firewall_deployroot }}etc/config"
 openwrt_firewall_deployfile: "firewall"
 openwrt_firewall_setdefaultzones: true
 openwrt_firewall_default_forward: "REJECT"
-openwrt_firewall_default_input: "REJECT"
+openwrt_firewall_default_input: "ACCEPT"
 openwrt_firewall_default_output: "ACCEPT"
 openwrt_firewall_default_synflood_protect: 1
 openwrt_firewall_default_flow_offloading: 0
