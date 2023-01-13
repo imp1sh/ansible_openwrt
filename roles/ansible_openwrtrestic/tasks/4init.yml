@@ -1,0 +1,12 @@
+- name: assemble repository string
+  include_tasks: xassemblerepo.yml
+- name: init repository
+  ansible.builtin.command: "restic -r {{ assembledrepo }} init"
+  environment:
+    RESTIC_PASSWORD: "{{ openwrt_restic_encpassphrase }}"
+  register: restic_init
+  failed_when:
+    - restic_init.rc != 0
+    - not 'config file already exists' in restic_init.stderr
+    - not 'config already initialized' in restic_init.stderr
+    - not 'config already exists' in restic_init.stderr

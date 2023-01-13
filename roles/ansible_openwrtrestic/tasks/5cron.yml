@@ -1,4 +1,6 @@
 ---
+- name: assemble repository string
+  include_tasks: xassemblerepo.yml
 - name: setup ansible.builtin.cron to dump installed packages once a day
   ansible.builtin.cron:
     name: "dump packages"
@@ -7,16 +9,18 @@
     job: "/bin/opkg list-installed > /etc/config/installed.packages"
 - name: setup ansible.builtin.cron backup jobs for different include paths
   ansible.builtin.cron:
-    name: "{{ openwrt_restic_cron_name }} {{ item }}"
-    hour: "{{ openwrt_restic_cron_hour }}"
-    minute: "{{ openwrt_restic_cron_minute }}"
+    name: "{{ openwrt_restic_cron_name }} {{ backupitem['name'] }} {{ source }}"
+    hour: "{{ backupitem['cron_hour'] | default(openwrt_restic_cron_hour) }}"
+    minute: "{{ backupitem['cron_minute'] | default(openwrt_restic_cron_minute) }}"
     user: "root"
-    job: "/usr/bin/restic -p /etc/resticpassword -r {{ openwrt_restic_repository }} backup {{ item }}"
-  loop: "{{ openwrt_restic_srcdirs }}"
+    job: "/usr/bin/restic -p /etc/resticpassword -r {{ assembledrepo }} backup {{ source }}"
+  loop: "{{ backupitem['sources'] }}"
+  loop_control:
+    loop_var: source
 - name: setup ansible.builtin.cron prune jobs
   ansible.builtin.cron:
-    name: "{{ openwrt_restic_cron_name }} prune"
+    name: "{{ openwrt_restic_cron_name }} {{ backupitem['name'] }} prune"
     hour: 6
     minute: 0
     user: "root"
-    job: "/usr/bin/restic forget --keep-daily {{ openwrt_restic_keepdaily }} --keep-weekly {{ openwrt_restic_keepweekly }} --keep-monthly {{ openwrt_restic_keepmonthly }} -p /etc/resticpassword -r {{ openwrt_restic_repository }} --prune"
+    job: "/usr/bin/restic forget --keep-daily {{ backupitem['keepdaily'] | default(openwrt_restic_keepdaily, true) }} --keep-weekly {{ backupitem['keepweekly'] | default(openwrt_restic_keepweekly, true) }} --keep-monthly {{ backupitem['keepmonthly'] | default(openwrt_restic_keepmonthly, true) }} -p /etc/resticpassword -r {{ assembledrepo }} --prune"

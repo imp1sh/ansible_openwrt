@@ -8,22 +8,22 @@
   include_tasks: 1install.yml
 - name: SSH setup
   include_tasks: 3ssh.yml
+  loop: "{{ openwrt_restic_backups }}"
+  loop_control:
+    loop_var: backupitem
   when: not openwrt_restic_runimagebuilder | default(false)
 - name: init repository
-  ansible.builtin.command: "restic -r {{ openwrt_restic_repository }} init"
-  environment:
-    RESTIC_PASSWORD: "{{ openwrt_restic_encpassphrase }}"
-  register: restic_init
-  failed_when:
-    - restic_init.rc != 0
-    - not 'config file already exists' in restic_init.stderr
-    - not 'config already initialized' in restic_init.stderr
-    - not 'config already exists' in restic_init.stderr
-  when:
-    - not openwrt_restic_runimagebuilder | default(false)
+  include_tasks: 4init.yml
+  loop: "{{ openwrt_restic_backups }}"
+  loop_control:
+    loop_var: backupitem
+  when: not openwrt_restic_runimagebuilder | default(false)
 - name: "setup cron jobs"
   include_tasks: 5cron.yml
   when: not openwrt_restic_runimagebuilder | default(false)
+  loop: "{{ openwrt_restic_backups }}"
+  loop_control:
+    loop_var: backupitem
 - name: initialize openwrt_packages_installimagebuilder
   ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: []
