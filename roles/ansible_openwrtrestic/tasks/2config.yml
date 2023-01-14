@@ -1,8 +1,5 @@
 - name: assemble repository string
   include_tasks: xassemblerepo.yml
-- name: debug output
-  debug:
-    var: backupitem
 - name: deploy restic configuration
   ansible.builtin.template:
     src: restic.conf.jinja2
