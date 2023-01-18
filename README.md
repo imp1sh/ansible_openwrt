@@ -6,7 +6,7 @@ ansible-galaxy collection install imp1sh.ansible_openwrt
 ```
 
 This is an Ansible collection for OpenWrt devices. It will only work if you have enough flash space available to install python which is required. Details can be found in the [documentation](https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection).
-It has been tested on virtualized x86 (kvm), PC Engines APU4, Edgerouter X and Deciso DEC740.
+It has been tested on a considerate amount of different devices.
 ## Who is this for?
 OpenWrt typically is being used in small environments but this collection is a game changer. You could run virtualized firewalls with this in cloud environments or as a hosting provider. This role is an alternative solution to what OpenWisp does. You can manage hundreds or thousands of devices centrally with Ansible.
 
@@ -27,6 +27,7 @@ Sections:
 - [Ansible OpenWrt Service](https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection/roleServices)
 - [Ansible OpenWrt System](https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection/roleSystem)
 - [Ansible OpenWrt Tinyproxy](https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection/roleTinyproxy)
+- [Ansible OpenWrt uhttpd](https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection/roleUhttpd)
 - [Ansible OpenWrt Wireguard](https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection/roleWireguard)
 - [Ansible OpenWrt Wireless](https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection/roleWireless)
 - [Ansible OpenWrt Imagebuilder](https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection/roleImagebuilder)
