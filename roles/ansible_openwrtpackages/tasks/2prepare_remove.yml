@@ -66,4 +66,4 @@
 - name: Convert List to string
   ansible.builtin.set_fact:
     openwrt_packages_remove: "{{ openwrt_packages_remove | join(openwrt_packages_separator) }}"
-  when: openwrt_package_remove is defined
+  when: openwrt_packages_remove is defined
