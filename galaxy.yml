@@ -7,7 +7,7 @@ authors:
   - Jochen Demmer <jochen@libcom.de>
 description: ansible_openwrt is a full featured openwrt collection. It relies on python so you need enough disk space in order to be able to use it.
 license_file: 'LICENSE'
-tags: [openwrt, lede, dhcp, dnsmasq, dropbear, ssh, firewall, network, packages, restic, backup, services, system, wifi, wireless, wireguard, vpn, sqm, imagebuilder, wireguard, uhttpd, tinyproxy, imagebuilder]
+tags: [openwrt, lede, dnsmasq, dropbear, ssh, firewall, network, packages, restic, backup, services, system, wireless, wireguard, sqm, imagebuilder, wireguard, uhttpd, tinyproxy, imagebuilder]
 dependencies: {}
 repository: https://github.com/imp1sh/ansible_openwrt
 documentation: https://wiki.junicast.de/en/junicast/docs/AnsibleOpenWrtCollection
