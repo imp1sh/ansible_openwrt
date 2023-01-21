@@ -1,4 +1,7 @@
 ---
+- name: Packages to uninstall
+  debug:
+    var: openwrt_packages_remove
 - name: Uninstall packages
   community.general.opkg:
     name: "{{ openwrt_packages_remove }}"

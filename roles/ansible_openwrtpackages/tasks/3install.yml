@@ -1,4 +1,7 @@
 ---
+- name: List packages to install
+  debug:
+    var: openwrt_packages_install
 - name: Install packages
   community.general.opkg:
     name: "{{ openwrt_packages_install }}"
