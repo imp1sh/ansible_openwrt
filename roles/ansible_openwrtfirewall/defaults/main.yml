@@ -67,42 +67,42 @@ openwrt_firewall_rulesdefault:
     src: "WAN"
     target: "ACCEPT"
   "DHCPv4 NEIGHBOURS":
-    dest_port: "67"
+    dest_port: 67
     family: "ipv4"
     proto:
       - "udp"
     src: "NEIGHBOURS"
     target: "ACCEPT"
   "DHCPv4 GUESTS":
-    dest_port: "67"
+    dest_port: 67
     family: "ipv4"
     proto:
       - "udp"
     src: "GUESTS"
     target: "ACCEPT"
   "DHCPv4 LAN":
-    dest_port: "67"
+    dest_port: 67
     family: "ipv4"
     proto:
       - "udp"
     src: "LAN"
     target: "ACCEPT"
   "DHCPv4 MGMT":
-    dest_port: "67"
+    dest_port: 67
     family: "ipv4"
     proto:
       - "udp"
     src: "MGMT"
     target: "ACCEPT"
   "DHCPv4 DMZ":
-    dest_port: "67"
+    dest_port: 67
     family: "ipv4"
     proto:
       - "udp"
     src: "DMZ"
     target: "ACCEPT"
   "DHCPv6 MGMT":
-    dest_port: "547"
+    dest_port: 547
     family: "ipv6"
     proto:
       - "udp"
@@ -111,7 +111,7 @@ openwrt_firewall_rulesdefault:
     src: "MGMT"
     target: "ACCEPT"
   "DHCPv6 GUESTS":
-    dest_port: "547"
+    dest_port: 547
     family: "ipv6"
     proto:
       - "udp"
@@ -120,7 +120,7 @@ openwrt_firewall_rulesdefault:
     src: "GUESTS"
     target: "ACCEPT"
   "DHCPv6 LAN":
-    dest_port: "547"
+    dest_port: 547
     family: "ipv6"
     proto:
       - "udp"
@@ -129,7 +129,7 @@ openwrt_firewall_rulesdefault:
     src: "LAN"
     target: "ACCEPT"
   "DHCPv6 DMZ":
-    dest_port: "547"
+    dest_port: 547
     family: "ipv6"
     proto:
       - "udp"
@@ -138,7 +138,7 @@ openwrt_firewall_rulesdefault:
     src: "DMZ"
     target: "ACCEPT"
   "DHCPv6 NEIGHBOURS":
-    dest_port: "547"
+    dest_port: 547
     family: "ipv6"
     proto:
       - "udp"
@@ -149,7 +149,7 @@ openwrt_firewall_rulesdefault:
   "Allow-DHCPv6 WAN":
     dest_ip:
       - "fc00::/6"
-    dest_port: "546"
+    dest_port: 546
     family: "ipv6"
     proto:
       - "udp"
@@ -214,7 +214,7 @@ openwrt_firewall_rulesdefault:
     dest: "LAN"
     proto:
       - "udp"
-    dest_port: "500"
+    dest_port: 500
     src: "WAN"
     target: "ACCEPT"
   "Support-UDP-Traceroute WAN":
