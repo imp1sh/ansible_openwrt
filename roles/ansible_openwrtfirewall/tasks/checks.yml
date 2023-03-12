@@ -48,17 +48,14 @@
     success_msg: "host forwardings seem valid."
   loop: "{{ openwrt_firewall_forwardingsmergedgroup }}"
   when: openwrt_firewall_forwardingsmergedgroup is defined
-    # this check is bullshit, need to write new checks for rules
-    # - name: rudimentary checks on rules
-    #  ansible.builtin.assert:
-    #    that:
-    #      - item.value.src is defined
-    #    fail_msg: "Rule {{ item.key}} contains errors, it has no attribute src."
-    #    success_msg: "Rule {{ item.key }} seems OK."
-    #  loop: "{{ openwrt_firewall_rules | dict2items }}"
-    # - name: show all rules
-    #  debug:
-    #    var: openwrt_firewall_rules
-    # - name: show all zones
-    #  debug:
-    #    var: openwrt_firewall_zones
+  # src and dest port is a bit hard to check since it may also be
+  # a list of ports "80 443" or a range "122-115"
+  # I could check if whitespace is in string, and then convert to list and run check on each item
+  # for range split by hyphen and also run a list through a check
+  # a single port could also be converted to list with one entry
+  # later!!!
+  #- name: check rules
+  #  ansible.builtin.include_tasks: checks/rules.yml
+  #  loop: "{{ openwrt_firewall_rules | dict2items }}"
+  #  loop_control:
+  #    loop_var: ruleitem
