@@ -18,3 +18,5 @@ dependencies:
     vars:
       openwrt_packages_installrole:
         - jq
+        - babeld
+        - luci-app-babeld
