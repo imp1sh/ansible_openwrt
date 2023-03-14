@@ -24,9 +24,11 @@ config wireguard_{{ value['interface'] }}
 {% if value['preshared_key'] is defined %}
 	option preshared_key "{{ value['preshared_key'] }}"
 {% endif %}
+{% if value['allowed_ips'] is defined %}
 {% for allowedip in value['allowed_ips'] %}
 	list allowed_ips "{{ allowedip }}"
 {% endfor %}
+{% endif %}
 {% if value['route_allowed_ips'] is defined %}
 	option route_allowed_ips "{{ value['route_allowed_ips'] }}"
 {% endif %}
