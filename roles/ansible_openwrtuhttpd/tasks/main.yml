@@ -14,7 +14,7 @@
   register: searchkey
 - name: debug
   debug:
-    msg: "{{ searchcert }}"
+    msg: "Cert found? {{ searchcert }}"
 - name: overwrite defaults with found cert and key
   ansible.builtin.set_fact:
     openwrt_uhttpd_main_cert: "{{ searchcert.stat.path }}"
