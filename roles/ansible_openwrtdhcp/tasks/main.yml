@@ -12,4 +12,6 @@
     src: dhcp.jinja2
     dest: "{{ openwrt_dhcp_deployroot }}{{ openwrt_dhcp_deploypath }}/{{ openwrt_dhcp_deployfile }}"
     mode: 0600
-  notify: restart dnsmasq
+  notify:
+    - restart dnsmasq
+    - restart odhcpd

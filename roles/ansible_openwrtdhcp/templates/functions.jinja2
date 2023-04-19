@@ -47,7 +47,7 @@ config dhcp "{{ pool['name'] }}"
 {% endfor %}
 {% endif %}
 {% if pool['ra_slaac'] is defined %}
-	option ra_slaac "{{ pool['ra_slaac'] }}"
+       option ra_slaac "{{ pool['ra_slaac'] }}"
 {% endif %}
 {% if pool['ra_management'] is defined %}
        option ra_management "{{ pool['ra_management'] }}"
