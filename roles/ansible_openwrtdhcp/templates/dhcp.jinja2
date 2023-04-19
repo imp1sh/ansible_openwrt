@@ -304,3 +304,12 @@ config boot
 {% endfor %}
 {% endif %}
 
+# ODHCP
+config odhcpd "odhcpd"
+	option maindhcp "{{ openwrt_dhcp_odhcpd_maindhcp }}"
+	option leasefile "{{ openwrt_dhcp_odhcpd_leasefile }}"
+	option leasetrigger "{{ openwrt_dhcp_odhcpd_leasetrigger }}"
+	option loglevel "{{ openwrt_dhcp_odhcpd_loglevel }}"
+{% if openwrt_dhcp_odhcpd_legacy is defined %}
+	option legacy "{{ openwrt_dhcp_odhcpd_legacy }}"
+{% endif %}
