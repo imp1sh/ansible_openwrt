@@ -15,17 +15,6 @@
 - name: combine lists into openwrt_packages_install var
   ansible.builtin.set_fact:
     openwrt_packages_install: "{{ [openwrt_packages_installmergedgroup, openwrt_packages_installhost, openwrt_packages_installrole] | select('defined') | flatten | unique }}"
-- name: initialize openwrt_packages_installimagebuilder
+- name: remove duplicates from install list
   ansible.builtin.set_fact:
-    openwrt_packages_installimagebuilder: []
-  when:
-    - openwrt_packages_installimagebuilder is not defined
-    - openwrt_packages_runimagebuilder | default(false)
-- name: merge role packages into openwrt_packages_installimagebuilder
-  ansible.builtin.set_fact:
-    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder + openwrt_packages_install }}"
-  when: openwrt_packages_runimagebuilder | default(false)
-- name: Convert List to string
-  ansible.builtin.set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_install | join(openwrt_packages_separator) }}"
-  when: openwrt_packages_install is defined
+    openwrt_packages_install: "{{ openwrt_packages_install | unique }}"

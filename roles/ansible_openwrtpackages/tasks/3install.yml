@@ -4,7 +4,7 @@
     var: openwrt_packages_install
 - name: Install packages
   community.general.opkg:
-    name: "{{ openwrt_packages_install }}"
+    name: "{{ openwrt_packages_install | join(openwrt_packages_separator) }}"
     state: present
     update_cache: true
   when:

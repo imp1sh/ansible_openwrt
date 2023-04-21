@@ -4,7 +4,7 @@
     var: openwrt_packages_remove
 - name: Uninstall packages
   community.general.opkg:
-    name: "{{ openwrt_packages_remove }}"
+    name: "{{ openwrt_packages_remove | join(openwrt_packages_separator) }}"
     state: absent
   when:
     - openwrt_packages_remove is defined

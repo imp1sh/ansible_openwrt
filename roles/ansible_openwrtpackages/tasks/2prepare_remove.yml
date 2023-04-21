@@ -15,7 +15,6 @@
 - name: combine lists into openwrt_packages_remove var
   ansible.builtin.set_fact:
     openwrt_packages_remove: "{{ [openwrt_packages_removemergedgroup, openwrt_packages_removehost, openwrt_packages_removerole] | select('defined') | flatten | unique }}"
-- name: Convert List to string
+- name: remove duplicates from remove list
   ansible.builtin.set_fact:
-    openwrt_packages_remove: "{{ openwrt_packages_remove | join(openwrt_packages_separator) }}"
-  when: openwrt_packages_remove is defined
+    openwrt_packages_remove: "{{ openwrt_packages_remove | unique }}"
