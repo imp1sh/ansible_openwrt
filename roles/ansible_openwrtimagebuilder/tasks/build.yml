@@ -19,10 +19,21 @@
 - name: Building info
   debug:
     msg: "Building with the following command: make image PACKAGES={{ openwrt_packages_imagebuilder }} FILES={{ openwrt_imagebuilder_filesdir }}"
+  when: openwrt_imagebuilder_profile is not defined
+- name: Building info
+  debug:
+    msg: "Building with the following command: make image PACKAGES={{ openwrt_packages_imagebuilder }} FILES={{ openwrt_imagebuilder_filesdir }} PROFILE={{ openwrt_imagebuilder_profile }}"
+  when: openwrt_imagebuilder_profile is defined
 - name: Create image
   ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_imagebuilder|default("") }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
   args:
     chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
+  when: openwrt_imagebuilder_profile is not defined
+- name: Create image with profile option
+  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_imagebuilder|default("") }}" FILES="{{ openwrt_imagebuilder_filesdir }}" PROFILE="{{ openwrt_imagebuilder_profile }}"
+  args:
+    chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
+  when: openwrt_imagebuilder_profile is defined
 - name: compress and remove for user set path
   community.general.archive:
     path: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}/bin"
