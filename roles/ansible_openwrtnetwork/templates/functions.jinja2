@@ -213,6 +213,9 @@ config interface "{{ key }}"
 {% if value['reqaddress'] is defined %}
         option reqaddress "{{ value['reqaddress'] }}"
 {% endif %}
+{% if value['clientid'] is defined %}
+	option clientid "{{ value['clientid'] }}"
+{% endif %}
 {% if value['reqprefix'] is defined %}
         option reqprefix "{{ value['reqprefix'] }}"
 {% endif %}
