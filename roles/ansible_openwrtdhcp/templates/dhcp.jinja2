@@ -3,6 +3,9 @@
 
 # Global dnsmasq configuration
 config dnsmasq
+{% if openwrt_dhcp_add_local_domain is defined %}
+	options add_local_domain "{{ openwrt_dhcp_add_local_domain }}"
+{% endif %}
 {% if openwrt_dhcp_dnsmasq_add_local_hostname is defined %}
 	option add_local_hostname "{{ openwrt_dhcp_dnsmasq_add_local_hostname }}"
 {% endif %}
@@ -158,6 +161,9 @@ config dnsmasq
 	list server "{{ dnsmasq_server }}"
 {% endfor %}
 {% endif %}
+{% if openwrt_dhcp_dnsmasq_serverlist is defined %}
+	option serverlist "{{ openwrt_dhcp_dnsmasq_serverlist }}"
+{% endif %}
 {% if openwrt_dhcp_dnsmasq_rev_server is defined %}
 {% for dnsmasq_rev_server in openwrt_dhcp_dnsmasq_rev_server %}
 	list server "{{ dnsmasq_rev_server }}"
@@ -213,6 +219,9 @@ config dnsmasq
 {% if openwrt_dhcp_dnsmasq_max_cache_ttl is defined %}
 	option max_cache_ttl "{{ openwrt_dhcp_dnsmasq_max_cache_ttl }}"
 {% endif %}
+{% if openwrt_dhcp_dnsmasq_rapidcommit is defined %}
+	options rapidcommit "{{ openwrt_dhcp_dnsmasq_rapidcommit }}"
+{% endif %}
 
 # DHCP Pools
 # Host based DHCP pool definitions
@@ -230,6 +239,9 @@ config dnsmasq
 {% for lease in openwrt_dhcp_leases %}
 config host
 	option name "{{ lease['name'] }}"
+{% if lease['ip'] is defined %}
+	option ip "{{ lease['ip'] }}"
+{% endif %}
 {% if lease['mac'] is defined %}
 	option mac "{{ lease['mac'] }}"
 {% endif %}
@@ -242,6 +254,11 @@ config host
 {% if lease['tag'] is defined %}
 	option tag "{{ lease['tag'] }}"
 {% endif %}
+{% if lease['match_tag'] is defined %}
+{% for matchtag in lease['match_tag'] %}
+	list match_tag "{{ matchtag }}"
+{% endfor %}
+{% endif %}
 {% if lease['dns'] is defined %}
 	option dns "{{ lease['dns'] }}"
 {% endif %}
@@ -253,14 +270,6 @@ config host
 {% endif %}
 {% if lease['instance'] is defined %}
 	option instance "{{ lease['instance'] }}"
-{% endif %}
-{% if lease['ip'] is defined %}
-	option ip "{{ lease['ip'] }}"
-{% endif %}
-{% if lease['match_tag'] is defined %}
-{% for matchtag in lease['match_tag'] %}
-	list match_tag "{{ matchtag }}"
-{% endfor %}
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -278,17 +287,22 @@ config domain
 {% if openwrt_dhcp_boot is defined %}
 {% for bootitem in openwrt_dhcp_boot %}
 config boot
+{% if bootitem['dhcp_option'] is defined %}
+{% for dhcpoption in bootitem['dhcp_option'] %}
+	list dhcp_option "{{ dhcpoption }}"
+{% endfor %}
+{% endif %}
 {% if bootitem['filename'] is defined %}
 	option filename "{{ bootitem['filename'] }}"
 {% endif %}
-{% if bootitem['servername'] is defined %}
-	option servername "{{ bootitem['servername'] }}"
+{% if bootitem['networkid'] is defined %}
+	option networkid "{{ bootitem['networkid'] }}"
 {% endif %}
 {% if bootitem['serveraddress'] is defined %}
 	option serveraddress "{{ bootitem['serveraddress'] }}"
 {% endif %}
-{% if bootitem['networkid'] is defined %}
-	option networkid "{{ bootitem['networkid'] }}"
+{% if bootitem['servername'] is defined %}
+	option servername "{{ bootitem['servername'] }}"
 {% endif %}
 {% if bootitem['force'] is defined %}
 	option force "{{ bootitem['force'] }}"
@@ -296,11 +310,15 @@ config boot
 {% if bootitem['instance'] is defined %}
 	option instance "{{ bootitem['instance'] }}"
 {% endif %}
-{% if bootitem['dhcp_option'] is defined %}
-{% for dhcpoption in bootitem['dhcp_option'] %}
-	list dhcp_option "{{ dhcpoption }}"
-{% endfor %}
-{% endif %}
 {% endfor %}
 {% endif %}
 
+# ODHCP
+config odhcpd "odhcpd"
+	option maindhcp "{{ openwrt_dhcp_odhcpd_maindhcp }}"
+	option leasefile "{{ openwrt_dhcp_odhcpd_leasefile }}"
+	option leasetrigger "{{ openwrt_dhcp_odhcpd_leasetrigger }}"
+	option loglevel "{{ openwrt_dhcp_odhcpd_loglevel }}"
+{% if openwrt_dhcp_odhcpd_legacy is defined %}
+	option legacy "{{ openwrt_dhcp_odhcpd_legacy }}"
+{% endif %}

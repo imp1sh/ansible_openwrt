@@ -2,15 +2,6 @@
 {% for pool in listofpools %}
 config dhcp "{{ pool['name'] }}"
        option interface "{{ pool['interface'] }}"
-{% if pool['leasetime'] is defined %}
-       option leasetime "{{ pool['leasetime'] | default('12h', true) }}"
-{% endif %}
-{% if pool['start'] is defined %}
-       option start "{{ pool['start'] }}"
-{% endif %}
-{% if pool['limit'] is defined %}
-       option limit "{{ pool['limit'] }}"
-{% endif %}
 {% if pool['dhcp_option'] is defined %}
 {% for option in pool['dhcp_option'] %}
        list dhcp_option "{{ option }}"
@@ -19,21 +10,6 @@ config dhcp "{{ pool['name'] }}"
 {% if pool['dhcp_option_force'] is defined %}
 {% for option in pool['dhcp_option_force'] %}
        list dhcp_option_force "{{ option }}"
-{% endfor %}
-{% endif %}
-{% if pool['domain'] is defined %}
-{% for domain in pool['domain'] %}
-       list domain "{{ domain }}"
-{% endfor %}
-{% endif %}
-{% if pool['dns'] is defined %}
-{% for dns in pool['dns'] %}
-       list dns "{{ dns }}"
-{% endfor %}
-{% endif %}
-{% if pool['ra_flags'] is defined %}
-{% for ra_flag in pool['ra_flags'] %}
-       list ra_flags "{{ ra_flag }}"
 {% endfor %}
 {% endif %}
 {% if pool['dynamicdhcp'] is defined %}
@@ -51,11 +27,27 @@ config dhcp "{{ pool['name'] }}"
 {% if pool['dhcpv6'] is defined %}
        option dhcpv6 "{{ pool['dhcpv6'] }}"
 {% endif %}
+{% if pool['dns'] is defined %}
+{% for dns in pool['dns'] %}
+       list dns "{{ dns }}"
+{% endfor %}
+{% endif %}
+{% if pool['dns_service'] is defined %}
+	option dns_service "{{ pool['dns_service'] }}"
+{% endif %}
 {% if pool['ra'] is defined %}
        option ra "{{ pool['ra'] }}"
 {% endif %}
 {% if pool['ra_default'] is defined %}
        option ra_default "{{ pool['ra_default'] }}"
+{% endif %}
+{% if pool['ra_flags'] is defined %}
+{% for ra_flag in pool['ra_flags'] %}
+       list ra_flags "{{ ra_flag }}"
+{% endfor %}
+{% endif %}
+{% if pool['ra_slaac'] is defined %}
+       option ra_slaac "{{ pool['ra_slaac'] }}"
 {% endif %}
 {% if pool['ra_management'] is defined %}
        option ra_management "{{ pool['ra_management'] }}"
@@ -105,11 +97,30 @@ config dhcp "{{ pool['name'] }}"
 {% if pool['master'] is defined %}
        option master "{{ pool['master'] }}"
 {% endif %}
+{% if pool['leasetime'] is defined %}
+       option leasetime "{{ pool['leasetime'] | default('12h', true) }}"
+{% endif %}
+{% if pool['limit'] is defined %}
+       option limit "{{ pool['limit'] }}"
+{% endif %}
 {% if pool['networkid'] is defined %}
        option networkid "{{ pool['networkid'] }}"
 {% endif %}
+{% if pool['start'] is defined %}
+       option start "{{ pool['start'] }}"
+{% endif %}
 {% if pool['instance'] is defined %}
        option instance "{{ pool['instance'] }}"
+{% endif %}
+{% if pool['tag'] is defined %}
+{% for tag in pool['tag'] %}
+	list tag "{{ tag }}"
+{% endfor %}
+{% endif %}
+{% if pool['domain'] is defined %}
+{% for domain in pool['domain'] %}
+       list domain "{{ domain }}"
+{% endfor %}
 {% endif %}
 {% endfor %}
 {% endmacro %}

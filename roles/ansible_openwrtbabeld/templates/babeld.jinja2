@@ -18,31 +18,71 @@ config interface
 {% endfor %}
 {% endif %}
 
-{% if openwrt_babeld_prefixes is defined %}
+{% if openwrt_babeld_filter is defined %}
+{% for filter in openwrt_babeld_filter %}
 config filter
-{% for prefix in openwrt_babeld_prefixes %}
-        option type "redistribute"
-        option ip "{{ prefix }}"
-        #option eq "{{ prefix | ansible.utils.ipaddr('prefix') }}"
-        #option proto '4'
-
+{% if  filter.type is defined %}
+        option type "{{ filter.type }}"
+{% endif %}
+{% if filter.action is defined %}
+	option action "{{ filter.action }}"
+{% endif %}
+{% if filter.ip is defined %}
+	option ip "{{ filter.ip }}"
+{% endif %}
+{% if filter.eq is defined %}
+	option eq "{{ filter.eq }}"
+{% endif %}
+{% if filter.le is defined %}
+	option le "{{ filter.le }}"
+{% endif %}
+{% if filter.ge is defined %}
+	option ge "{{ filter.ge }}"
+{% endif %}
+{% if filter.src_ip is defined %}
+	option src-ip "{{ filter.src_ip }}"
+{% endif %}
+{% if filter.src_eq is defined %}
+	option src-eq "{{ filter.src_eq }}"
+{% endif %}
+{% if filter.src_le is defined %}
+	option src-le "{{ filter.src_le }}"
+{% endif %}
+{% if filter.src_ge is defined %}
+	option src-ge "{{ filter.src_ge }}"
+{% endif %}
+{% if filter.neigh is defined %}
+	option neigh "{{ filter.neigh }}"
+{% endif %}
+{% if filter.id is defined %}
+	option id "{{ filter.id }}"
+{% endif %}
+{% if filter.proto is defined %}
+	option proto "{{ filter.proto }}"
+{% endif %}
+{% if filter.local is defined %}
+	option local "{{ filter.local }}"
+{% endif %}
+{% if filter.if is defined %}
+	option if "{{ filter.if }}"
+{% endif %}
+{% if filter.allow is defined %}
+	option allow "{{ filter.allow }}"
+{% endif %}
+{% if filter.deny is defined %}
+	option deny "{{ filter.deny }}"
+{% endif %}
+{% if filter.metric is defined %}
+	option metric "{{ filter.metric }}"
+{% endif %}
+{% if filter.src_prefix is defined %}
+	option src-prefix "{{ filter.src_prefix }}"
+{% endif %}
+{% if filter.src_table is defined %}
+	option src-table "{{ filter.src_table }}"
+{% endif %}
+{% if filter.pref_src is defined %}
+	option pref-src "{{ filter.pref_src }}"
+{% endif %}
 {% endfor %}
-{% endif %}
-
-{% if not openwrt_babeld_collectedprefixes.skipped %}
-config filter
-	option type "redistribute"
-	option ip "{{ openwrt_babeld_collectedprefixes.stdout }}"
-	option eq "{{ openwrt_babeld_collectedprefixes.stdout | ansible.utils.ipaddr('prefix') }}"
-	option proto "4"
-
-{% endif %}
-
-{% if not openwrt_babeld_ulaprefix.skipped %}
-config filter
-	option type "redistribute"
-	option ip "{{ openwrt_babeld_ulaprefix.stdout }}"
-	option eq "{{ openwrt_babeld_ulaprefix.stdout | ansible.utils.ipaddr('prefix') }}"
-	option proto "4"
-
 {% endif %}

@@ -1,6 +1,6 @@
 ---
 # Prepare first phase
-- name: Merge packages_install from all groups this host is a member of
+- name: Merge openwrt_packages_install from all groups this host is a member of
   ansible.builtin.set_fact:
     openwrt_packages_installmergedgroup: "{{ openwrt_packages_installgroup.keys() | list | intersect(group_names) | map('extract', openwrt_packages_installgroup) | list | flatten }}"
   when: openwrt_packages_installgroup is defined
@@ -12,58 +12,9 @@
   ansible.builtin.set_fact:
     openwrt_packages_separator: ','
   when: not openwrt_packages_runimagebuilder | default(false)
-# Prepare second phase. There are 8 possibilities on how role, group based or host based vars can be set
-# Variant H is where none is set so no action for this
-# This can be optimized !!!!!!!!!!
-- name: Variant A - Merge role/host/group
+- name: combine lists into openwrt_packages_install var
   ansible.builtin.set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installmergedgroup + openwrt_packages_installrole }}"
-  when:
-    - openwrt_packages_installmergedgroup is defined
-    - openwrt_packages_installhost is defined
-    - openwrt_packages_installrole is defined
-- name: Variant B - Merge Group and Host
-  ansible.builtin.set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installmergedgroup }}"
-  when:
-    - openwrt_packages_installmergedgroup is defined
-    - openwrt_packages_installhost is defined
-    - openwrt_packages_installrole is not defined
-- name: Variant C - Merge Host and Role
-  ansible.builtin.set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installrole }}"
-  when:
-    - openwrt_packages_installmergedgroup is not defined
-    - openwrt_packages_installhost is defined
-    - openwrt_packages_installrole is defined
-- name: Variant D - Only host set
-  ansible.builtin.set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installhost }}"
-  when:
-    - openwrt_packages_installmergedgroup is not defined
-    - openwrt_packages_installhost is defined
-    - openwrt_packages_installrole is not defined
-- name: Variant E - Merge Group and Role
-  ansible.builtin.set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installmergedgroup + openwrt_packages_installrole }}"
-  when:
-    - openwrt_packages_installmergedgroup is defined
-    - openwrt_packages_installhost is not defined
-    - openwrt_packages_installrole is defined
-- name: Variant F - Only group set
-  ansible.builtin.set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installmergedgroup }}"
-  when:
-    - openwrt_packages_installmergedgroup is defined
-    - openwrt_packages_installhost is not defined
-    - openwrt_packages_installrole is not defined
-- name: Variant G - Only role set
-  ansible.builtin.set_fact:
-    openwrt_packages_install: "{{ openwrt_packages_installrole }}"
-  when:
-    - openwrt_packages_installmergedgroup is not defined
-    - openwrt_packages_installhost is not defined
-    - openwrt_packages_installrole is defined
+    openwrt_packages_install: "{{ [openwrt_packages_installmergedgroup, openwrt_packages_installhost, openwrt_packages_installrole] | select('defined') | flatten | unique }}"
 - name: initialize openwrt_packages_installimagebuilder
   ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: []
