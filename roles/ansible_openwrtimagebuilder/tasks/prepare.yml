@@ -53,3 +53,4 @@
     - openwrt_restic_deployroot
     - openwrt_services_deployroot
     - openwrt_system_deployroot
+    - openwrt_wireless_deployroot
