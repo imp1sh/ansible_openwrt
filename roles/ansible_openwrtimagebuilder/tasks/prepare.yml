@@ -1,5 +1,5 @@
 ---
-# todo, install packages necessary for imagebuilder on building host
+# todo, install packages necessary for imagebuilder on building host, maybe with python venv?
 # tasks file for ansible_openwrtimagebuilder
 - name: make sure builddir exists
   ansible.builtin.file:

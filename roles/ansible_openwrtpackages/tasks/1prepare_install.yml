@@ -14,6 +14,7 @@
   when: not openwrt_packages_runimagebuilder | default(false)
 # Prepare second phase. There are 8 possibilities on how role, group based or host based vars can be set
 # Variant H is where none is set so no action for this
+# This can be optimized !!!!!!!!!!
 - name: Variant A - Merge role/host/group
   ansible.builtin.set_fact:
     openwrt_packages_install: "{{ openwrt_packages_installhost + openwrt_packages_installmergedgroup + openwrt_packages_installrole }}"

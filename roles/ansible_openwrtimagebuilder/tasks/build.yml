@@ -6,22 +6,28 @@
     line: "{{ item.name }}={{ item.value }}"
   loop: "{{ openwrt_imagebuilder_kernelvars }}"
   when: openwrt_imagebuilder_kernelvars is defined
-- name: remove duplicates from list
+- name: remove duplicates from install list
   ansible.builtin.set_fact:
     openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder | unique }}"
   when: openwrt_packages_runimagebuilder | default(false)
+- name: remove duplicates from remove list
+  ansible.builtin.set_fact:
+    openwrt_packages_removeimagebuilder: "{{ openwrt_packages_removeimagebuilder | unique }}"
 - name: List packages that will be in the image
   debug:
     var: openwrt_packages_installimagebuilder
+- name: List packages that will be remove in the image
+  debug:
+    var: openwrt_packages_removeimagebuilder
 - name: Convert imagebuilder packages into list
   ansible.builtin.set_fact:
-    openwrt_packages_installimagebuilder: "{{ openwrt_packages_installimagebuilder | join(' ') }}"
+    openwrt_packages_imagebuilder: "{{ ( openwrt_packages_installimagebuilder + ( openwrt_packages_removeimagebuilder | map('regex_replace', '^', '-'))) | join(' ') }}"
   when: openwrt_packages_installimagebuilder is defined
 - name: Building info
   debug:
-    msg: "Building with the following command: make image PACKAGES={{ openwrt_packages_installimagebuilder }} FILES={{ openwrt_imagebuilder_filesdir }}"
+    msg: "Building with the following command: make image PACKAGES={{ openwrt_packages_imagebuilder }} FILES={{ openwrt_imagebuilder_filesdir }}"
 - name: Create image
-  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_installimagebuilder|default("") }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
+  ansible.builtin.shell: make image PACKAGES="{{ openwrt_packages_imagebuilder|default("") }}" FILES="{{ openwrt_imagebuilder_filesdir }}"
   args:
     chdir: "{{ openwrt_imagebuilder_builddir }}/{{ openwrt_imagebuilder_extractedfolder }}"
 - name: compress and remove for user set path
