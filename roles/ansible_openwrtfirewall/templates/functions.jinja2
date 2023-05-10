@@ -162,27 +162,36 @@ config rule
 {% if value['proto'] is defined %}
 {% if "all" in value['proto'] %}
 	option proto "all"
-{% elif "icmp" in value['proto'] %}
+{% else %}
+{% if "icmp" in value['proto'] %}
 	list proto "icmp"
 {% if value['icmp_type'] is defined %}
 {% for icmp_type in value['icmp_type'] %}
 	list icmp_type "{{ icmp_type }}"
 {% endfor %}
 {% endif %}
-{% elif "udp" in value['proto'] %}
+{% endif %}
+{% if "udp" in value['proto'] %}
 	list proto "udp"
-{% elif "tcp" in value['proto'] %}
+{% endif %}
+{% if "tcp" in value['proto'] %}
 	list proto "tcp"
-{% elif "igmp" in value['proto'] %}
+{% endif %}
+{% if "igmp" in value['proto'] %}
 	list proto "igmp"
-{% elif "esp" in value['proto'] %}
+{% endif %}
+{% if "esp" in value['proto'] %}
 	list proto "esp"
-{% elif "udplite" in value['proto'] %}
+{% endif %}
+{% if "udplite" in value['proto'] %}
 	list proto "udplite"
-{% elif "ah" in value['proto'] %}
+{% endif %}
+{% if "ah" in value['proto'] %}
 	list proto "ah"
-{% elif "sctp" in value['proto'] %}
+{% endif %}
+{% if "sctp" in value['proto'] %}
 	list proto "sctp"
+{% endif %}
 {% endif %}
 {% endif %}
 {% if value['src'] is defined %}
