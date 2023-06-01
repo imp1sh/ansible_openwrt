@@ -1,7 +1,4 @@
 ---
-- name: print debug
-  debug:
-    var: ruleitem
 - name: check src port validity
   ansible.builtin.assert:
     that:
