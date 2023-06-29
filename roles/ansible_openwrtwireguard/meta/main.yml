@@ -19,5 +19,4 @@ dependencies:
       openwrt_packages_installrole:
         - wireguard-tools
         - kmod-wireguard
-        - luci-app-wireguard
         - luci-proto-wireguard
