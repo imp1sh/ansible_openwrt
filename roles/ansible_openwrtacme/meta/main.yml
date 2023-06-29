@@ -18,5 +18,5 @@ dependencies:
     vars:
       openwrt_packages_installrole:
         - acme
-        - acme-dnsapi
+        - acme-acmesh-dnsapi
         - luci-app-acme
