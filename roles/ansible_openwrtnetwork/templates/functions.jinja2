@@ -213,11 +213,87 @@ config interface "{{ key }}"
 {% if value['reqaddress'] is defined %}
         option reqaddress "{{ value['reqaddress'] }}"
 {% endif %}
+{% if value['reqprefix'] is defined %}
+        option reqprefix "{{ value['reqprefix'] }}"
+{% endif %}
 {% if value['clientid'] is defined %}
 	option clientid "{{ value['clientid'] }}"
 {% endif %}
-{% if value['reqprefix'] is defined %}
-        option reqprefix "{{ value['reqprefix'] }}"
+{% if value['ifaceid'] is defined %}
+	option ifaceid "{{ value['ifaceid'] }}"
+{% endif %}
+{% if value['dns'] is defined %}
+{% for dns in value['dns'] %}
+	list dns "{{ dns }}"
+{% endfor %}
+{% endif %}
+{% if value['peerdns'] is defined %}
+	option peerdns "{{ value['peerdns'] }}"
+{% endif %}
+{% if value['defaultroute'] is defined %}
+	option defaultroute "{{ value['defaultroute'] }}"
+{% endif %}
+{% if value['reqopts'] is defined %}
+{% for reqopt in value['reqopts'] %}
+	list reqopts "{{ value['reqopts'] }}"
+{% endfor %}
+{% endif %}
+{% if value['defaultreqopts'] is defined %}
+	option defaultreqopts "{{ value['defaultreqopts'] }}"
+{% endif %}
+{% if value['noslaaconly'] is defined %}
+	option noslaaconly "{{ value['noslaaconly'] }}"
+{% endif %}
+{% if value['forceprefix'] is defined %}
+	option forceprefix "{{ value['forceprefix'] }}"
+{% endif %}
+{% if value['norelease'] is defined %}
+	option norelease "{{ value['norelease'] }}"
+{% endif %}
+{% if value['ip6prefix'] is defined %}
+	option ip6prefix "{{ value['ip6prefix'] }}"
+{% endif %}
+{% if value['iface_dslite'] is defined %}
+	option iface_dslite "{{ value['iface_dslite'] }}"
+{% endif %}
+{% if value['zone_dslite'] is defined %}
+	option zone_dslite "{{ value['zone_dslite'] }}"
+{% endif %}
+{% if value['iface_map'] is defined %}
+	option iface_map "{{ value['iface_map'] }}"
+{% endif %}
+{% if value['zone_map'] is defined %}
+	option zone_map "{{ value['zone_map'] }}"
+{% endif %}
+{% if value['iface_464xlat'] is defined %}
+	option iface_464xlat "{{ value['iface_464xlat'] }}"
+{% endif %}
+{% if value['zone_464xlat'] is defined %}
+	option zone_464xlat "{{ value['zone_464xlat'] }}"
+{% endif %}
+{% if value['zone'] is defined %}
+	option zone "{{ value['zone'] }}"
+{% endif %}
+{% if value['sourcefilter'] is defined %}
+	option sourcefilter "{{ value['sourcefilter'] }}"
+{% endif %}
+{% if value['vendorclass'] is defined %}
+	option vendorclass "{{ value['vendorclass'] }}"
+{% endif %}
+{% if value['userclass'] is defined %}
+	option userclass "{{ value['userclass'] }}"
+{% endif %}
+{% if value['delegate'] is defined %}
+	option delegate "{{ value['delegate'] }}"
+{% endif %}
+{% if value['soltimeout'] is defined %}
+	option soltimeout "{{ value['soltimeout'] }}"
+{% endif %}
+{% if value['fakeroute'] is defined %}
+	option fakeroute "{{ value['fakeroute'] }}"
+{% endif %}
+{% if value['ra_holdoff'] is defined %}
+	option ra_holdoff "{{ value['ra_holdoff'] }}"
 {% endif %}
 {% endif %}
 {% if value['proto'] == "static" %}
@@ -241,11 +317,19 @@ config interface "{{ key }}"
         list ip6addr "{{ singleaddr }}"
 {% endfor %}
 {% endif %}
+{% if value['ip6ifaceid'] is defined %}
+	option ip6ifaceid "{{ value['ip6ifaceid'] }}"
+{% endif %}
 {% if value['ip6gw'] is defined %}
         option ip6gw "{{ value['ip6gw'] }}"
 {% endif %}
 {% if value['ip6prefix'] is defined %}
         option ip6prefix "{{ value['ip6prefix'] }}"
+{% endif %}
+{% if value['ip6class'] is defined %}
+{% for ip6class in value['ip6class'] %}
+        list ip6class "{{ ip6class }}"
+{% endfor %}
 {% endif %}
 {% if value.dnssearch is defined %}
 {% for dnssearch in value.dnssearch %}
@@ -256,6 +340,12 @@ config interface "{{ key }}"
 {% for resolver in value.dns %}
         list dns "{{ resolver }}"
 {% endfor %}
+{% endif %}
+{% if value['dns_metric'] is defined %}
+	option dns_metric "{{ value['dns_metric'] }}"
+{% endif %}
+{% if value['metric'] is defined %}
+	option metric "{{ value['metric'] }}"
 {% endif %}
 {% endif %}
 {% if value['proto'] == "none" %}
