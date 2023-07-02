@@ -13,7 +13,7 @@
     hour: "{{ backupitem['cron_hour'] | default(openwrt_restic_cron_hour) }}"
     minute: "{{ backupitem['cron_minute'] | default(openwrt_restic_cron_minute) }}"
     user: "root"
-    job: "/usr/bin/restic -p /etc/resticpassword -r {{ assembledrepo }} backup {{ source }}"
+    job: "/usr/bin/restic -p {{ openwrt_restic_deploypath}}/{{ openwrt_restic_deployfile_passwordfile }}_{{ backupitem['name'] }} -r {{ assembledrepo }} backup {{ source }}"
   loop: "{{ backupitem['sources'] }}"
   loop_control:
     loop_var: source
@@ -23,4 +23,4 @@
     hour: 6
     minute: 0
     user: "root"
-    job: "/usr/bin/restic forget --keep-daily {{ backupitem['keepdaily'] | default(openwrt_restic_keepdaily, true) }} --keep-weekly {{ backupitem['keepweekly'] | default(openwrt_restic_keepweekly, true) }} --keep-monthly {{ backupitem['keepmonthly'] | default(openwrt_restic_keepmonthly, true) }} -p /etc/resticpassword -r {{ assembledrepo }} --prune"
+    job: "/usr/bin/restic forget --keep-daily {{ backupitem['keepdaily'] | default(openwrt_restic_keepdaily, true) }} --keep-weekly {{ backupitem['keepweekly'] | default(openwrt_restic_keepweekly, true) }} --keep-monthly {{ backupitem['keepmonthly'] | default(openwrt_restic_keepmonthly, true) }} -p {{ openwrt_restic_deploypath }}/{{ openwrt_restic_deployfile_passwordfile }}_{{ backupitem['name'] }} -r {{ assembledrepo }} --prune"
