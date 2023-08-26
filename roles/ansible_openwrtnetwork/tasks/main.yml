@@ -1,8 +1,5 @@
 ---
 # tasks file for ansible_openwrtnetwork
-- name: debug
-  debug:
-    var: openwrt_network_deviceshost
 - name: merge interfaces from group and host definitions
   include_tasks: merge.yml
 # Wireguard
