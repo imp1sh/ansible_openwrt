@@ -13,3 +13,6 @@
     src: system.jinja2
     dest: "{{ openwrt_system_deploypath }}/{{ openwrt_system_deployfile }}"
     mode: 0600
+  notify:
+    - restart logging
+    - restart systemservice
