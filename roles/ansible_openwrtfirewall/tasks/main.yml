@@ -22,4 +22,5 @@
     src: "firewall.jinja2"
     dest: "{{ openwrt_firewall_deploypath }}/{{ openwrt_firewall_deployfile }}"
     mode: 0600
+  when: openwrt_firewall_rulesdeploybool.user_input is undefined or openwrt_firewall_rulesdeploybool.user_input == 'yes'
   notify: reload firewall

@@ -1,6 +1,11 @@
 ---
-# waiting for Ansible 2.11 and this feature
-# https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#role-argument-validation
+- name: check if ruleshost AND rulesgroup is undefined
+  pause:
+    prompt: "Neither ruleshost nor rulesgroup is defined. Do you still want to deploy firewall config? [yes/no]"
+  register: openwrt_firewall_rulesdeploybool
+  when:
+    - openwrt_firewall_rulesgroup is undefined
+    - openwrt_firewall_ruleshost is undefined
 # - name: run zone checks
 #  include_tasks: checks/zones.yml
 #  loop:
