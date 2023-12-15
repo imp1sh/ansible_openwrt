@@ -188,6 +188,24 @@ config interface "{{ key }}"
         option device "{{ value['device'] }}"
 {% endif %}
         option proto "{{ value['proto'] }}"
+{% if value['mtu'] is defined %}
+        option mtu "{{ value['mtu'] }}"
+{% endif %}
+{% if value['ipv6'] is defined %}
+        option ipv6 "{{ value['ipv6'] }}"
+{% endif %}
+{% if value['force_link'] is defined %}
+        option force_link "{{ value['force_link'] }}"
+{% endif %}
+{% if value['disabled'] is defined %}
+        option disabled "{{ value['disabled'] }}"
+{% endif %}
+{% if value['ip4table'] is defined %}
+        option ip4table "{{ value['ip4table'] }}"
+{% endif %}
+{% if value['ip6table'] is defined %}
+        option ip6table "{{ value['ip6table'] }}"
+{% endif %}
 {% if value['proto'] == "wireguard" %}
 	option private_key "{{ value['wg_private_key'] }}"
 {% if value['wg_listen_port'] is defined %}
@@ -353,9 +371,7 @@ config interface "{{ key }}"
 {% endif %}
 {% if value['proto'] == "ppp" %}
         # PPP config
-{% if value['ipv6'] is defined %}
-	option ipv6 "value['ipv6']"
-{% else %}
+{% if value['ipv6'] is not defined %}
         option ipv6 "auto"
 {% endif %}
 {% if value['device'] is defined %}
@@ -370,9 +386,7 @@ config interface "{{ key }}"
 {% endif %}
 {% if value['proto'] == "pppoe" %}
         # PPPoE config
-{% if value['ipv6'] is defined %}
-	option ipv6 "value['ipv6']"
-{% else %}
+{% if value['ipv6'] is not defined %}
         option ipv6 "auto"
 {% endif %}
 {% if value['username'] is defined %}
