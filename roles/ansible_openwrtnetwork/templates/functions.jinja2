@@ -390,3 +390,65 @@ config interface "{{ key }}"
 {% endif %}
 {% endfor %}
 {% endmacro %}
+
+
+{% macro create_rules(rules, family) %}
+{% for key, value in rules.items() %}
+{% if family == 4 %}
+config rule '{{ key }}'
+{% elif family == 6 %}
+config rule6 '{{ key }}'
+{% endif %}
+
+{% if value['in'] is defined %}
+        option in "{{ value['in'] }}"
+{% endif %}
+{% if value['out'] is defined %}
+        option out "{{ value['out'] }}"
+{% endif %}
+{% if value['src'] is defined %}
+        option src "{{ value['src'] }}"
+{% endif %}
+{% if value['dest'] is defined %}
+        option dest "{{ value['dest'] }}"
+{% endif %}
+{% if value['tos'] is defined %}
+        option tos "{{ value['tos'] }}"
+{% endif %}
+{% if value['mark'] is defined %}
+        option mark "{{ value['mark'] }}"
+{% endif %}
+{% if value['uidrange'] is defined %}
+        option uidrange "{{ value['uidrange'] }}"
+{% endif %}
+{% if value['suppress_prefixlength'] is defined %}
+        option suppress_prefixlength "{{ value['suppress_prefixlength'] }}"
+{% endif %}
+{% if value['invert'] is defined %}
+        option invert "{{ value['invert'] }}"
+{% endif %}
+{% if value['priority'] is defined %}
+        option priority "{{ value['priority'] }}"
+{% endif %}
+{% if value['lookup'] is defined %}
+        option lookup "{{ value['lookup'] }}"
+{% endif %}
+{% if value['goto'] is defined %}
+        option goto "{{ value['goto'] }}"
+{% endif %}
+{% if value['action'] is defined %}
+        option action "{{ value['action'] }}"
+{% endif %}
+{% if value['disabled'] is defined %}
+        option disabled "{{ value['disabled'] }}"
+{% endif %}
+{% endfor %}
+{% endmacro %}
+
+{% macro create_rules4(allrules4) %}
+{{ create_rules(allrules4, 4)}}
+{% endmacro %}
+
+{% macro create_rules6(allrules6) %}
+{{ create_rules(allrules6, 6)}}
+{% endmacro %}
