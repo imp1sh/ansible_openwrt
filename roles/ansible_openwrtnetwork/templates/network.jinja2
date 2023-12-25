@@ -40,3 +40,13 @@ config globals "globals"
 {% if openwrt_network_staticroutes6 is defined %}
 {{ functions.create_staticroutes6(openwrt_network_staticroutes6) }}
 {% endif %}
+
+{% if openwrt_network_rules4 is defined %}
+# IPv4 rules
+{{ functions.create_rules4(openwrt_network_rules4) }}
+{% endif %}
+
+{% if openwrt_network_rules6 is defined %}
+# IPv6 rules
+{{ functions.create_rules6(openwrt_network_rules6) }}
+{% endif %}
